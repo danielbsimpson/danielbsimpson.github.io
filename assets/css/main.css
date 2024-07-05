@@ -3950,3 +3950,31 @@ input, select, textarea {
 			opacity: 1;
 			visibility: visible;
 		}
+
+#two .inner {
+	max-width: 1200px;
+	margin: 0 auto;
+}
+
+#two .major-work-header h1 {
+    text-align: center;
+    margin: 0 auto;
+	border-bottom: 2px solid #ccc;
+}
+
+.work-project-list {
+	display: flex;
+	flex-wrap: wrap;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.work-project-list li {
+	width: 30%; /* Change to 45% for two columns */
+	margin: 1%;
+
+	padding: 10px;
+	border-radius: 5px;
+	box-sizing: border-box;
+}
