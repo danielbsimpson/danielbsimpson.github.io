@@ -106,7 +106,7 @@ function renderBlowouts(container, data) {
   makeBarChart(container,
     blowouts.map(b => b.round),
     blowouts.map(b => b.margin),
-    { color: '#ffd166', horizontal: false, xLabel: 'Round', title: 'Winning margin per round (1st − 2nd place pts)' }
+    { color: '#ffd166', horizontal: false, xLabel: 'Round', title: 'Winning margin per round (1st − 2nd place pts)', height: 320 }
   );
   container.appendChild(htmlTable(
     ['Round', 'Winner', 'Winning Song', 'Winner Pts', '2nd Place', '2nd Pts', 'Margin'],

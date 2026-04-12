@@ -44,7 +44,7 @@ export function renderEconomy(container, data) {
   makeBarChart(container,
     ppr.map(r => r.round),
     ppr.map(r => r.points),
-    { color: ACCENT, horizontal: false, title: 'Total points distributed per round', xLabel: 'Round' }
+    { color: ACCENT, horizontal: false, title: 'Total points distributed per round', xLabel: 'Round', height: 320 }
   );
   container.appendChild(divider());
 

@@ -135,7 +135,7 @@ function canvasInWrap(wrap, height = 300) {
 // ── Bar chart (Chart.js) ──────────────────────────────────────────────────
 
 export function makeBarChart(container, labels, values, opts = {}) {
-  const height  = Math.max(320, labels.length * 32 + 80);
+  const height  = opts.height || Math.max(320, labels.length * 32 + 80);
   const wrap    = chartWrap(opts.title || '');
   const canvas  = canvasInWrap(wrap, height);
   container.appendChild(wrap);
