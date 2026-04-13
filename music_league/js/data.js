@@ -1068,78 +1068,177 @@ const HEADLINE_CATALOGUE = [
   { metric_key: 'most_consistent',      positive: '🎯 Steady as a Metronome',                funny: '🤖 Literally a Bot',                             positive_for_top: true  },
   { metric_key: 'most_volatile',        positive: '🎆 Wildcard of the Week',                 funny: '🎲 Vibes-Based Submissions Only',                positive_for_top: true  },
   { metric_key: 'most_generous',        positive: '💝 Spreads the Love',                     funny: "🧁 Can't Say No to Anyone",                     positive_for_top: true  },
-  { metric_key: 'least_generous',       positive: '🧐 Selective Taste Curator',             funny: '🥶 Points Are Rationed Here',                    positive_for_top: true  },
-  { metric_key: 'earliest_submitter',   positive: '⏰ First to the Party',                  funny: "😤 Submits Before the Theme Is Even Announced", positive_for_top: true  },
-  { metric_key: 'latest_submitter',     positive: '🎸 Lives for the Deadline Drama',        funny: '🚒 Submitted While the Server Was on Fire',     positive_for_top: true  },
-  { metric_key: 'fastest_voter',        positive: '⚡ Lightning-Quick Listener',            funny: '🙈 Did They Even Listen?',                       positive_for_top: true  },
-  { metric_key: 'slowest_voter',        positive: '🎧 Deep Listener, Savours Every Note',   funny: '🐢 Votes Arrive by Carrier Pigeon',             positive_for_top: true  },
-  { metric_key: 'most_talkative',       positive: '💬 Voice of the League',                 funny: '📢 Needs a Word Limit',                          positive_for_top: true  },
-  { metric_key: 'most_commented_on',    positive: '🎤 The Crowd Favourite',                 funny: '🧲 People Have Opinions About This One',         positive_for_top: true  },
-  { metric_key: 'least_commented_on',   positive: '🌙 Silent Icon',                         funny: '👻 Songs Vanish Without a Trace',                positive_for_top: true  },
-  { metric_key: 'most_zeros',           positive: '🔥 Fearless Risk-Taker',                 funny: '💀 Points? Never Heard of Them',                 positive_for_top: true  },
-  { metric_key: 'fewest_zeros',         positive: '🛡️ Zero-Point-Free Zone',               funny: '📋 Has Never Failed Anyone, Ever',               positive_for_top: true  },
-  { metric_key: 'most_unique_artists',  positive: '🌍 Musical Explorer',                    funny: '🗺️ Spotify Library: Entire Planet',             positive_for_top: true  },
-  { metric_key: 'least_unique_artists', positive: '🎵 Devoted to the Classics',             funny: "🔁 Has One Favourite Band and Isn't Sorry",     positive_for_top: true  },
+  { metric_key: 'least_generous',       positive: '🧐 Selective Taste Curator',              funny: '🥶 Points Are Rationed Here',                   positive_for_top: true  },
+  { metric_key: 'earliest_submitter',   positive: '⏰ First to the Party',                   funny: "😤 Submits Before the Theme Is Even Announced", positive_for_top: true  },
+  { metric_key: 'latest_submitter',     positive: '🎸 Lives for the Deadline Drama',         funny: '🚒 Submitted While the Server Was on Fire',     positive_for_top: true  },
+  { metric_key: 'fastest_voter',        positive: '⚡ Lightning-Quick Listener',             funny: '🙈 Did They Even Listen?',                      positive_for_top: true  },
+  { metric_key: 'slowest_voter',        positive: '🎧 Deep Listener, Savours Every Note',    funny: '🐢 Votes Arrive by Carrier Pigeon',             positive_for_top: true  },
+  { metric_key: 'most_talkative',       positive: '💬 Voice of the League',                  funny: '📢 Needs a Word Limit',                         positive_for_top: true  },
+  { metric_key: 'most_commented_on',    positive: '🎤 The Crowd Favourite',                  funny: '🧲 People Have Opinions About This One',        positive_for_top: true  },
+  { metric_key: 'least_commented_on',   positive: '🌙 Silent Icon',                          funny: '👻 Songs Vanish Without a Trace',               positive_for_top: true  },
+  { metric_key: 'most_zeros',           positive: '🔥 Fearless Risk-Taker',                  funny: '💀 Points? Never Heard of Them',                positive_for_top: true  },
+  { metric_key: 'fewest_zeros',         positive: '🛡️ Zero-Point-Free Zone',                funny: '📋 Has Never Failed Anyone, Ever',              positive_for_top: true  },
+  { metric_key: 'most_unique_artists',  positive: '🌍 Musical Explorer',                     funny: '🗺️ Spotify Library: Entire Planet',            positive_for_top: true  },
+  { metric_key: 'least_unique_artists', positive: '🎵 Devoted to the Classics',              funny: "🔁 Has One Favourite Band and Isn't Sorry",    positive_for_top: true  },
+];
+
+// Category mapping — mirrors Python _METRIC_CATEGORY
+const HEADLINE_METRIC_CATEGORY = {
+  total_points:          'performance',
+  avg_points_per_round:  'performance',
+  most_misunderstood:    'performance',
+  podium_appearances:    'performance',
+  fewest_podiums:        'performance',
+  most_consistent:       'consistency',
+  most_volatile:         'consistency',
+  most_generous:         'voting',
+  least_generous:        'voting',
+  earliest_submitter:    'sub_timing',
+  latest_submitter:      'sub_timing',
+  fastest_voter:         'vote_timing',
+  slowest_voter:         'vote_timing',
+  most_talkative:        'comments',
+  most_commented_on:     'comments',
+  least_commented_on:    'comments',
+  most_zeros:            'zeros',
+  fewest_zeros:          'zeros',
+  most_unique_artists:   'variety',
+  least_unique_artists:  'variety',
+};
+
+// Preferred category order for the funny headline (quirkiest first)
+const FUNNY_CATEGORY_PRIORITY = [
+  'vote_timing', 'sub_timing', 'zeros', 'consistency',
+  'voting', 'variety', 'comments', 'performance',
 ];
 
 export function assignHeadlines(data) {
   const metrics = gatherHeadlineMetrics(data);
   const names   = [...nameMap(data.competitors).values()];
 
-  // For each player, find the metric where they rank highest
-  const used  = { positive: new Set(), funny: new Set() };
-  const headlines = {};
-  names.forEach(n => headlines[n] = { positive: null, funny: null });
+  // ── Build per-player candidate lists [{rank, hdef}] ──────────────────
+  const playerCandidates = {};
+  names.forEach(n => { playerCandidates[n] = []; });
 
-  // Score each player on each metric (1 = best, length = worst)
-  // Assign greedily: pick highest-score unused metric per player for each slot
-  function getRanked(metricKey) {
-    const vals = metrics[metricKey];
-    return [...names].sort((a, b) => (vals[b] || 0) - (vals[a] || 0));
+  for (const hdef of HEADLINE_CATALOGUE) {
+    const scores = metrics[hdef.metric_key] || {};
+    const sorted = [...names].sort((a, b) => (scores[b] || 0) - (scores[a] || 0));
+    sorted.forEach((player, rank) => {
+      playerCandidates[player].push({ rank, hdef });
+    });
+  }
+  names.forEach(n => playerCandidates[n].sort((a, b) => a.rank - b.rank));
+
+  // ── Pass 1: positive headlines (global greedy, unique headline text) ──
+  // Flatten all (rank, player, hdef) across all metrics, sort by rank asc.
+  const allPosEntries = [];
+  for (const player of names) {
+    for (const { rank, hdef } of playerCandidates[player]) {
+      allPosEntries.push({ rank, player, hdef });
+    }
+  }
+  allPosEntries.sort((a, b) => a.rank - b.rank);
+
+  const assignedPos    = {};       // player → hdef
+  const claimedPosTxt  = new Set();
+
+  for (const { player, hdef } of allPosEntries) {
+    if (assignedPos[player]) continue;
+    if (claimedPosTxt.has(hdef.positive)) continue;
+    assignedPos[player] = hdef;
+    claimedPosTxt.add(hdef.positive);
+  }
+  // Fallbacks for any still-unassigned player
+  for (const name of names) {
+    if (assignedPos[name]) continue;
+    for (const { hdef } of playerCandidates[name]) {
+      if (!claimedPosTxt.has(hdef.positive)) {
+        assignedPos[name] = hdef;
+        claimedPosTxt.add(hdef.positive);
+        break;
+      }
+    }
+    if (!assignedPos[name] && playerCandidates[name].length) {
+      assignedPos[name] = playerCandidates[name][0].hdef;
+    }
   }
 
-  // Positive headlines: pick the metric with the most extreme rank for each player
-  names.forEach(player => {
-    let bestScore = -Infinity;
-    let bestH = null;
-    for (const def of HEADLINE_CATALOGUE) {
-      if (used.positive.has(def.metric_key)) continue;
-      const ranked = getRanked(def.metric_key);
-      const rank   = ranked.indexOf(player);
-      if (rank === 0) {
-        const score = (metrics[def.metric_key][player] || 0);
-        if (score > bestScore) { bestScore = score; bestH = def; }
+  // ── Pass 2: funny headlines (category-aware greedy) ───────────────────
+  // Process players ordered by their positive headline's rank (best performers first)
+  function posRank(name) {
+    const hdef = assignedPos[name];
+    if (!hdef) return 9999;
+    const scores = metrics[hdef.metric_key] || {};
+    const sorted = [...Object.values(scores)].sort((a, b) => b - a);
+    const idx = sorted.indexOf(scores[name] || 0);
+    return idx >= 0 ? idx : 9999;
+  }
+  const playersOrdered = [...names].sort((a, b) => posRank(a) - posRank(b));
+
+  const assignedFun   = {};
+  const claimedFunTxt = new Set();
+
+  for (const name of playersOrdered) {
+    const posCategory = assignedPos[name] ? HEADLINE_METRIC_CATEGORY[assignedPos[name].metric_key] : null;
+
+    // Group this player's candidates by category
+    const byCat = {};
+    for (const { rank, hdef } of playerCandidates[name]) {
+      const cat = HEADLINE_METRIC_CATEGORY[hdef.metric_key] || 'other';
+      if (!byCat[cat]) byCat[cat] = [];
+      byCat[cat].push({ rank, hdef });
+    }
+
+    let found = false;
+    // Try categories in priority order, skipping the player's positive category
+    for (const cat of FUNNY_CATEGORY_PRIORITY) {
+      if (cat === posCategory) continue;
+      for (const { hdef } of (byCat[cat] || [])) {
+        if (!claimedFunTxt.has(hdef.funny)) {
+          assignedFun[name] = hdef;
+          claimedFunTxt.add(hdef.funny);
+          found = true;
+          break;
+        }
+      }
+      if (found) break;
+    }
+    // Fallback: any different category
+    if (!found) {
+      for (const { hdef } of playerCandidates[name]) {
+        if (HEADLINE_METRIC_CATEGORY[hdef.metric_key] !== posCategory && !claimedFunTxt.has(hdef.funny)) {
+          assignedFun[name] = hdef;
+          claimedFunTxt.add(hdef.funny);
+          found = true;
+          break;
+        }
       }
     }
-    if (bestH) {
-      headlines[player].positive = bestH.positive;
-      used.positive.add(bestH.metric_key);
-    }
-  });
-
-  // Funny headlines: use a different set
-  names.forEach(player => {
-    let bestScore = -Infinity;
-    let bestH = null;
-    for (const def of HEADLINE_CATALOGUE) {
-      if (used.funny.has(def.metric_key)) continue;
-      const ranked = getRanked(def.metric_key);
-      const rank   = ranked.indexOf(player);
-      if (rank === 0 || rank === names.length - 1) {
-        const isBottom = rank === names.length - 1;
-        const score    = (metrics[def.metric_key][player] || 0);
-        if (score > bestScore) { bestScore = score; bestH = def; }
+    // Fallback: any unclaimed funny text regardless of category
+    if (!found) {
+      for (const { hdef } of playerCandidates[name]) {
+        if (!claimedFunTxt.has(hdef.funny)) {
+          assignedFun[name] = hdef;
+          claimedFunTxt.add(hdef.funny);
+          found = true;
+          break;
+        }
       }
     }
-    if (bestH) {
-      headlines[player].funny = bestH.funny;
-      used.funny.add(bestH.metric_key);
+    // Absolute last resort — allow duplicate rather than no headline
+    if (!found && playerCandidates[name].length) {
+      assignedFun[name] = playerCandidates[name][0].hdef;
     }
-    // Fallback headlines
-    if (!headlines[player].positive) headlines[player].positive = '🎵 League Member';
-    if (!headlines[player].funny)    headlines[player].funny    = '🎲 Mysteriously Average';
-  });
+  }
 
+  // ── Build result map ──────────────────────────────────────────────────
+  const headlines = {};
+  names.forEach(name => {
+    headlines[name] = {
+      positive: assignedPos[name]?.positive || '🎵 League Member',
+      funny:    assignedFun[name]?.funny    || '🎲 Mysteriously Average',
+    };
+  });
   return headlines;
 }
 
