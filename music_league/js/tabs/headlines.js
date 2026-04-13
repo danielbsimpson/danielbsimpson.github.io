@@ -24,18 +24,20 @@ export function renderHeadlines(container, data) {
 
   Object.entries(headlineMap)
     .sort(([a], [b]) => a.localeCompare(b))
-    .forEach(([player, { positive, funny }]) => {
+    .forEach(([player, { positive, positive_desc, funny, funny_desc }]) => {
       const card = el('div', 'headline-card');
       card.appendChild(el('div', 'headline-player', player));
 
       if (positive) {
         const row = el('div', 'headline-row');
-        row.appendChild(el('span', 'headline-text headline-positive', positive));
+        row.appendChild(el('span', 'headline-positive', positive));
+        if (positive_desc) row.appendChild(el('p', 'headline-desc', positive_desc));
         card.appendChild(row);
       }
       if (funny) {
         const row = el('div', 'headline-row');
-        row.appendChild(el('span', 'headline-text headline-funny', funny));
+        row.appendChild(el('span', 'headline-funny', funny));
+        if (funny_desc) row.appendChild(el('p', 'headline-desc', funny_desc));
         card.appendChild(row);
       }
 

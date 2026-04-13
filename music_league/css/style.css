@@ -281,9 +281,22 @@ body {
   padding: 14px;
   break-inside: avoid;
 }
-.headline-player { font-size: 1rem; font-weight: 700; color: var(--accent); margin-bottom: 8px; }
-.headline-positive { font-size: 0.88rem; color: var(--text); margin-bottom: 4px; }
-.headline-funny    { font-size: 0.82rem; color: var(--text-muted); }
+.headline-player { font-size: 1rem; font-weight: 700; color: var(--accent); margin-bottom: 10px; }
+
+/* Each headline (positive / funny) is its own mini-tile */
+.headline-row {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) - 2px);
+  padding: 8px 10px;
+  margin-bottom: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.headline-positive { font-size: 0.875rem; font-weight: 600; color: var(--text); }
+.headline-funny    { font-size: 0.875rem; font-weight: 600; color: var(--text-muted); }
+.headline-desc     { font-size: 0.72rem;  color: var(--text-muted); opacity: 0.8; line-height: 1.4; margin: 0; }
 
 /* ── Chart containers ──────────────────────────────────────────────────── */
 .chart-container {
@@ -458,12 +471,7 @@ input.panel-search:focus { outline: 2px solid var(--accent); }
   column-gap: 14px;
   margin-bottom: 16px;
 }
-.headline-row {
-  margin-bottom: 5px;
-  display: flex;
-  align-items: flex-start;
-  gap: 4px;
-}
+/* .headline-row styles defined with the card block above */
 
 /* ── Extra responsive adjustments ─────────────────────────────────────── */
 @media (max-width: 900px) {

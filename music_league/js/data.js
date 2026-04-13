@@ -1060,26 +1060,126 @@ export function gatherHeadlineMetrics(data) {
 }
 
 const HEADLINE_CATALOGUE = [
-  { metric_key: 'total_points',         positive: '🏆 The Undisputed Champion',              funny: '📊 Lives in Spreadsheets',                       positive_for_top: true  },
-  { metric_key: 'avg_points_per_round', positive: '📈 Round-by-Round Royalty',               funny: '🤓 Suspiciously Consistent',                     positive_for_top: true  },
-  { metric_key: 'most_misunderstood',   positive: '🎭 Ahead of Their Time',                  funny: '😅 Songs for an Audience of Zero',               positive_for_top: false },
-  { metric_key: 'podium_appearances',   positive: '🥇 Podium Elite',                         funny: '🪆 Collects Trophies Like Magnets',              positive_for_top: true  },
-  { metric_key: 'fewest_podiums',       positive: '🌱 The Dark Horse',                       funny: "🏳️ The Podium's Biggest Stranger",              positive_for_top: true  },
-  { metric_key: 'most_consistent',      positive: '🎯 Steady as a Metronome',                funny: '🤖 Literally a Bot',                             positive_for_top: true  },
-  { metric_key: 'most_volatile',        positive: '🎆 Wildcard of the Week',                 funny: '🎲 Vibes-Based Submissions Only',                positive_for_top: true  },
-  { metric_key: 'most_generous',        positive: '💝 Spreads the Love',                     funny: "🧁 Can't Say No to Anyone",                     positive_for_top: true  },
-  { metric_key: 'least_generous',       positive: '🧐 Selective Taste Curator',              funny: '🥶 Points Are Rationed Here',                   positive_for_top: true  },
-  { metric_key: 'earliest_submitter',   positive: '⏰ First to the Party',                   funny: "😤 Submits Before the Theme Is Even Announced", positive_for_top: true  },
-  { metric_key: 'latest_submitter',     positive: '🎸 Lives for the Deadline Drama',         funny: '🚒 Submitted While the Server Was on Fire',     positive_for_top: true  },
-  { metric_key: 'fastest_voter',        positive: '⚡ Lightning-Quick Listener',             funny: '🙈 Did They Even Listen?',                      positive_for_top: true  },
-  { metric_key: 'slowest_voter',        positive: '🎧 Deep Listener, Savours Every Note',    funny: '🐢 Votes Arrive by Carrier Pigeon',             positive_for_top: true  },
-  { metric_key: 'most_talkative',       positive: '💬 Voice of the League',                  funny: '📢 Needs a Word Limit',                         positive_for_top: true  },
-  { metric_key: 'most_commented_on',    positive: '🎤 The Crowd Favourite',                  funny: '🧲 People Have Opinions About This One',        positive_for_top: true  },
-  { metric_key: 'least_commented_on',   positive: '🌙 Silent Icon',                          funny: '👻 Songs Vanish Without a Trace',               positive_for_top: true  },
-  { metric_key: 'most_zeros',           positive: '🔥 Fearless Risk-Taker',                  funny: '💀 Points? Never Heard of Them',                positive_for_top: true  },
-  { metric_key: 'fewest_zeros',         positive: '🛡️ Zero-Point-Free Zone',                funny: '📋 Has Never Failed Anyone, Ever',              positive_for_top: true  },
-  { metric_key: 'most_unique_artists',  positive: '🌍 Musical Explorer',                     funny: '🗺️ Spotify Library: Entire Planet',            positive_for_top: true  },
-  { metric_key: 'least_unique_artists', positive: '🎵 Devoted to the Classics',              funny: "🔁 Has One Favourite Band and Isn't Sorry",    positive_for_top: true  },
+  {
+    metric_key: 'total_points',
+    positive: '🏆 The Undisputed Champion',   pos_desc: 'Highest total points scored across all rounds.',
+    funny:    '📊 Lives in Spreadsheets',     fun_desc: 'Knows the point value of every song ever submitted.',
+    positive_for_top: true,
+  },
+  {
+    metric_key: 'avg_points_per_round',
+    positive: '📈 Round-by-Round Royalty',    pos_desc: 'Highest average score per round played.',
+    funny:    '🤓 Suspiciously Consistent',   fun_desc: 'Their consistency borders on the algorithmic.',
+    positive_for_top: true,
+  },
+  {
+    metric_key: 'most_misunderstood',
+    positive: '🎭 Ahead of Their Time',        pos_desc: 'Most songs that scored zero — a visionary misread by the masses.',
+    funny:    '😅 Songs for an Audience of Zero', fun_desc: 'Their submissions exist on a higher plane of taste.',
+    positive_for_top: false,
+  },
+  {
+    metric_key: 'podium_appearances',
+    positive: '🥇 Podium Elite',              pos_desc: 'Most top-3 round finishes in the league.',
+    funny:    '🪆 Collects Trophies Like Magnets', fun_desc: 'The podium has essentially been reserved for them.',
+    positive_for_top: true,
+  },
+  {
+    metric_key: 'fewest_podiums',
+    positive: '🌱 The Dark Horse',            pos_desc: 'Fewest top-3 finishes — but the breakthrough is coming.',
+    funny:    "🏳️ The Podium's Biggest Stranger", fun_desc: 'The podium remains largely theoretical.',
+    positive_for_top: true,
+  },
+  {
+    metric_key: 'most_consistent',
+    positive: '🎯 Steady as a Metronome',     pos_desc: 'Smallest variance between round scores — always reliable.',
+    funny:    '🤖 Literally a Bot',           fun_desc: 'Suspiciously predictable. Almost too reliable.',
+    positive_for_top: true,
+  },
+  {
+    metric_key: 'most_volatile',
+    positive: '🎆 Wildcard of the Week',      pos_desc: 'Biggest swing between best and worst round scores.',
+    funny:    '🎲 Vibes-Based Submissions Only', fun_desc: 'Each round appears to follow a completely different strategy.',
+    positive_for_top: true,
+  },
+  {
+    metric_key: 'most_generous',
+    positive: '💝 Spreads the Love',          pos_desc: 'Distributed points to the widest variety of players each round.',
+    funny:    "🧁 Can't Say No to Anyone",   fun_desc: 'No song has ever been deemed unworthy of a point.',
+    positive_for_top: true,
+  },
+  {
+    metric_key: 'least_generous',
+    positive: '🧐 Selective Taste Curator',   pos_desc: 'Awarded the fewest total points — every vote carries weight.',
+    funny:    '🥶 Points Are Rationed Here',  fun_desc: 'Points are distributed on a strictly need-to-know basis.',
+    positive_for_top: true,
+  },
+  {
+    metric_key: 'earliest_submitter',
+    positive: '⏰ First to the Party',        pos_desc: 'Submitted songs earliest relative to when rounds opened, on average.',
+    funny:    '😤 Submits Before the Theme Is Even Announced', fun_desc: 'Submits before some players have even heard the theme.',
+    positive_for_top: true,
+  },
+  {
+    metric_key: 'latest_submitter',
+    positive: '🎸 Lives for the Deadline Drama', pos_desc: 'Cut it closest to the deadline on average — and still delivered.',
+    funny:    '🚒 Submitted While the Server Was on Fire', fun_desc: 'The deadline is treated more as a strong suggestion.',
+    positive_for_top: true,
+  },
+  {
+    metric_key: 'fastest_voter',
+    positive: '⚡ Lightning-Quick Listener',  pos_desc: 'Voted soonest after the playlist dropped, on average.',
+    funny:    '🙈 Did They Even Listen?',     fun_desc: 'Votes were cast before all the songs had finished uploading.',
+    positive_for_top: true,
+  },
+  {
+    metric_key: 'slowest_voter',
+    positive: '🎧 Deep Listener, Savours Every Note', pos_desc: 'Took the longest to cast votes after the playlist dropped, on average.',
+    funny:    '🐢 Votes Arrive by Carrier Pigeon', fun_desc: 'Votes take the scenic route to the submission portal.',
+    positive_for_top: true,
+  },
+  {
+    metric_key: 'most_talkative',
+    positive: '💬 Voice of the League',       pos_desc: 'Left the most comments across all submissions.',
+    funny:    '📢 Needs a Word Limit',        fun_desc: 'Every listen comes with a full critical analysis.',
+    positive_for_top: true,
+  },
+  {
+    metric_key: 'most_commented_on',
+    positive: '🎤 The Crowd Favourite',       pos_desc: 'Their songs attracted the most listener comments.',
+    funny:    '🧲 People Have Opinions About This One', fun_desc: 'Songs arrive pre-loaded with strong audience discourse.',
+    positive_for_top: true,
+  },
+  {
+    metric_key: 'least_commented_on',
+    positive: '🌙 Silent Icon',              pos_desc: 'Songs flew under the radar — fewest comments received.',
+    funny:    '👻 Songs Vanish Without a Trace', fun_desc: 'Submissions enter the playlist and are never spoken of again.',
+    positive_for_top: true,
+  },
+  {
+    metric_key: 'most_zeros',
+    positive: '🔥 Fearless Risk-Taker',       pos_desc: 'Received more zero-point rounds than anyone else.',
+    funny:    '💀 Points? Never Heard of Them', fun_desc: 'Zero is simply a score with more character.',
+    positive_for_top: true,
+  },
+  {
+    metric_key: 'fewest_zeros',
+    positive: '🛡️ Zero-Point-Free Zone',     pos_desc: 'Rarely (or never) scored zero — always picked up at least a point.',
+    funny:    '📋 Has Never Failed Anyone, Ever', fun_desc: 'Failure to score has simply not happened yet.',
+    positive_for_top: true,
+  },
+  {
+    metric_key: 'most_unique_artists',
+    positive: '🌍 Musical Explorer',          pos_desc: 'Submitted the widest variety of different artists across all rounds.',
+    funny:    '🗺️ Spotify Library: Entire Planet', fun_desc: 'Spotify Wrapped spans six continents and two centuries.',
+    positive_for_top: true,
+  },
+  {
+    metric_key: 'least_unique_artists',
+    positive: '🎵 Devoted to the Classics',   pos_desc: 'Returned to the same artists more than anyone else.',
+    funny:    "🔁 Has One Favourite Band and Isn't Sorry", fun_desc: 'Has found the perfect artists and sees no reason to explore further.',
+    positive_for_top: true,
+  },
 ];
 
 // Category mapping — mirrors Python _METRIC_CATEGORY
@@ -1235,8 +1335,10 @@ export function assignHeadlines(data) {
   const headlines = {};
   names.forEach(name => {
     headlines[name] = {
-      positive: assignedPos[name]?.positive || '🎵 League Member',
-      funny:    assignedFun[name]?.funny    || '🎲 Mysteriously Average',
+      positive:      assignedPos[name]?.positive  || '🎵 League Member',
+      positive_desc: assignedPos[name]?.pos_desc  || '',
+      funny:         assignedFun[name]?.funny     || '🎲 Mysteriously Average',
+      funny_desc:    assignedFun[name]?.fun_desc  || '',
     };
   });
   return headlines;
