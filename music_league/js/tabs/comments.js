@@ -73,7 +73,7 @@ export function renderComments(container, data) {
   container.appendChild(divider());
 
   // ── All comments search ─────────────────────────────────────────────────
-  container.appendChild(sectionHeader('😂 All Comments'));
+  const allComments = funniestComment(data);
 
   const searchRow = el('div', 'panel-control-row');
   const searchInput = document.createElement('input');
@@ -81,12 +81,14 @@ export function renderComments(container, data) {
   searchInput.className   = 'panel-search';
   searchInput.placeholder = '🔍 Search comments…';
   searchRow.appendChild(searchInput);
-  container.appendChild(searchRow);
 
   const tableWrap = el('div');
-  container.appendChild(tableWrap);
 
-  const allComments = funniestComment(data);
+  const allCommentsContent = el('div');
+  allCommentsContent.appendChild(searchRow);
+  allCommentsContent.appendChild(tableWrap);
+
+  container.appendChild(expander('😂 All Comments', allCommentsContent));
 
   function renderAll(filter = '') {
     tableWrap.innerHTML = '';

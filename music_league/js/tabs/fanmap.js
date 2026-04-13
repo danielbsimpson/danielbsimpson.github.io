@@ -4,12 +4,12 @@
 
 import {
   biggestFans, leastCompatible, allVotesMatrix,
-  nameMap,
+  nameMap, mostGenerousVoter,
 } from '../data.js';
 
 import {
   el, sectionHeader, sectionCaption, divider,
-  makeBarChart, makeSankey, htmlTable,
+  makeBarChart, makeSankey, makeHeatmap, htmlTable,
   ACCENT, PALETTE,
 } from '../charts.js';
 
@@ -42,15 +42,21 @@ export function renderFanMap(container, data) {
   container.appendChild(ctrlRow);
   container.appendChild(sectionCaption("Select a player to see who are their biggest fans and least compatible matches."));
 
-  const fansSection    = el('div');
-  const sankeySection  = el('div');
-  const fullSection    = el('div');
+  const fansSection      = el('div');
+  const sankeySection    = el('div');
+  const fullSection      = el('div');
+  const heatmapSection   = el('div');
+  const generousSection  = el('div');
 
   container.appendChild(fansSection);
   container.appendChild(divider());
   container.appendChild(sankeySection);
   container.appendChild(divider());
   container.appendChild(fullSection);
+  container.appendChild(divider());
+  container.appendChild(heatmapSection);
+  container.appendChild(divider());
+  container.appendChild(generousSection);
 
   sel.addEventListener('change', () => refresh(sel.value));
 
@@ -58,6 +64,8 @@ export function renderFanMap(container, data) {
     renderFansCompat(fansSection, data, targetName);
     renderPlayerSankey(sankeySection, data, targetName);
     renderFullSankey(fullSection, data);
+    renderPointsHeatmap(heatmapSection, data);
+    renderGenerousVoter(generousSection, data);
   }
 
   refresh(sel.value);
@@ -189,4 +197,62 @@ function renderFullSankey(container, data) {
     width:  700,
     height: Math.max(400, Math.max(voters.length, receivers.length) * 28 + 60),
   });
+}
+
+function renderPointsHeatmap(container, data) {
+  container.innerHTML = '';
+  container.appendChild(el('h4', 'section-header', '🔥 Points Given Heatmap'));
+  container.appendChild(sectionCaption('Rows = voter  ·  Columns = receiver  ·  Value = total points given across selected leagues'));
+
+  const edges = allVotesMatrix(data);
+  if (edges.length === 0) { container.appendChild(el('p', 'caption', 'No data.')); return; }
+
+  // Collect all unique voter and receiver names
+  const voterSet    = new Set(edges.map(e => e.voterName));
+  const receiverSet = new Set(edges.map(e => e.receiverName));
+
+  // Union of all player names so axis is consistent
+  const allNames = [...new Set([...voterSet, ...receiverSet])].sort();
+
+  // Build lookup map
+  const lookup = new Map();
+  edges.forEach(e => lookup.set(`${e.voterName}|||${e.receiverName}`, e.points));
+
+  // Build matrix (rowLabels = voters sorted by total sent desc, colLabels = receivers by total received desc)
+  const totalSent = new Map();
+  const totalRecv = new Map();
+  edges.forEach(e => {
+    totalSent.set(e.voterName,    (totalSent.get(e.voterName)    || 0) + e.points);
+    totalRecv.set(e.receiverName, (totalRecv.get(e.receiverName) || 0) + e.points);
+  });
+
+  const rowLabels = [...new Set(edges.map(e => e.voterName))].sort((a, b) => (totalSent.get(b) || 0) - (totalSent.get(a) || 0));
+  const colLabels = [...new Set(edges.map(e => e.receiverName))].sort((a, b) => (totalRecv.get(b) || 0) - (totalRecv.get(a) || 0));
+
+  const matrix = rowLabels.map(row =>
+    colLabels.map(col => lookup.get(`${row}|||${col}`) || 0)
+  );
+
+  const cellSize = Math.max(34, Math.min(52, Math.floor(540 / colLabels.length)));
+  makeHeatmap(container, rowLabels, colLabels, matrix, {
+    cellW: cellSize,
+    cellH: Math.max(28, cellSize - 4),
+    colorRange: ['#0a1418', ACCENT],
+  });
+}
+
+function renderGenerousVoter(container, data) {
+  container.innerHTML = '';
+  container.appendChild(el('h4', 'section-header', '🎁 Most Generous Voter'));
+  container.appendChild(sectionCaption('Average number of distinct players voted for per round.'));
+
+  const results = mostGenerousVoter(data);
+  if (results.length === 0) { container.appendChild(el('p', 'caption', 'No data.')); return; }
+
+  makeBarChart(
+    container,
+    results.map(r => r.voter),
+    results.map(r => r.avg_distinct_recipients_per_round),
+    { color: ACCENT, xLabel: 'Avg players voted for per round', title: 'Most Generous Voter' }
+  );
 }
