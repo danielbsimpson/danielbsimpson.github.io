@@ -9,7 +9,7 @@ import {
 
 import {
   el, sectionHeader, sectionCaption, divider,
-  recordTile, makeBarChart, makeScatter, htmlTable,
+  recordTile, tileGroup, makeBarChart, makeScatter, htmlTable,
   ACCENT, PALETTE,
 } from '../charts.js';
 
@@ -41,6 +41,41 @@ export function renderTiming(container, data) {
   if (fastest_vote) rRow.appendChild(recordTile('⚡️🗳️', fastest_vote.player_name, `${Math.round(fastest_vote.vote_hours_before_deadline)}h before deadline`, fastest_vote.round_name, '#0a1814', ACCENT));
   if (slowest_vote) rRow.appendChild(recordTile('🐌🗳️', slowest_vote.player_name, `${Math.round(slowest_vote.vote_hours_before_deadline < 0 ? 0 : slowest_vote.vote_hours_before_deadline)}h before deadline`, slowest_vote.round_name, '#1e0a2e', '#b47bff'));
   container.appendChild(rRow);
+  container.appendChild(divider());
+
+  // ── Timing podiums ─────────────────────────────────────────────────────
+  container.appendChild(sectionHeader('🏅 Timing Podiums'));
+  container.appendChild(sectionCaption('Top 3 per category based on average timing across all rounds.'));
+
+  const podiumGrid = el('div', 'grid-4');
+
+  const fmtHrs = h => `${Math.round(Math.abs(h))}h avg`;
+
+  // 1. Fastest average voter (highest avg_hours_before_vote_deadline)
+  const fastVoters = [...voteStats].sort((a, b) => b.avg_hours_before_vote_deadline - a.avg_hours_before_vote_deadline).slice(0, 3);
+  podiumGrid.appendChild(tileGroup('⚡ Fastest Average Voter', fastVoters.map((e, i) =>
+    recordTile(['🥇','🥈','🥉'][i], e.player_name, fmtHrs(e.avg_hours_before_vote_deadline) + ' before deadline', `${e.rounds_voted} rounds`, '#0a1814', ACCENT)
+  )));
+
+  // 2. Most patient listener (lowest avg_hours_before_vote_deadline)
+  const patientVoters = [...voteStats].sort((a, b) => a.avg_hours_before_vote_deadline - b.avg_hours_before_vote_deadline).slice(0, 3);
+  podiumGrid.appendChild(tileGroup('🐌 Most Patient Listener', patientVoters.map((e, i) =>
+    recordTile(['🥇','🥈','🥉'][i], e.player_name, fmtHrs(e.avg_hours_before_vote_deadline) + ' before deadline', `${e.rounds_voted} rounds`, '#1e0a2e', '#b47bff')
+  )));
+
+  // 3. Submits the earliest (highest avg_hours_before_deadline)
+  const earliestSubs = [...subStats].sort((a, b) => b.avg_hours_before_deadline - a.avg_hours_before_deadline).slice(0, 3);
+  podiumGrid.appendChild(tileGroup('📅 Submits the Earliest', earliestSubs.map((e, i) =>
+    recordTile(['🥇','🥈','🥉'][i], e.player_name, fmtHrs(e.avg_hours_before_deadline) + ' before deadline', `${e.rounds_submitted} rounds`, '#0a1e14', '#ffd166')
+  )));
+
+  // 4. Cuts it close (lowest avg_hours_before_deadline)
+  const lastSubs = [...subStats].sort((a, b) => a.avg_hours_before_deadline - b.avg_hours_before_deadline).slice(0, 3);
+  podiumGrid.appendChild(tileGroup('🔥 Cuts It Close', lastSubs.map((e, i) =>
+    recordTile(['🥇','🥈','🥉'][i], e.player_name, fmtHrs(e.avg_hours_before_deadline) + ' before deadline', `${e.rounds_submitted} rounds`, '#2a0e0e', '#e05252')
+  )));
+
+  container.appendChild(podiumGrid);
   container.appendChild(divider());
 
   // ── Submission timing bar ───────────────────────────────────────────────
