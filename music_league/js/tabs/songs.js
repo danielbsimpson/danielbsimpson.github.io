@@ -5,11 +5,12 @@
 import {
   mostUniversallyLiked, biggestBlowout,
   mostSubmittedSongs, mostArtistAppearances,
+  pointsPerSubmission, nameMap,
 } from '../data.js';
 
 import {
   el, sectionHeader, sectionCaption, divider,
-  makeBarChart, htmlTable, ACCENT,
+  makeBarChart, htmlTable, expander, ACCENT,
 } from '../charts.js';
 
 export function renderSongs(container, data) {
@@ -51,6 +52,10 @@ export function renderSongs(container, data) {
   }
 
   refresh();
+
+  // ── All songs collapsible ──────────────────────────────────────────────
+  container.appendChild(divider());
+  container.appendChild(renderAllSongs(data));
 }
 
 function renderLiked(container, data, topN) {
@@ -154,4 +159,50 @@ function renderArtists(container, data) {
     ['Rank', 'Artist', 'Appearances'],
     artists.map(a => ({ Rank: a.rank, Artist: a.artist, Appearances: a.count }))
   ));
+}
+
+function renderAllSongs(data) {
+  const names    = nameMap(data.competitors);
+  const roundMap = new Map(data.rounds.map(r => [r.ID, r.Name]));
+  const withPts  = pointsPerSubmission(data.submissions, data.votes);
+
+  const rows = withPts.map(s => ({
+    Title:       s.Title  || s.title  || '',
+    Artist:      s['Artist(s)'] || s.Artist || s.artist || '',
+    'Submitted By': names.get(s['Submitter ID']) || s['Submitter ID'] || '',
+    Round:       roundMap.get(s['Round ID']) || s['Round ID'] || '',
+    Points:      s.TotalPoints,
+  })).sort((a, b) => b.Points - a.Points);
+
+  const searchInput = document.createElement('input');
+  searchInput.type        = 'text';
+  searchInput.className   = 'panel-search';
+  searchInput.placeholder = '🔍 Search songs, artists, players…';
+
+  const tableWrap = el('div');
+
+  function renderTable(filter) {
+    tableWrap.innerHTML = '';
+    const filtered = filter
+      ? rows.filter(r =>
+          ['Title', 'Artist', 'Submitted By', 'Round']
+            .some(k => String(r[k]).toLowerCase().includes(filter.toLowerCase()))
+        )
+      : rows;
+    tableWrap.appendChild(htmlTable(
+      ['Title', 'Artist', 'Submitted By', 'Round', 'Points'],
+      filtered
+    ));
+  }
+
+  searchInput.addEventListener('input', () => renderTable(searchInput.value));
+  renderTable('');
+
+  const content = el('div');
+  const searchRow = el('div', 'panel-control-row');
+  searchRow.appendChild(searchInput);
+  content.appendChild(searchRow);
+  content.appendChild(tableWrap);
+
+  return expander(`🎵 All Submitted Songs (${rows.length})`, content);
 }
