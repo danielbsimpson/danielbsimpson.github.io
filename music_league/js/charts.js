@@ -273,6 +273,7 @@ export function makeLineChart(container, roundLabels, series, opts = {}) {
   const canvas = canvasInWrap(wrap, opts.height || 340);
   container.appendChild(wrap);
 
+  const showLine = opts.showLine !== false;
   const datasets = series.map((s, i) => ({
     label:            s.player,
     data:             roundLabels.map(r => {
@@ -281,11 +282,12 @@ export function makeLineChart(container, roundLabels, series, opts = {}) {
     }),
     borderColor:      PALETTE[i % PALETTE.length],
     backgroundColor:  PALETTE[i % PALETTE.length] + '33',
-    pointRadius:      4,
-    pointHoverRadius: 6,
+    pointRadius:      showLine ? 4 : 6,
+    pointHoverRadius: 8,
     tension:          0.3,
     spanGaps:         true,
-    borderWidth:      2,
+    showLine,
+    borderWidth:      showLine ? 2 : 0,
   }));
 
   const chart = new Chart(canvas, {
