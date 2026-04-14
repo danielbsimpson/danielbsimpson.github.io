@@ -74,12 +74,38 @@ async function loadSingleDir(dir, basePath) {
   return { competitors, rounds, submissions, votes };
 }
 
-export async function loadLeagueData(dirs, basePath = '../data/') {
+export async function loadLeagueData(dirs, basePath = '../data/', aliases = {}) {
   const allDfs = await Promise.all(dirs.map(d => loadSingleDir(d, basePath)));
 
-  // De-duplicate competitors by ID
+  // Resolve an ID through the aliases map (handles chains: a->b->c becomes a->c)
+  const resolve = id => {
+    let cur = id;
+    const seen = new Set();
+    while (aliases[cur] && !seen.has(cur)) { seen.add(cur); cur = aliases[cur]; }
+    return cur;
+  };
+
+  // Apply aliases: rewrite every player ID in the raw data so all downstream
+  // stats naturally treat the duplicate accounts as one person.
+  allDfs.forEach(d => {
+    d.competitors.forEach(c => { c.ID = resolve(c.ID); });
+    d.submissions.forEach(s => { s['Submitter ID'] = resolve(s['Submitter ID']); });
+    d.votes.forEach(v => {
+      v['Voter ID'] = resolve(v['Voter ID']);
+      // Also rewrite the submitter side of the vote key if it exists
+      if (v['Submitter ID']) v['Submitter ID'] = resolve(v['Submitter ID']);
+    });
+  });
+
+  // De-duplicate competitors by ID (alias accounts now share the same ID,
+  // so only the canonical entry survives — keep the one with the longer/nicer name)
   const compMap = new Map();
-  allDfs.forEach(d => d.competitors.forEach(c => { if (!compMap.has(c.ID)) compMap.set(c.ID, c); }));
+  allDfs.forEach(d => d.competitors.forEach(c => {
+    if (!compMap.has(c.ID) ||
+        (c.Name || '').length > (compMap.get(c.ID).Name || '').length) {
+      compMap.set(c.ID, c);
+    }
+  }));
   const competitors = [...compMap.values()];
 
   // De-duplicate rounds by ID

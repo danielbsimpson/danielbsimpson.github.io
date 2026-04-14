@@ -6,7 +6,10 @@
       "leagues": [
         "uk_league1",
         "uk_league2"
-      ]
+      ],
+      "aliases": {
+        "f27ad0518d20489798d9aad629604071": "6fdaac9000ff4741bfbde8fee25272be"
+      }
     },
     "US": {
       "label": "🇺🇸 US Leagues",

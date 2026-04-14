@@ -164,6 +164,11 @@
     return `../data/work_leagues/${region.basePath}`;
   }
 
+  // Returns the aliases object for the current region (empty object if none defined)
+  function getRegionAliases() {
+    return getRegionConfig().aliases || {};
+  }
+
   // ── Manifest discovery ────────────────────────────────────────────────
   async function discoverRegions() {
     const res = await fetch('../data/work_manifest.json');
@@ -223,7 +228,7 @@
     renderedTabs.clear();
 
     try {
-      currentData = await loadLeagueData(dirs, getRegionBasePath());
+      currentData = await loadLeagueData(dirs, getRegionBasePath(), getRegionAliases());
       doneLoading();
       updateHeader(dirs);
       $('page-header').style.display = 'block';
