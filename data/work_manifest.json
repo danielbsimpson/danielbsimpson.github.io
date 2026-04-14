@@ -1,0 +1,19 @@
+{
+  "regions": {
+    "EU": {
+      "label": "🇬🇧 UK Leagues",
+      "basePath": "UK_Leagues/",
+      "leagues": [
+        "uk_league1",
+        "uk_league2"
+      ]
+    },
+    "US": {
+      "label": "🇺🇸 US Leagues",
+      "basePath": "US_Leagues/",
+      "leagues": [
+        "us_league_current"
+      ]
+    }
+  }
+}

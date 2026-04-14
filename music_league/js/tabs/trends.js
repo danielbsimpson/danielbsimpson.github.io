@@ -4,13 +4,13 @@
 
 import {
   mostConsistentSubmitter, mostVolatileSubmitter,
-  halfVsHalf, pointsOverTime,
+  halfVsHalf, pointsOverTime, roundByRoundBreakdown, rankOverTime,
 } from '../data.js';
 
 import {
   el, sectionHeader, sectionCaption, divider,
   makeBarChart, makeGroupedBarChart, makeLineChart, htmlTable,
-  ACCENT, PALETTE,
+  ACCENT, PALETTE, expander, esc,
 } from '../charts.js';
 
 export function renderTrends(container, data) {
@@ -96,6 +96,23 @@ export function renderTrends(container, data) {
       height: 380,
     });
   }
+
+  container.appendChild(divider());
+
+  // ── Rank Over Time ──────────────────────────────────────────────────────
+  container.appendChild(sectionHeader('🏅 Rank Over Time'));
+  container.appendChild(sectionCaption('Cumulative leaderboard position after each round. Lower = better. Rank is based on total points accumulated up to and including that round.'));
+  const { orderedRounds: rankRounds, series: rankSeries } = rankOverTime(data);
+  if (rankSeries.length > 0) {
+    makeRankChart(container, rankRounds, rankSeries);
+  }
+
+  container.appendChild(divider());
+
+  // ── Round-by-Round Breakdown ────────────────────────────────────────────
+  container.appendChild(sectionHeader('📋 Round-by-Round Breakdown'));
+  container.appendChild(sectionCaption('Expand each round to see that round\'s top 3 submissions and the cumulative leaderboard standings at that point in time.'));
+  renderRoundBreakdown(container, data);
 }
 
 function renderImprovedChart(container, improved) {
@@ -119,4 +136,159 @@ function renderImprovedChart(container, improved) {
       Improvement:       e.improvement,
     }))
   ));
+}
+
+// ── Round medal helpers ───────────────────────────────────────────────────
+
+const MEDALS = ['🥇', '🥈', '🥉'];
+
+/**
+ * Renders a rank-over-time line chart using Chart.js directly so we can
+ * invert the Y axis (rank 1 at the top) and format ticks as ordinals.
+ */
+function makeRankChart(container, roundLabels, series) {
+  const wrap = document.createElement('div');
+  wrap.className = 'chart-container';
+  const titleEl = document.createElement('div');
+  titleEl.className = 'chart-title';
+  titleEl.textContent = 'Leaderboard rank after each round (1 = leading)';
+  wrap.appendChild(titleEl);
+
+  const sizer = document.createElement('div');
+  sizer.style.cssText = 'position:relative;width:100%;height:420px';
+  const canvas = document.createElement('canvas');
+  sizer.appendChild(canvas);
+  wrap.appendChild(sizer);
+  container.appendChild(wrap);
+
+  const maxRank = Math.max(...series.map(s => Math.max(...s.rounds.map(r => r.rank))));
+
+  const ordinal = n => {
+    const s = ['th','st','nd','rd'];
+    const v = n % 100;
+    return n + (s[(v - 20) % 10] || s[v] || s[0]);
+  };
+
+  const datasets = series.map((s, i) => ({
+    label:            s.player,
+    data:             roundLabels.map(rName => {
+      const found = s.rounds.find(r => r.round === rName);
+      return found != null ? found.rank : null;
+    }),
+    borderColor:      PALETTE[i % PALETTE.length],
+    backgroundColor:  PALETTE[i % PALETTE.length] + '33',
+    pointRadius:      4,
+    pointHoverRadius: 8,
+    tension:          0.3,
+    spanGaps:         true,
+    borderWidth:      2,
+  }));
+
+  new Chart(canvas, {
+    type: 'line',
+    data: { labels: roundLabels, datasets },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: true,
+          labels: { color: '#ccc', boxWidth: 12, usePointStyle: true },
+        },
+        tooltip: {
+          backgroundColor: 'rgba(15,18,27,.95)',
+          titleColor: '#dde1ea',
+          bodyColor: '#8b92a5',
+          borderColor: '#2e3340',
+          borderWidth: 1,
+          callbacks: {
+            label: ctx => ` ${ctx.dataset.label}: ${ordinal(ctx.parsed.y)}`,
+          },
+        },
+      },
+      scales: {
+        x: {
+          ticks: { color: '#8b92a5', maxRotation: 45 },
+          grid:  { color: 'rgba(255,255,255,.05)' },
+        },
+        y: {
+          reverse: true,           // rank 1 at the top
+          min: 1,
+          max: maxRank,
+          ticks: {
+            color:     '#8b92a5',
+            stepSize:  1,
+            callback:  v => Number.isInteger(v) ? ordinal(v) : '',
+          },
+          grid: { color: 'rgba(255,255,255,.05)' },
+          title: {
+            display: true,
+            text:    'Rank',
+            color:   '#8b92a5',
+          },
+        },
+      },
+    },
+  });
+}
+
+function renderRoundBreakdown(container, data) {
+  const rounds = roundByRoundBreakdown(data);
+  if (!rounds.length) {
+    container.appendChild(el('p', 'caption', 'No round data available.'));
+    return;
+  }
+
+  const wrap = el('div', 'round-breakdown');
+
+  rounds.forEach(round => {
+    // ── Build expander content ──────────────────────────────────────────
+    const content = el('div', 'round-breakdown-body');
+
+    // Left: this round's top-3 submissions
+    const leftCol = el('div', 'round-breakdown-col');
+    const leftTitle = el('h4', 'round-breakdown-col-title', '🎵 Round Top 3');
+    leftCol.appendChild(leftTitle);
+
+    if (round.top3.length === 0) {
+      leftCol.appendChild(el('p', 'caption', 'No submissions recorded.'));
+    } else {
+      round.top3.forEach(entry => {
+        const card = el('div', 'round-entry-card');
+        card.innerHTML =
+          `<span class="round-entry-medal">${MEDALS[entry.rank - 1] || `#${entry.rank}`}</span>` +
+          `<span class="round-entry-name">${esc(entry.name)}</span>` +
+          `<span class="round-entry-song">${esc(entry.song)}` +
+            (entry.artist ? ` <span class="round-entry-artist">— ${esc(entry.artist)}</span>` : '') +
+          `</span>` +
+          `<span class="round-entry-pts">${entry.points} pts</span>`;
+        leftCol.appendChild(card);
+      });
+    }
+
+    // Right: cumulative leaderboard as of this round
+    const rightCol = el('div', 'round-breakdown-col');
+    const rightTitle = el('h4', 'round-breakdown-col-title', '🏆 Standings After This Round');
+    rightCol.appendChild(rightTitle);
+
+    if (round.leaderboard.length === 0) {
+      rightCol.appendChild(el('p', 'caption', 'No standings data.'));
+    } else {
+      round.leaderboard.forEach(entry => {
+        const card = el('div', 'round-entry-card');
+        card.innerHTML =
+          `<span class="round-entry-medal">${MEDALS[entry.rank - 1] || `#${entry.rank}`}</span>` +
+          `<span class="round-entry-name">${esc(entry.name)}</span>` +
+          `<span class="round-entry-pts">${entry.cumulativePoints} pts total</span>`;
+        rightCol.appendChild(card);
+      });
+    }
+
+    content.appendChild(leftCol);
+    content.appendChild(rightCol);
+
+    wrap.appendChild(expander(round.roundName, content));
+  });
+
+  container.appendChild(wrap);
 }

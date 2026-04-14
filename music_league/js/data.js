@@ -578,6 +578,137 @@ export function pointsOverTime(data) {
   return { series, orderedRounds: orderedNames };
 }
 
+/**
+ * roundByRoundBreakdown(data)
+ *
+ * Returns an array (one entry per round, chronologically ordered) of:
+ *   {
+ *     roundId:   string,
+ *     roundName: string,
+ *     // Top-3 submissions in this round
+ *     top3: [{ rank, name, song, artist, points }, …],
+ *     // Top-3 players on the cumulative leaderboard *as of* this round
+ *     leaderboard: [{ rank, name, cumulativePoints }, …],
+ *   }
+ */
+export function roundByRoundBreakdown(data) {
+  const names     = nameMap(data.competitors);
+  const pps       = pointsPerSubmission(data.submissions, data.votes);
+  const roundMeta = new Map(data.rounds.map(r => [r.ID, r]));
+
+  // Chronologically ordered round IDs
+  const orderedRounds = [...data.rounds]
+    .sort((a, b) => new Date(a.Created) - new Date(b.Created));
+
+  // Index pps by round
+  const ppsByRound = new Map();
+  pps.forEach(p => {
+    if (!ppsByRound.has(p['Round ID'])) ppsByRound.set(p['Round ID'], []);
+    ppsByRound.get(p['Round ID']).push(p);
+  });
+
+  // Build result, accumulating cumulative totals as we walk through rounds
+  const cumulativePts = new Map(); // playerId -> running total
+
+  return orderedRounds.map(round => {
+    const rid    = round.ID;
+    const rName  = round.Name || rid;
+    const entries = ppsByRound.get(rid) || [];
+
+    // Update cumulative totals with this round's results
+    entries.forEach(p => {
+      const id = p['Submitter ID'];
+      cumulativePts.set(id, (cumulativePts.get(id) || 0) + p.TotalPoints);
+    });
+
+    // Top-3 submissions this round
+    const top3 = [...entries]
+      .sort((a, b) => b.TotalPoints - a.TotalPoints)
+      .slice(0, 3)
+      .map((p, i) => ({
+        rank:   i + 1,
+        name:   names.get(p['Submitter ID']) || p['Submitter ID'],
+        song:   p.Title   || '(Unknown)',
+        artist: p['Artist(s)'] || '',
+        points: p.TotalPoints,
+      }));
+
+    // Cumulative leaderboard top-3 as of this round
+    const leaderboard = [...cumulativePts.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 3)
+      .map(([id, pts], i) => ({
+        rank:             i + 1,
+        name:             names.get(id) || id,
+        cumulativePoints: pts,
+      }));
+
+    return { roundId: rid, roundName: rName, top3, leaderboard };
+  });
+}
+
+/**
+ * rankOverTime(data)
+ *
+ * Returns the data needed to draw a "rank over time" line chart.
+ * After each round (chronologically) every player who has submitted at
+ * least once is assigned a rank based on cumulative points so far.
+ * Ties are broken by player name (alphabetical) so the rank is stable.
+ *
+ * Returns:
+ *   {
+ *     orderedRounds: string[],          // round names in chronological order
+ *     series: [{ player, rounds: [{ round, rank }] }]
+ *   }
+ */
+export function rankOverTime(data) {
+  const names     = nameMap(data.competitors);
+  const pps       = pointsPerSubmission(data.submissions, data.votes);
+
+  const orderedRounds = [...data.rounds]
+    .sort((a, b) => new Date(a.Created) - new Date(b.Created));
+
+  const ppsByRound = new Map();
+  pps.forEach(p => {
+    if (!ppsByRound.has(p['Round ID'])) ppsByRound.set(p['Round ID'], []);
+    ppsByRound.get(p['Round ID']).push(p);
+  });
+
+  const cumulativePts = new Map(); // playerId -> running total
+  // series data: playerName -> [{ round, rank }]
+  const playerSeries  = new Map();
+
+  orderedRounds.forEach(round => {
+    const entries = ppsByRound.get(round.ID) || [];
+
+    // Update cumulative totals
+    entries.forEach(p => {
+      const id = p['Submitter ID'];
+      cumulativePts.set(id, (cumulativePts.get(id) || 0) + p.TotalPoints);
+    });
+
+    // Only rank players who have at least one submission so far
+    const ranked = [...cumulativePts.entries()]
+      .sort((a, b) => {
+        if (b[1] !== a[1]) return b[1] - a[1]; // higher points = better rank
+        const na = names.get(a[0]) || a[0];
+        const nb = names.get(b[0]) || b[0];
+        return na.localeCompare(nb);            // stable tie-break
+      });
+
+    ranked.forEach(([id], idx) => {
+      const playerName = names.get(id) || id;
+      if (!playerSeries.has(playerName)) playerSeries.set(playerName, []);
+      playerSeries.get(playerName).push({ round: round.Name || round.ID, rank: idx + 1 });
+    });
+  });
+
+  const series = [...playerSeries.entries()].map(([player, rounds]) => ({ player, rounds }));
+  const orderedRoundNames = orderedRounds.map(r => r.Name || r.ID);
+
+  return { orderedRounds: orderedRoundNames, series };
+}
+
 // ── Comments stats ────────────────────────────────────────────────────────
 
 export function mostTalkatativeCommenter(data) {

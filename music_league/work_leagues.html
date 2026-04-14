@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🎵 T5 Music League Stats</title>
+  <title>🎵 Work Music League Stats</title>
   <link rel="stylesheet" href="css/style.css" />
 
   <!-- CDN Libraries -->
@@ -20,7 +20,19 @@
 <aside id="sidebar">
   <div id="sidebar-header">
     <span class="sidebar-icon">🎵</span>
-    <h1 id="sidebar-title">T5 Music League Stats</h1>
+    <h1 id="sidebar-title">Work Music League Stats</h1>
+  </div>
+
+  <hr />
+
+  <div class="sidebar-section">
+    <h3>Region</h3>
+    <label class="radio-label">
+      <input type="radio" name="region" value="EU" checked /> 🇬🇧 UK Leagues
+    </label>
+    <label class="radio-label">
+      <input type="radio" name="region" value="US" /> 🇺🇸 US Leagues
+    </label>
   </div>
 
   <hr />
@@ -68,7 +80,7 @@
 
   <!-- Page header -->
   <div id="page-header" style="display:none">
-    <h2 id="page-title">🎵 T5 Music League Stats</h2>
+    <h2 id="page-title">🎵 Work Music League Stats</h2>
     <p id="page-caption" class="caption"></p>
   </div>
 
@@ -115,10 +127,10 @@
   import { renderHeadlines }    from './js/tabs/headlines.js';
 
   // ── State ──────────────────────────────────────────────────────────────
-  let allLeagues   = [];   // names from manifest
-  let currentData  = null; // LeagueData object
-  let activeTab    = 'leaderboard';
-  let renderedTabs = new Set();
+  let regionManifest = {};  // full parsed work_manifest.json
+  let currentData    = null;
+  let activeTab      = 'leaderboard';
+  let renderedTabs   = new Set();
 
   const TAB_RENDERERS = {
     leaderboard: renderLeaderboard,
@@ -133,21 +145,36 @@
 
   // ── DOM helpers ────────────────────────────────────────────────────────
   const $ = id => document.getElementById(id);
-  const loading = (msg) => { $('loading-banner').style.display = 'block'; $('loading-banner').textContent = msg || 'Loading…'; };
-  const doneLoading = () => { $('loading-banner').style.display = 'none'; };
-  const showError = (msg) => { $('error-banner').style.display = 'block'; $('error-banner').textContent = msg; };
+  const loading    = (msg) => { $('loading-banner').style.display = 'block'; $('loading-banner').textContent = msg || 'Loading…'; };
+  const doneLoading = ()   => { $('loading-banner').style.display = 'none'; };
+  const showError  = (msg) => { $('error-banner').style.display = 'block'; $('error-banner').textContent = msg; };
 
-  // ── League discovery ──────────────────────────────────────────────────
-  async function discoverLeagues() {
-    const manifestUrl = '../data/manifest.json';
-    const res = await fetch(manifestUrl);
-    if (!res.ok) throw new Error(`Could not load manifest: ${res.statusText}`);
-    const { leagues } = await res.json();
-    return leagues;
+  // ── Region helpers ────────────────────────────────────────────────────
+  function getSelectedRegion() {
+    return document.querySelector('input[name="region"]:checked').value;
+  }
+
+  function getRegionConfig() {
+    return regionManifest.regions[getSelectedRegion()];
+  }
+
+  // Returns basePath for loadLeagueData given the current region
+  function getRegionBasePath() {
+    const region = getRegionConfig();
+    return `../data/work_leagues/${region.basePath}`;
+  }
+
+  // ── Manifest discovery ────────────────────────────────────────────────
+  async function discoverRegions() {
+    const res = await fetch('../data/work_manifest.json');
+    if (!res.ok) throw new Error(`Could not load work_manifest: ${res.statusText}`);
+    return await res.json();
   }
 
   // ── Sidebar population ────────────────────────────────────────────────
-  function populateSidebar(leagues) {
+  function populateSidebar(regionConfig) {
+    const leagues = regionConfig.leagues;
+
     // Single league select
     const sel = $('single-league-select');
     sel.innerHTML = '';
@@ -189,14 +216,14 @@
       return;
     }
     loading('Loading league data…');
-    $('page-header').style.display = 'none';
-    $('tab-nav').style.display     = 'none';
-    $('tab-panels').style.display  = 'none';
+    $('page-header').style.display  = 'none';
+    $('tab-nav').style.display      = 'none';
+    $('tab-panels').style.display   = 'none';
     $('error-banner').style.display = 'none';
     renderedTabs.clear();
 
     try {
-      currentData = await loadLeagueData(dirs, '../data/t5_leagues/');
+      currentData = await loadLeagueData(dirs, getRegionBasePath());
       doneLoading();
       updateHeader(dirs);
       $('page-header').style.display = 'block';
@@ -211,7 +238,8 @@
   }
 
   function updateHeader(dirs) {
-    $('page-title').textContent = '🎵 T5 Music League Stats';
+    const regionLabel = getRegionConfig().label;
+    $('page-title').textContent = `🎵 Work Music League Stats — ${regionLabel}`;
     const { competitors, rounds, submissions, votes } = currentData;
     const totalPts = votes.reduce((s, v) => s + Number(v.Points || 0), 0);
     $('page-caption').textContent =
@@ -219,8 +247,8 @@
       `${new Set(competitors.map(c => c.ID)).size} competitors  ·  ` +
       `${submissions.length} submissions  ·  ${totalPts.toLocaleString()} points given`;
 
-    // Sidebar stats
     $('sidebar-stats').innerHTML =
+      `<div class="stat-row"><span>Region</span><strong>${regionLabel}</strong></div>` +
       `<div class="stat-row"><span>Leagues</span><strong>${dirs.length}</strong></div>` +
       `<div class="stat-row"><span>Rounds</span><strong>${rounds.length}</strong></div>` +
       `<div class="stat-row"><span>Submissions</span><strong>${submissions.length}</strong></div>`;
@@ -230,17 +258,14 @@
   function switchTab(tabId, force = false) {
     activeTab = tabId;
 
-    // Update buttons
     document.querySelectorAll('.tab-btn').forEach(btn => {
       btn.classList.toggle('active', btn.dataset.tab === tabId);
     });
 
-    // Update panels
     document.querySelectorAll('.tab-panel').forEach(panel => {
       panel.classList.toggle('active', panel.id === `panel-${tabId}`);
     });
 
-    // Render if not already rendered (or forced)
     if (currentData && (force || !renderedTabs.has(tabId))) {
       const panel = $(`panel-${tabId}`);
       panel.innerHTML = '';
@@ -257,18 +282,28 @@
   // ── Download report ───────────────────────────────────────────────────
   function downloadReport() {
     if (!currentData) return;
-    const dirs = getSelectedDirs();
-    const text = generateReportText(currentData);
-    const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
-    const url  = URL.createObjectURL(blob);
-    const a    = document.createElement('a');
-    a.href     = url;
-    a.download = `music_league_stats_${dirs.join('_and_')}.txt`;
+    const dirs   = getSelectedDirs();
+    const region = getSelectedRegion();
+    const text   = generateReportText(currentData);
+    const blob   = new Blob([text], { type: 'text/plain;charset=utf-8' });
+    const url    = URL.createObjectURL(blob);
+    const a      = document.createElement('a');
+    a.href        = url;
+    a.download    = `work_league_stats_${region}_${dirs.join('_and_')}.txt`;
     a.click();
     URL.revokeObjectURL(url);
   }
 
   // ── Event wiring ──────────────────────────────────────────────────────
+  // Region change → repopulate sidebar + reload
+  document.querySelectorAll('input[name="region"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      populateSidebar(getRegionConfig());
+      loadAndRender();
+    });
+  });
+
+  // Mode change → toggle single/multi visibility + reload
   document.querySelectorAll('input[name="mode"]').forEach(radio => {
     radio.addEventListener('change', () => {
       const isCumulative = radio.value === 'cumulative';
@@ -294,13 +329,8 @@
   (async () => {
     try {
       loading('Discovering leagues…');
-      allLeagues = await discoverLeagues();
-      if (allLeagues.length === 0) {
-        doneLoading();
-        showError('No leagues found in data/manifest.json');
-        return;
-      }
-      populateSidebar(allLeagues);
+      regionManifest = await discoverRegions();
+      populateSidebar(getRegionConfig());
       await loadAndRender();
     } catch (e) {
       doneLoading();

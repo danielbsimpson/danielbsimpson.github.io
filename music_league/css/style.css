@@ -480,3 +480,93 @@ input.panel-search:focus { outline: 2px solid var(--accent); }
 @media (max-width: 600px) {
   .headlines-grid { columns: 1; }
 }
+
+/* ── Round-by-Round Breakdown ──────────────────────────────────────────── */
+.round-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 10px;
+}
+
+/* Make the expander header slightly larger for round rows */
+.round-breakdown .expander-header {
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 10px 14px;
+}
+
+.round-breakdown-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  padding: 4px 2px;
+}
+
+@media (max-width: 700px) {
+  .round-breakdown-body { grid-template-columns: 1fr; }
+}
+
+.round-breakdown-col-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin: 0 0 8px 0;
+}
+
+.round-entry-card {
+  display: grid;
+  grid-template-columns: 2rem 1fr auto;
+  grid-template-rows: auto auto;
+  align-items: center;
+  column-gap: 8px;
+  row-gap: 1px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px 10px;
+  margin-bottom: 6px;
+}
+
+.round-entry-medal {
+  grid-column: 1;
+  grid-row: 1 / 3;
+  font-size: 1.3rem;
+  text-align: center;
+}
+
+.round-entry-name {
+  grid-column: 2;
+  grid-row: 1;
+  font-weight: 600;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.round-entry-song {
+  grid-column: 2;
+  grid-row: 2;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.round-entry-artist {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.round-entry-pts {
+  grid-column: 3;
+  grid-row: 1 / 3;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent);
+  white-space: nowrap;
+}
