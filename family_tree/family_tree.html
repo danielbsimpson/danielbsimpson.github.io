@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🌳 Family Tree</title>
+  <link rel="icon" type="image/png" href="../images/basic_ds.png" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+</head>
+<body>
+
+<!-- ====================================================================== -->
+<!-- TOP BAR                                                                 -->
+<!-- ====================================================================== -->
+<header id="topbar">
+  <span class="logo">🌳 Family Tree</span>
+
+  <!-- Load CSV -->
+  <label id="csv-label" for="csv-input" title="Load a family_tree.csv file">
+    📂 Load CSV
+  </label>
+  <input type="file" id="csv-input" accept=".csv" />
+
+  <!-- Zoom controls -->
+  <button class="zoom-btn" id="zoom-in"  title="Zoom in">+</button>
+  <button class="zoom-btn" id="zoom-out" title="Zoom out">−</button>
+  <button class="zoom-btn" id="zoom-fit" title="Fit to screen" style="width:auto;padding:0 10px;font-size:.8rem;">Fit</button>
+
+  <span class="sep"></span>
+
+  <a id="back-link" href="../index.html">← Back to Portfolio</a>
+</header>
+
+<!-- ====================================================================== -->
+<!-- CANVAS                                                                  -->
+<!-- ====================================================================== -->
+<div id="canvas-wrap">
+  <svg id="tree-svg"></svg>
+</div>
+
+<!-- Empty state -->
+<div id="empty-state">
+  <span class="icon">🌳</span>
+  <strong>No family tree loaded</strong>
+  <span>Click <em>Load CSV</em> above to get started, or the default tree will load automatically.</span>
+</div>
+
+<!-- Tooltip -->
+<div id="tooltip"></div>
+
+<!-- ====================================================================== -->
+<!-- MODAL                                                                   -->
+<!-- ====================================================================== -->
+<div id="modal-overlay">
+  <div id="modal" role="dialog" aria-modal="true">
+
+    <div id="modal-header">
+      <div id="modal-photo-wrap">
+        <img id="modal-photo" alt="Photo" />
+        <span id="modal-initials"></span>
+      </div>
+      <div id="modal-title-wrap">
+        <div id="modal-name"></div>
+        <div id="modal-years-line"></div>
+      </div>
+      <button id="modal-close" title="Close" aria-label="Close">✕</button>
+    </div>
+
+    <div id="modal-body">
+      <div class="modal-row">
+        <div class="modal-fact">
+          <div class="modal-section-label">Born</div>
+          <div class="modal-section-value" id="modal-birth"></div>
+        </div>
+        <div class="modal-fact">
+          <div class="modal-section-label">Died</div>
+          <div class="modal-section-value" id="modal-death"></div>
+        </div>
+      </div>
+
+      <div id="modal-desc-wrap" class="modal-fact" style="display:none">
+        <div class="modal-section-label">About</div>
+        <div class="modal-section-value" id="modal-desc"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ====================================================================== -->
+<!-- SCRIPT                                                                  -->
+<!-- ====================================================================== -->
+<script type="module">
+  import { loadAndRender, showModal, hideModal } from './js/app.js';
+
+  const svgEl      = document.getElementById('tree-svg');
+  const emptyState = document.getElementById('empty-state');
+  const csvInput   = document.getElementById('csv-input');
+  const tooltip    = document.getElementById('tooltip');
+
+  let currentPeople = [];
+
+  // ── Render helper ────────────────────────────────────────────────────
+  async function render(csvText) {
+    emptyState.style.display = 'none';
+    currentPeople = await loadAndRender(csvText, svgEl, person => showModal(person));
+    if (!currentPeople.length) emptyState.style.display = 'flex';
+  }
+
+  // ── Load default CSV on startup ──────────────────────────────────────
+  (async () => {
+    try {
+      const res = await fetch('data/family_tree.csv');
+      if (res.ok) await render(await res.text());
+      else emptyState.style.display = 'flex';
+    } catch {
+      emptyState.style.display = 'flex';
+    }
+  })();
+
+  // ── File input ───────────────────────────────────────────────────────
+  csvInput.addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => render(ev.target.result);
+    reader.readAsText(file);
+    e.target.value = '';
+  });
+
+  // ── Modal close ──────────────────────────────────────────────────────
+  document.getElementById('modal-close').addEventListener('click', hideModal);
+  document.getElementById('modal-overlay').addEventListener('click', e => {
+    if (e.target === document.getElementById('modal-overlay')) hideModal();
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') hideModal(); });
+
+  // ── Zoom toolbar ─────────────────────────────────────────────────────
+  function getZoom() { return svgEl._zoom; }
+  function getSel()  { return svgEl._zoomSel; }
+
+  document.getElementById('zoom-in').addEventListener('click', () => {
+    if (!getZoom()) return;
+    getSel().transition().duration(250).call(getZoom().scaleBy, 1.4);
+  });
+  document.getElementById('zoom-out').addEventListener('click', () => {
+    if (!getZoom()) return;
+    getSel().transition().duration(250).call(getZoom().scaleBy, 1 / 1.4);
+  });
+  document.getElementById('zoom-fit').addEventListener('click', () => {
+    if (!getZoom()) return;
+    // Re-render to reset to fit transform
+    const sel = getSel();
+    const vw = svgEl.clientWidth;
+    const vh = svgEl.clientHeight;
+    const bounds = svgEl.querySelector('.zoom-layer')?.getBBox();
+    if (!bounds) return;
+    const scale = Math.min(1, (vw - 80) / bounds.width, (vh - 80) / bounds.height);
+    const tx = (vw - bounds.width  * scale) / 2 - bounds.x * scale;
+    const ty = (vh - bounds.height * scale) / 2 - bounds.y * scale;
+    sel.transition().duration(400)
+      .call(getZoom().transform, d3.zoomIdentity.translate(tx, ty).scale(scale));
+  });
+</script>
+
+</body>
+</html>

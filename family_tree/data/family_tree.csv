@@ -1,0 +1,14 @@
+id,name,birth,death,description,image,parent_ids
+1,Great Grandpa Simpson,8/15/1880,7/4/1955,Patriarch of the Simpson family. Worked as a farmer in rural Scotland.,images/placeholder.png,
+2,Great Grandma Simpson,8/15/1883,11/18/1960,Raised seven children and was known for her incredible baking.,images/placeholder.png,
+3,Vinson Simpson,8/15/1910,2/28/1985,Served in WWII and later ran a hardware shop in Edinburgh.,images/placeholder.png,"1,2"
+4,Lesta Simpson,4/30/1913,9/10/1990,A schoolteacher for over 30 years. Loved gardening and poetry.,images/placeholder.png,
+5,Chester Simpson,12/1/1955,,Daniel's father. Photographer and artist his whole life,images/placeholder.png,"3,4"
+6,Janine Breyel,5/17/1965,,Daniel's mother.,images/placeholder.png,"10,11"
+7,Daniel Simpson,6/20/1989,,Data scientist and web developer. Built this very page.,images/placeholder.png,"5,6"
+8,Eloise Simpson,3/9/1945,1/14/2018,Robert was a jazz musician who toured Europe in the 1970s.,images/placeholder.png,"3,4"
+9,David Simpson,11/2/1948,,Patricia is a retired librarian living in Glasgow.,images/placeholder.png,"3,4"
+10,Janice Breyel,,,,,"12,13"
+11,Grandpa Ben,,,,,
+12,Great Granddaddy,,,,,
+13,Great Grandmommy,,,,,
