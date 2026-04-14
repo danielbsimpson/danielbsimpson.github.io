@@ -48,13 +48,6 @@
 
   <hr />
 
-  <div class="sidebar-section">
-    <h3>Export</h3>
-    <button id="download-report-btn" class="btn-secondary">⬇ Download .txt Report</button>
-  </div>
-
-  <hr />
-
   <div id="sidebar-stats" class="sidebar-stats-box"></div>
 
   <div class="sidebar-section sidebar-back">
@@ -109,7 +102,7 @@
 <script type="module" src="js/data.js"></script>
 <script type="module" src="js/charts.js"></script>
 <script type="module">
-  import { loadLeagueData, generateReportText } from './js/data.js';
+  import { loadLeagueData } from './js/data.js';
   import { renderLeaderboard }  from './js/tabs/leaderboard.js';
   import { renderSongs }        from './js/tabs/songs.js';
   import { renderFanMap }       from './js/tabs/fanmap.js';
@@ -260,18 +253,7 @@
   }
 
   // ── Download report ───────────────────────────────────────────────────
-  function downloadReport() {
-    if (!currentData) return;
-    const dirs = getSelectedDirs();
-    const text = generateReportText(currentData);
-    const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
-    const url  = URL.createObjectURL(blob);
-    const a    = document.createElement('a');
-    a.href     = url;
-    a.download = `music_league_stats_${dirs.join('_and_')}.txt`;
-    a.click();
-    URL.revokeObjectURL(url);
-  }
+  // (removed)
 
   // ── Event wiring ──────────────────────────────────────────────────────
   document.querySelectorAll('input[name="mode"]').forEach(radio => {
@@ -292,8 +274,6 @@
   document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => switchTab(btn.dataset.tab));
   });
-
-  $('download-report-btn').addEventListener('click', downloadReport);
 
   // ── Bootstrap ─────────────────────────────────────────────────────────
   (async () => {
