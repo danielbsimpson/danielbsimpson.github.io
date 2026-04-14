@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🎵 Music League Stats</title>
+  <style>
+    /* ── Variables (match music_league dark theme) ── */
+    :root {
+      --bg:         #0e1117;
+      --bg-panel:   #1a1d24;
+      --bg-card:    #21252e;
+      --bg-hover:   #2a2e38;
+      --border:     #2e3340;
+      --accent:     #1DB954;
+      --accent-dim: #157a38;
+      --text:       #dde1ea;
+      --text-muted: #8b92a5;
+      --radius:     12px;
+      --shadow:     0 4px 20px rgba(0,0,0,.5);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ── Back link ── */
+    .back-link {
+      position: fixed;
+      top: 18px;
+      left: 22px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: color .15s;
+    }
+    .back-link:hover { color: var(--accent); }
+
+    /* ── Hero heading ── */
+    .hub-hero {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .hub-hero .emoji { font-size: 3rem; display: block; margin-bottom: 12px; }
+    .hub-hero h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    .hub-hero p {
+      margin-top: 8px;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    /* ── Card grid ── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 320px);
+      gap: 24px;
+    }
+    @media (max-width: 700px) {
+      .card-grid { grid-template-columns: 1fr; width: 90vw; }
+    }
+
+    /* ── League card ── */
+    .league-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      text-decoration: none;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: var(--shadow);
+      transition: border-color .2s, transform .2s, box-shadow .2s;
+      cursor: pointer;
+    }
+    .league-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 28px rgba(0,0,0,.6);
+    }
+
+    .card-icon   { font-size: 2.4rem; }
+    .card-title  { font-size: 1.25rem; font-weight: 700; }
+    .card-desc   { font-size: 0.83rem; color: var(--text-muted); line-height: 1.55; }
+
+    .card-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 4px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: var(--accent-dim);
+      color: #fff;
+      width: fit-content;
+    }
+
+    .card-arrow {
+      margin-top: auto;
+      font-size: 0.82rem;
+      color: var(--accent);
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+  </style>
+</head>
+<body>
+
+  <a class="back-link" href="../index.html">← Back to Portfolio</a>
+
+  <div class="hub-hero">
+    <span class="emoji">🎵</span>
+    <h1>Music League Stats</h1>
+    <p>Choose a league group to explore stats, charts, and standings.</p>
+  </div>
+
+  <div class="card-grid">
+
+    <a class="league-card" href="t5_leagues.html">
+      <span class="card-icon">🤝</span>
+      <span class="card-title">T5 Friend Leagues</span>
+      <span class="card-desc">
+        Stats and standings for the T5 friend group music leagues.
+        Covers multiple seasons with leaderboards, song stats, fan maps, trends, and more.
+      </span>
+      <span class="card-badge">🏆 4 leagues</span>
+      <span class="card-arrow">View T5 Leagues →</span>
+    </a>
+
+    <a class="league-card" href="work_leagues.html">
+      <span class="card-icon">💼</span>
+      <span class="card-title">Work Leagues</span>
+      <span class="card-desc">
+        Stats and standings for the work music leagues.
+        Select between the UK and US regions, with cumulative or single-league views.
+      </span>
+      <span class="card-badge">🌍 2 regions</span>
+      <span class="card-arrow">View Work Leagues →</span>
+    </a>
+
+  </div>
+
+</body>
+</html>
