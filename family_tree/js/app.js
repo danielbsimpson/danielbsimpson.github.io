@@ -10,13 +10,14 @@
  *   image       — relative path from family_tree/ root  (optional)
  *   parent_ids  — comma-separated list of parent IDs from this file (optional)
  *
- * Layout: generation-based, left→right columns, nodes centred per gen.
+ * Layout: generation-based, top→bottom rows, nodes centred per gen.
  */
 
 const NODE_W   = 160;
 const NODE_H   = 80;
-const H_GAP    = 60;   // horizontal gap between generations
-const V_GAP    = 22;   // vertical gap between siblings
+const H_GAP    = 60;   // vertical gap between generations (rows)
+const V_GAP    = 30;   // horizontal gap between siblings
+const TOP_PAD  = 28;   // padding above first generation (room for label)
 const PHOTO_R  = 24;   // photo circle radius
 const PHOTO_CX = 36;   // photo circle centre x within node
 const PHOTO_CY = 40;   // photo circle centre y within node
@@ -155,23 +156,23 @@ function computeLayout(people) {
 
   sortedGens.forEach(g => {
     const nodes = byGen.get(g);
-    const x = g * (NODE_W + H_GAP);
+    const y = TOP_PAD + g * (NODE_H + H_GAP);
     nodes.forEach((p, i) => {
-      const y = i * (NODE_H + V_GAP);
+      const x = i * (NODE_W + V_GAP);
       positions.set(p.id, { x, y, gen: g });
     });
   });
 
-  // Centre each generation vertically around the tallest generation
+  // Centre each generation horizontally around the widest generation
   const maxCount = Math.max(...[...byGen.values()].map(v => v.length));
-  const totalH = maxCount * (NODE_H + V_GAP) - V_GAP;
+  const totalW = maxCount * (NODE_W + V_GAP) - V_GAP;
   sortedGens.forEach(g => {
     const nodes = byGen.get(g);
-    const colH = nodes.length * (NODE_H + V_GAP) - V_GAP;
-    const offset = (totalH - colH) / 2;
+    const rowW = nodes.length * (NODE_W + V_GAP) - V_GAP;
+    const offset = (totalW - rowW) / 2;
     nodes.forEach(p => {
       const pos = positions.get(p.id);
-      pos.y += offset;
+      pos.x += offset;
     });
   });
 
@@ -189,13 +190,13 @@ function buildLinks(people, positions) {
       const childPos  = positions.get(child.id);
       if (!parentPos || !childPos) return;
 
-      const x1 = parentPos.x + NODE_W;
-      const y1 = parentPos.y + NODE_H / 2;
-      const x2 = childPos.x;
-      const y2 = childPos.y + NODE_H / 2;
-      const cx = (x1 + x2) / 2;
+      const x1 = parentPos.x + NODE_W / 2;
+      const y1 = parentPos.y + NODE_H;
+      const x2 = childPos.x + NODE_W / 2;
+      const y2 = childPos.y;
+      const cy = (y1 + y2) / 2;
 
-      links.push({ d: `M${x1},${y1} C${cx},${y1} ${cx},${y2} ${x2},${y2}`, parentId: pid, childId: child.id });
+      links.push({ d: `M${x1},${y1} C${x1},${cy} ${x2},${cy} ${x2},${y2}`, parentId: pid, childId: child.id });
     });
   });
   return links;
@@ -241,17 +242,18 @@ export function renderTree(people, svgEl, onNodeClick) {
   const sortedGens = [...byGen.keys()].sort((a, b) => a - b);
   sortedGens.forEach(gIdx => {
     const nodes = byGen.get(gIdx);
-    const x = gIdx * (NODE_W + H_GAP) + NODE_W / 2;
-    const ys = nodes.map(p => positions.get(p.id).y);
-    const labelY = Math.min(...ys) - 18;
+    const rowY = TOP_PAD + gIdx * (NODE_H + H_GAP);
+    const xs = nodes.map(p => positions.get(p.id).x);
+    const centerX = (Math.min(...xs) + Math.max(...xs)) / 2 + NODE_W / 2;
+    const labelY = rowY - 12;
     const genLabel = gIdx === 0 ? 'Generation I' :
                      gIdx === 1 ? 'Generation II' :
                      gIdx === 2 ? 'Generation III' :
                      `Gen ${gIdx + 1}`;
     g.append('text')
       .attr('class', 'gen-label')
-      .attr('x', x)
-      .attr('y', Math.max(0, labelY))
+      .attr('x', centerX)
+      .attr('y', Math.max(8, labelY))
       .text(genLabel);
   });
 
