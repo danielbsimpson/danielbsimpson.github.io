@@ -5,6 +5,7 @@
 import {
   mostConsistentSubmitter, mostVolatileSubmitter,
   halfVsHalf, pointsOverTime, roundByRoundBreakdown, rankOverTime,
+  top3Winners,
 } from '../data.js';
 
 import {
@@ -15,6 +16,9 @@ import {
 
 export function renderTrends(container, data) {
   container.appendChild(sectionHeader('📈 Trends & Consistency'));
+
+  // Compute top-5 players by total points (used to default chart visibility)
+  const top5Players = new Set(top3Winners(data, 5).map(e => e.name));
 
   // ── Consistency / Volatility ────────────────────────────────────────────
   {
@@ -94,6 +98,7 @@ export function renderTrends(container, data) {
     makeLineChart(container, orderedRounds, series, {
       title: 'Points scored each round',
       height: 380,
+      visiblePlayers: top5Players,
     });
   }
 
@@ -104,7 +109,7 @@ export function renderTrends(container, data) {
   container.appendChild(sectionCaption('Cumulative leaderboard position after each round. Lower = better. Rank is based on total points accumulated up to and including that round.'));
   const { orderedRounds: rankRounds, series: rankSeries } = rankOverTime(data);
   if (rankSeries.length > 0) {
-    makeRankChart(container, rankRounds, rankSeries);
+    makeRankChart(container, rankRounds, rankSeries, top5Players);
   }
 
   container.appendChild(divider());
@@ -146,7 +151,7 @@ const MEDALS = ['🥇', '🥈', '🥉'];
  * Renders a rank-over-time line chart using Chart.js directly so we can
  * invert the Y axis (rank 1 at the top) and format ticks as ordinals.
  */
-function makeRankChart(container, roundLabels, series) {
+function makeRankChart(container, roundLabels, series, visiblePlayers = null) {
   const wrap = document.createElement('div');
   wrap.className = 'chart-container';
   const titleEl = document.createElement('div');
@@ -182,6 +187,7 @@ function makeRankChart(container, roundLabels, series) {
     tension:          0.3,
     spanGaps:         true,
     borderWidth:      2,
+    hidden:           visiblePlayers ? !visiblePlayers.has(s.player) : false,
   }));
 
   new Chart(canvas, {

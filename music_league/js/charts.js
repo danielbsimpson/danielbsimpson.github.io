@@ -269,11 +269,13 @@ export function makeStackedBarChart(container, labels, datasets, opts = {}) {
 
 export function makeLineChart(container, roundLabels, series, opts = {}) {
   // series: [{player, rounds: [{round, points}]}]
+  // opts.visiblePlayers: Set<string> — players shown by default; others start hidden
   const wrap   = chartWrap(opts.title || '');
   const canvas = canvasInWrap(wrap, opts.height || 340);
   container.appendChild(wrap);
 
   const showLine = opts.showLine !== false;
+  const visiblePlayers = opts.visiblePlayers || null; // null = show all
   const datasets = series.map((s, i) => ({
     label:            s.player,
     data:             roundLabels.map(r => {
@@ -288,6 +290,7 @@ export function makeLineChart(container, roundLabels, series, opts = {}) {
     spanGaps:         true,
     showLine,
     borderWidth:      showLine ? 2 : 0,
+    hidden:           visiblePlayers ? !visiblePlayers.has(s.player) : false,
   }));
 
   const chart = new Chart(canvas, {
