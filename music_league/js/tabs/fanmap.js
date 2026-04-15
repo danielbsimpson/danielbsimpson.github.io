@@ -44,6 +44,7 @@ export function renderFanMap(container, data) {
 
   const fansSection      = el('div');
   const sankeySection    = el('div');
+  const incomingSection  = el('div');
   const fullSection      = el('div');
   const heatmapSection   = el('div');
   const generousSection  = el('div');
@@ -51,6 +52,8 @@ export function renderFanMap(container, data) {
   container.appendChild(fansSection);
   container.appendChild(divider());
   container.appendChild(sankeySection);
+  container.appendChild(divider());
+  container.appendChild(incomingSection);
   container.appendChild(divider());
   container.appendChild(fullSection);
   container.appendChild(divider());
@@ -63,6 +66,7 @@ export function renderFanMap(container, data) {
   function refresh(targetName) {
     renderFansCompat(fansSection, data, targetName);
     renderPlayerSankey(sankeySection, data, targetName);
+    renderIncomingSankey(incomingSection, data, targetName);
     renderFullSankey(fullSection, data);
     renderPointsHeatmap(heatmapSection, data);
     renderGenerousVoter(generousSection, data);
@@ -159,6 +163,52 @@ function renderPlayerSankey(container, data, targetName) {
   makeSankey(container, nodes, links, {
     width:  700,
     height: Math.max(380, receivers.length * 36 + 60),
+  });
+}
+
+function renderIncomingSankey(container, data, targetName) {
+  container.innerHTML = '';
+  container.appendChild(el('h4', 'section-header', `🎯 Who Voted for ${targetName}`));
+  container.appendChild(sectionCaption(`Points received by ${targetName} from every other player across all rounds.`));
+
+  const names    = nameMap(data.competitors);
+  const invMap   = new Map([...names.entries()].map(([k, v]) => [v, k]));
+  const targetId = invMap.get(targetName);
+  if (!targetId) { container.appendChild(el('p', 'caption', 'Player not found.')); return; }
+
+  const uriToSub = new Map(data.submissions.map(s => [s.SpotifyURI, s['Submitter ID']]));
+  const edges    = new Map(); // voterName -> total points given to target
+
+  data.votes.forEach(v => {
+    const recv = uriToSub.get(v.SpotifyURI);
+    if (!recv || recv !== targetId) return;
+    if (v['Voter ID'] === targetId) return;
+    const vName = names.get(v['Voter ID']) || v['Voter ID'];
+    edges.set(vName, (edges.get(vName) || 0) + Number(v.Points || 0));
+  });
+
+  if (edges.size === 0) {
+    container.appendChild(el('p', 'caption', `No votes found for ${targetName}.`));
+    return;
+  }
+
+  const voters      = [...edges.entries()].sort((a, b) => b[1] - a[1]);
+  const voterColors = Object.fromEntries(voters.map(([n], i) => [n, PALETTE[i % PALETTE.length]]));
+
+  const nodes = [
+    ...voters.map(([n]) => ({ id: n, name: n, color: voterColors[n] })),
+    { id: '__target__', name: targetName, color: ACCENT },
+  ];
+  const links = voters.map(([n, pts]) => ({
+    source: n,
+    target: '__target__',
+    value:  pts,
+    color:  hexToRgba(voterColors[n]),
+  }));
+
+  makeSankey(container, nodes, links, {
+    width:  700,
+    height: Math.max(380, voters.length * 36 + 60),
   });
 }
 
