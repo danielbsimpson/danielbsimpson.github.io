@@ -80,6 +80,7 @@
     <button class="tab-btn" data-tab="economy">💰 Economy</button>
     <button class="tab-btn" data-tab="timing">⏱️ Timing</button>
     <button class="tab-btn" data-tab="headlines">🗞️ Headlines</button>
+    <button class="tab-btn" data-tab="player">👤 Player</button>
   </nav>
 
   <!-- Tab panels -->
@@ -92,6 +93,7 @@
     <section class="tab-panel" id="panel-economy"></section>
     <section class="tab-panel" id="panel-timing"></section>
     <section class="tab-panel" id="panel-headlines"></section>
+    <section class="tab-panel" id="panel-player"></section>
   </div>
 
 </main>
@@ -111,6 +113,7 @@
   import { renderEconomy }      from './js/tabs/economy.js';
   import { renderTiming }       from './js/tabs/timing.js';
   import { renderHeadlines }    from './js/tabs/headlines.js';
+  import { renderPlayer }       from './js/tabs/player.js';
 
   // ── State ──────────────────────────────────────────────────────────────
   let allLeagues   = [];   // names from manifest
@@ -127,6 +130,7 @@
     economy:     renderEconomy,
     timing:      renderTiming,
     headlines:   renderHeadlines,
+    player:      renderPlayer,
   };
 
   // ── DOM helpers ────────────────────────────────────────────────────────
