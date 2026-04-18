@@ -179,26 +179,75 @@ function computeLayout(people) {
   return { positions, byGen, gen };
 }
 
-// ── Build link paths (curved bezier from parent right-edge to child left-edge)
+// ── Build link paths — couple-bracket style ─────────────────────────────────
+// For each couple (pair of parents sharing children):
+//   1. Horizontal bar connecting the two parents at their bottom edge
+//   2. Single vertical drop from the midpoint to a horizontal spine
+//   3. Individual vertical drops from the spine to each child
 
 function buildLinks(people, positions) {
-  const links = [];
+  // Group children by their parent-pair key (sorted IDs joined)
+  const coupleMap = new Map();
   people.forEach(child => {
     const pids = (child.parent_ids || '').split(',').map(s => s.trim()).filter(Boolean);
-    pids.forEach(pid => {
-      const parentPos = positions.get(pid);
-      const childPos  = positions.get(child.id);
-      if (!parentPos || !childPos) return;
+    if (!pids.length) return;
+    const key = [...pids].sort().join(',');
+    if (!coupleMap.has(key)) coupleMap.set(key, { parentIds: pids, childIds: [] });
+    coupleMap.get(key).childIds.push(child.id);
+  });
 
-      const x1 = parentPos.x + NODE_W / 2;
-      const y1 = parentPos.y + NODE_H;
-      const x2 = childPos.x + NODE_W / 2;
-      const y2 = childPos.y;
-      const cy = (y1 + y2) / 2;
+  const links = [];
 
-      links.push({ d: `M${x1},${y1} C${x1},${cy} ${x2},${cy} ${x2},${y2}`, parentId: pid, childId: child.id });
+  coupleMap.forEach(({ parentIds, childIds }) => {
+    const knownParents = parentIds
+      .map(pid => ({ pid, pos: positions.get(pid) }))
+      .filter(({ pos }) => pos);
+    const knownChildren = childIds
+      .map(cid => ({ cid, pos: positions.get(cid) }))
+      .filter(({ pos }) => pos);
+    if (!knownChildren.length) return;
+
+    const childTopY = knownChildren[0].pos.y;
+    const allNodeIds = [...parentIds, ...childIds];
+
+    let junctionX, junctionY;
+
+    if (knownParents.length >= 2) {
+      const xs = knownParents.map(({ pos }) => pos.x + NODE_W / 2);
+      const parentBottomY = knownParents[0].pos.y + NODE_H;
+      junctionX = xs.reduce((a, b) => a + b, 0) / xs.length;
+      junctionY = parentBottomY;
+      // Horizontal bar between parents
+      const minPX = Math.min(...xs);
+      const maxPX = Math.max(...xs);
+      links.push({ d: `M${minPX},${parentBottomY} L${maxPX},${parentBottomY}`, nodeIds: parentIds });
+    } else if (knownParents.length === 1) {
+      junctionX = knownParents[0].pos.x + NODE_W / 2;
+      junctionY = knownParents[0].pos.y + NODE_H;
+    } else {
+      return;
+    }
+
+    const spineY = junctionY + (childTopY - junctionY) / 2;
+    const childXs = knownChildren.map(({ pos }) => pos.x + NODE_W / 2);
+
+    // Vertical drop from junction to spine
+    links.push({ d: `M${junctionX},${junctionY} L${junctionX},${spineY}`, nodeIds: allNodeIds });
+
+    // Horizontal spine spanning all children (and the junction)
+    const spineLeft  = Math.min(junctionX, ...childXs);
+    const spineRight = Math.max(junctionX, ...childXs);
+    if (spineLeft < spineRight) {
+      links.push({ d: `M${spineLeft},${spineY} L${spineRight},${spineY}`, nodeIds: allNodeIds });
+    }
+
+    // Vertical drops from spine to each child
+    knownChildren.forEach(({ cid, pos }) => {
+      const cx = pos.x + NODE_W / 2;
+      links.push({ d: `M${cx},${spineY} L${cx},${pos.y}`, nodeIds: [...parentIds, cid] });
     });
   });
+
   return links;
 }
 
@@ -281,6 +330,27 @@ export function renderTree(people, svgEl, onNodeClick) {
       nodeGroup.selectAll('g.node-group').classed('selected', false);
       d3.select(event.currentTarget).classed('selected', true);
       onNodeClick(p);
+    })
+    .on('mouseenter', (event, p) => {
+      // Collect all node IDs connected to the hovered node
+      const connectedIds = new Set([p.id]);
+      links.forEach(l => {
+        if (l.nodeIds.includes(p.id)) l.nodeIds.forEach(id => connectedIds.add(id));
+      });
+      linkGroup.selectAll('path')
+        .classed('link-active', l => l.nodeIds.includes(p.id))
+        .classed('link-dim',    l => !l.nodeIds.includes(p.id));
+      nodeGroup.selectAll('g.node-group')
+        .classed('node-connected', d => connectedIds.has(d.id) && d.id !== p.id)
+        .classed('node-dim',       d => !connectedIds.has(d.id));
+    })
+    .on('mouseleave', () => {
+      linkGroup.selectAll('path')
+        .classed('link-active', false)
+        .classed('link-dim',    false);
+      nodeGroup.selectAll('g.node-group')
+        .classed('node-connected', false)
+        .classed('node-dim',       false);
     });
 
   // Card background

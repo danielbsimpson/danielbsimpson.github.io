@@ -1,14 +1,42 @@
 id,name,birth,death,description,image,parent_ids
-1,Great Grandpa Simpson,8/15/1880,7/4/1955,Patriarch of the Simpson family. Worked as a farmer in rural Scotland.,images/placeholder.png,
-2,Great Grandma Simpson,8/15/1883,11/18/1960,Raised seven children and was known for her incredible baking.,images/placeholder.png,
-3,Vinson Simpson,8/15/1910,2/28/1985,Served in WWII and later ran a hardware shop in Edinburgh.,images/placeholder.png,"1,2"
-4,Lesta Simpson,4/30/1913,9/10/1990,A schoolteacher for over 30 years. Loved gardening and poetry.,images/placeholder.png,
-5,Chester Simpson,12/1/1955,,Daniel's father. Photographer and artist his whole life,images/placeholder.png,"3,4"
-6,Janine Breyel,5/17/1965,,Daniel's mother.,images/placeholder.png,"10,11"
-7,Daniel Simpson,6/20/1989,,Data scientist and web developer. Built this very page.,images/placeholder.png,"5,6"
-8,Eloise Simpson,3/9/1945,1/14/2018,Robert was a jazz musician who toured Europe in the 1970s.,images/placeholder.png,"3,4"
-9,David Simpson,11/2/1948,,Patricia is a retired librarian living in Glasgow.,images/placeholder.png,"3,4"
-10,Janice Breyel,,,,,"12,13"
-11,Grandpa Ben,,,,,
-12,Great Granddaddy,,,,,
-13,Great Grandmommy,,,,,
+1,Great Grandpa Simpson,,,,,
+2,Great Grandma Simpson,,,,,
+
+3,Great Grandpa Keffer,,,,,
+4,Great Grandma Keffer,,,,,
+
+5,Great Grandpa King,,,,,
+6,Great Grandma King,,,,,
+
+7,Great Grandpa Breyel,,,,,
+8,Great Grandma Breyel,,,,,
+
+28,Great Grandpa Minor,,,,,
+29,Great Grandma Minor,,,,,
+
+30,Great Grandpa Lemley,,,,,
+31,Great Grandma Lemley,,,,,
+
+9,Vinson Bowman Simpson,01/01/1926,06/28/2008,"Vinson Bowman Simpson, 82, of Roanoke, Va., who was a beloved husband, father, and grandfather, passed away on June 28, 2008. He was born on a farm at the foot of Bent Mountain and spent most of his life in Roanoke. A Marine veteran of World War II, he saw combat with the 2nd Division in the Pacific on Saipan, Tinian, Okinawa, and occupied Nagasaki. During the Korean War, he served in the Navy Reserves on active duty with the 6th fleet in the Mediterranean. He retired after working for Vinton Weaving Mill (Precision Fabrics) for over 28 years. He was a hard working man who loved camping, hunting, fishing, gardening, and traveling with his family. He was preceded in death by his wife of 59 years, Lesta Keffer Simpson, his parents, Omer Clayton Simpson, Sr. and Mary Blanche Grisso, his sister, Cornelia Simpson Manning, his brother, Francis Dale Simpson, his sister, Christine Ella Simpson, and his sister, Gaynelle Simpson Harris. Mr. Simpson is survived by his daughter, Mary Eloise Simpson Bracy and husband, Thomas Gordon Bracy of Reston, Va.; his son, Chester Bowman Simpson of Alexandria, Va., his son, David Clayton Simpson of Richmond, Va.; his sister, Lorene Simpson Preas of Roanoke, Va.; his brother, Nelson Aubrey Simpson and wife Charlene Marsh Simpson of Lynchburg, Va.; his brother, Omer Clayton Simpson, Jr. of Springfield, Va.; his grandson, Daniel Bowman Simpson of Morgantown, W.Va.; and numerous nephews and nieces. Funeral services will be held at 12 noon on Tuesday, July 1, 2008 at Oakey's North Chapel with the Rev. Cynthia Simpson and Rev. C. Nelson Harris officiating. Burial will follow in Cedar Lawn Cemetery with military honors by the United States Marine Corps. The family will receive friends from 2 to 4 p.m. and 6 to 8 p.m. on Monday, June 30, 2008 at Oakey's North Chapel.",../images/family_tree/vinson_simpson.png,"1,2"
+10,Lesta Eloise Keffer,4/30/1913,9/10/1990,"Lesta Eloise Keffer Simpson, 80, of Roanoke, Va., passed away on February 14, 2007. She was born in Craig County, Virginia and graduated from Maywood High School. Lesta moved to Roanoke to attend Jefferson Hospital School of Nursing, from which she graduated in 1947. She later retired as a Registered Nurse from Community Hospital of Roanoke Valley in 1992. Lesta was preceded in death by her parents, Frank Leslie Keffer and Mary Jay Givens Keffer, and her brother, Leslie Leon Keffer. She is survived by her husband of 59 years, Vinson Bowman Simpson of Roanoke, Va.; her daughter, Mary Eloise Simpson Bracy and husband, Thomas Gordon Bracy of Reston, Va.; her son, Chester Bowman Simpson of Alexandria, Va.; her son, David Clayton Simpson of Richmond, Va.; her brother, Fred Addison Keffer and wife, Nellie Crush Keffer of New Castle, Va.; her grandson, Daniel Bowman Simpson of Brucetonmills, W.Va.; and numerous nieces and nephews. Funeral services will be held at 12 noon on Saturday, February 17, 2007 at Oakey's North Chapel. Burial will follow in Cedar Lawn Cemetery. The family will receive friends from 2 to 4 and 6 to 8 p.m. on Friday, February 16, 2007 at Oakey's North Chapel. (362-1237). Memorials may be made to the Virginia Baptist Children's Home",../images/family_tree/lesta_keffer.png,"3,4"
+11,Ben King,,,,,"5,6"
+12,Janice Breyel,,,,,"7,8"
+13,June Lemley,,,,,"30,31"
+14,Francis McClelland Minor,,12/22/2022,"Francis McClelland Minor, son of the late Bailey and Hazel Patterson Minor, died December 22, 2022 at his home. He was 87 years old. He is survived by his wife, the former June Lemley, who he married in 1955. Francis and June had 67 wonderful, loving years together during which they raised their family, gave back to their community and church, and traveled the world. Francis and June are the parents of Randal Minor (Janine), Sandy Osecky (Todd), and Larae Minor (Adam). In addition to his wife and children, Francis is survived by 7 grandchildren, Kristopher (Chelsea) and Matthew Osecky, Daniel Simpson (Dani), Mason (Erika), Quintin and Emerson Minor, and Junie Minor Phipps, two great-grandchildren, Dillon and Reagan Osecky, his sister-in-law, Laura Lemley (Robert), and his nephew, Heath Lemley (Paula).Francis Minor grew up on a farm in Perry Township, as the oldest of six siblings: Wretha Haines (Paul), Blaine Minor (Thelma), Ronald Minor (Martha), Donald Minor (Delores), and Billy Minor (Jackie). Francis loved the farm which has remained in the Minor family since 1846. He spent countless hours working the farm and enjoying it with family and friends. One of his favorite events of the year was the annual Minor Family Reunion. No matter what he was doing or where he was, Francis remained a farmer in his heart. Francis was a graduate of Mt. Morris High School, class of 1954. Following high school, he went to work driving a truck for H.B. Arrison Lumber Company. He then went to work for Baker & Coombs Construction Company where he supervised the construction of many projects around the Morgantown area, including his favorite, the WVU Creative Arts Center. Francis and his partner, Robert Sheets, started their own company, ENCON, in 1975. Among other large construction projects, Francis and Bob were responsible for building several HECKS Department Stores throughout West Virginia and the surrounding states. Francis always cared about his community. He was a volunteer fireman for 65 years with the Mt. Morris Community Volunteer Fire Company, serving during that time as the fire company's assistant chief, president and trustee. He was a 32nd degree Mason holding several positions with Waynesburg Lodge No. 153. Francis was a member and president of the Greene County School Board. He served on the board of the Westover Bank. He was president of the Cedar Grove Cemetery for many years up till the time of his death. He was a member of the Mt. Morris Methodist Church for all his adult life, serving many years as the church's financial chair and on the Board of Trustees. Francis and June loved to travel. They spent more than twenty winters in Florida with their fellow snowbirds. They travelled in their RV over much of the lower 48 states. Francis and June went on multiple cruises and tours abroad. Family was everything to Francis. He was the much-loved family patriarch with the right tool for every project or emergency. He was always willing to help out or share practical experiences from a life of hard work. The family wishes to thank the nurses and other staff at the Mary Babb Randolph Cancer Center, Dr. Veltri and staff, Rev. Dolo, and the many family and friends who provided much comfort and support to Francis during his illness. In lieu of flowers, the family requests that donations be made to the Mt. Morris United Methodist Church or a favorite charity of choice in honor of Francis. A viewing will occur on Tuesday, December 27, 2022, at McCulla Funeral Home from 3-5 and 6-8 PM (Masonic Rites at 6 PM). An additional viewing will occur on December 28, 2022 at the Mt. Morris Methodist Church from 11 AM-12 Noon, with funeral service to follow (Firemen's service beginning at Noon). Burial will follow at Cedar Grove Cemetery.",,"28,29"
+
+18,Eloise Simpson,3/9/1950,,,,"9,10"
+19,David Simpson,08/07/1960,,,images/placeholder.png,"9,10"
+15,Chester Bowman Simpson,12/1/1955,,Daniel's father. Photographer and artist his whole life,images/placeholder.png,"9,10"
+
+16,Janine Breyel,5/17/1965,,Daniel's mother.,images/placeholder.png,"11,12"
+20,Rodney Breyel,,,,,"11,12"
+21,Cliff Breyel,,,,,"11,12"
+17,Randal Minor,,,,,"13,14"
+26,Larae Minor,,,,,"13,14"
+27,Sandy Minor,,,,,"13,14"
+
+
+22,Daniel Bowman Simpson,6/20/1989,,Data scientist and web developer. Built this very page.,images/placeholder.png,"15,16"
+23, Mason Minor,,,,,"16,17"
+24, Quinn Minor,,,,,"16,17"
+25, Emerson Minor,,,,,"16,17"
