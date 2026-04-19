@@ -149,6 +149,10 @@
   }
 
   // ── Sidebar population ────────────────────────────────────────────────
+  function formatLeagueName(name) {
+    return name.replace(/^t5_league(\d+)$/i, (_, n) => `T5 League ${n}`);
+  }
+
   function populateSidebar(leagues) {
     // Single league select
     const sel = $('single-league-select');
@@ -156,7 +160,7 @@
     leagues.forEach(name => {
       const opt = document.createElement('option');
       opt.value = name;
-      opt.textContent = name;
+      opt.textContent = formatLeagueName(name);
       sel.appendChild(opt);
     });
 
@@ -166,7 +170,7 @@
     leagues.forEach(name => {
       const lbl = document.createElement('label');
       lbl.className = 'checkbox-label';
-      lbl.innerHTML = `<input type="checkbox" value="${name}" checked /> ${name}`;
+      lbl.innerHTML = `<input type="checkbox" value="${name}" checked /> ${formatLeagueName(name)}`;
       box.appendChild(lbl);
     });
   }
