@@ -4287,6 +4287,11 @@ a:hover {
 /* --- Work Projects Section --- */
 #work-section {
 	background: transparent;
+	border-top: 0 !important;
+}
+
+#two {
+	border-top: 0 !important;
 }
 
 #work-section > .inner {
