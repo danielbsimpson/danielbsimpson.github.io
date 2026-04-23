@@ -3542,12 +3542,12 @@ input, select, textarea {
 		@media screen and (max-width: 736px) {
 
 			#banner {
-				padding: 7em 0 1em 0 ;
+				padding: 5em 0 1em 0 ;
 				height: auto;
-				margin-bottom: -2.75em;
+				margin-bottom: -3.25em;
 				max-height: none;
 				min-height: 0;
-				top: -2.75em;
+				top: -3.25em;
 			}
 
 				#banner h1 {
@@ -3774,7 +3774,7 @@ input, select, textarea {
 		@media screen and (max-width: 736px) {
 
 			#wrapper {
-				padding-top: 2.75em;
+				padding-top: 3.25em;
 			}
 
 		}
