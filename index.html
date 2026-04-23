@@ -26,6 +26,9 @@
 	</head>
 	<body class="is-preload">
 
+		<!-- Star field canvas (behind everything) -->
+		<canvas id="star-canvas"></canvas>
+
 		<!-- Wrapper -->
 			<div id="wrapper">
 
@@ -58,46 +61,15 @@
 							</header>
 							<div class="content">
 								<p>This website showcases a list of work projects along with personal data science projects I have published on GitHub.</p>
-								<ul class="actions">
-									<li><a href="#one" class="button next scrolly">View Personal Projects</a></li>
-								</ul>
 							</div>
-						</div>
-					</section>
-
-					<section id="two">
-						<div class="inner">
-							<header class="major-work-header">
-								<h1>Work Projects</h1>
-							</header>
-							<ul class="work-project-list">
-								<li>Customer Lifetime Value Models</li>
-								<li>Loyalty Churn Model</li>
-								<li>Comments Ingestion NLP Pipeline</li>
-								<li>Omnichannel Propensity Model</li>
-								<li>Large Language Model prototype</li>
-								<li>Snowflake Cortex LLM dashboards</li>
-								<li>EComm Customer Segmentation</li>
-								<li>Retail Store Clustering Analysis</li>
-								<li>Brand Health Customer Survey Analysis</li>
-								<li>Email NLP Analysis</li>
-								<li>Attribution Model</li>
-								<li>Customer Acquistion Model</li>
-								<li>MLDevOps Dashboard</li>
-								<li>Customer Survival Analysis</li>
-								<li>Cox Proportional Hazard Model</li>
-								<li>Snowpark CLTV POC</li>
-								<li>Customer Service Dashboard</li>
-								<li>Early Access Product Selector</li>
-							</ul>
 						</div>
 					</section>
 
 				<!-- Main -->
 					<div id="main">
 
-						<!-- One -->
-							<section id="one" class="tiles">
+						<!-- Featured Projects -->
+							<section id="one" class="tiles featured-tiles">
 
 								<article>
 									<span class="image">
@@ -105,7 +77,7 @@
 									</span>
 									<header class="major">
 										<h3><a href="https://github.com/danielbsimpson/personal_robot" class="link">Personal Robot</a></h3>
-										<p>A fully local, open-source robot built in progressive phases — from a conversational LLM running on a laptop GPU (Phi-4-mini via Ollama) through persistent RAG memory (ChromaDB), voice input/output (Whisper &amp; Piper TTS), computer vision (YOLOv8 &amp; Qwen2.5-VL), and face recognition, culminating in a self-contained physical robot deployed on a Raspberry Pi 5. No cloud APIs — all inference runs on local hardware.</p>
+										<p>A fully local, open-source robot built in progressive phases — from a conversational LLM (Phi-4-mini via Ollama) through RAG memory, voice I/O, computer vision (YOLOv8), and face recognition, to a self-contained physical robot on a Raspberry Pi 5. No cloud APIs.</p>
 									</header>
 								</article>
 
@@ -115,18 +87,7 @@
 									</span>
 									<header class="major">
 										<h3><a href="music_league/leagues.html" class="link">Music League Stats</a></h3>
-										<p>An interactive web dashboard for music leagues, built with vanilla JavaScript, D3.js, and Chart.js.
-										Covers both friend group (T5) and work leagues (UK &amp; US regions), featuring a leaderboard, song stats, fan map, trends, timing analysis, economy breakdowns, comments, and headlines — all loaded from CSV data files with no backend required.</p>
-									</header>
-								</article>
-
-								<article>
-									<span class="image">
-										<img src="images/stocks.jpg" alt="" />
-									</span>
-									<header class="major">
-										<h3><a href="budget_app/index.html" class="link">Personal Budget Dashboard</a></h3>
-										<p>An interactive personal finance dashboard built with vanilla JavaScript and Chart.js. Tracks income, expenses, and savings across current and future months, with configurable categories, demo data support, and dynamic charts — all running client-side with no backend required.</p>
+										<p>An interactive web dashboard for music leagues built with vanilla JS, D3.js, and Chart.js. Features leaderboard, song stats, fan map, trend analysis, economy breakdowns, comments, and headlines — all from CSV files, no backend required.</p>
 									</header>
 								</article>
 
@@ -136,21 +97,7 @@
 									</span>
 									<header class="major">
 										<h3><a href="https://github.com/danielbsimpson/Covid-19-tracking-USA" class="link">Covid-19 Dashboard</a></h3>
-										<p>Utilizing the Johns Hopkins Covid-19 data repository, I designed a dashboard to track cases and deaths in the United States
-											on a national and local level. Data was sourced and cleaned using the Pandas library in Python, while R-rate was calculated using
-											the EpiEstim library in R studio. The webpage was built with Dash, graphics were built with Plotly, and the web app was deployed 
-											and is hosted using Google Cloud Platform. This website is no longer active but the repository and screenshots of the dashboard can still be viewed.</p>
-									</header>
-								</article>
-
-								<article>
-									<span class="image">
-										<img src="images/world.jpg" alt="" />
-									</span>
-									<header class="major">
-										<h3><a href="https://github.com/danielbsimpson/regression_world_data" class="link">Regression Inference for Life Expectancy</a></h3>
-										<p>Using the ordinary least squared model in the statistics library, feature selection is done on the world data set to identify key features that are impacting the life expectancy.
-										p-values for all feature's coefficients are observed to identify what is a good predictor for life expectancy.</p>
+										<p>Dash &amp; Plotly web app tracking US Covid-19 cases and R-rate estimates by county, sourced from Johns Hopkins data. Cleaned with Pandas, R-rate calculated via EpiEstim in R, and hosted on Google Cloud Platform.</p>
 									</header>
 								</article>
 
@@ -159,62 +106,8 @@
 										<img src="images/Mask_recognition.png" alt="" />
 									</span>
 									<header class="major">
-										<h3><a href="https://github.com/danielbsimpson/Facial-recognition-and-Mask-Identification" class="link">Facial recognition and mask detection</a></h3>
-										<p>This project takes in an image, identifies individual faces in the image, and feeds a cropped image of just the face into a CNN to identify whether the individual
-										is wearing a mask or not. CV2 is utilized for facial recognition, while Keras and ImageNet are used to build the CNN for mask identification.</p>
-									</header>
-								</article>
-
-								<article>
-									<span class="image">
-										<img src="images/Car_image.jpg" alt="" />
-									</span>
-									<header class="major">
-										<h3><a href="https://used-cars-england.herokuapp.com/" class="link">UK Used Car Dashboard</a></h3>
-										<p>This dashboard was developed using Plotly/Dash and deployed using Saleforce's heroku free cloud services.
-											The data was collected from over 5,000 autotrader.co.uk web results using the BeautifulSoup and cleaned using Pandas. 
-											The data set has over 44,000 individual used cars that are currently for sale in the UK.
-										</p>
-									</header>
-								</article>
-
-
-								<article>
-									<span class="image">
-										<img src="images/Anomaly_img.jpg" alt="" />
-									</span>
-									<header class="major">
-										<h3><a href="https://github.com/danielbsimpson/Anomaly-Detection" class="link">Anomaly Detection using Machine Learning</a></h3>
-										<p>This project was designed to explore the applications of machine learning for anomaly detection, using unsupervised and supervised techniques. For the unsupervised
-										part of the project, 4 data sets from Numenta Anomaly Benchmark are used, applying k-means, Gaussian distribution, isolation forests, SVM, and LSTM neural networks.
-										For the supervised portion of this project a credit card dataset is used and multiple models are built and tested. The best performing model was then tuned using a grid
-										search algorithm.</p>
-									</header>
-								</article>
-
-								<article>
-									<span class="image">
-										<img src="images/MMA_image.jpg" alt="" />
-									</span>
-									<header class="major">
-										<h3><a href="https://github.com/danielbsimpson/MMA-ML-Predictions" class="link">UFC Fight Predictions</a></h3>
-										<p>Using a data set from 1993-2019 of over 5000 fights, multiple machine learning models are created and evaluated. 
-										In the final step the models are used to predict the 5 main fights in UFC 259. 
-										Numpy, Pandas, SKLearn, XGBoost, and Keras libraries were all used in this project</p>
-									</header>
-								</article>
-
-								<article>
-									<span class="image">
-										<img src="images/London.jpg" alt="" />
-									</span>
-									<header class="major">
-										<h3><a href="https://github.com/danielbsimpson/IBM-Data-Science-Capstone" class="link">Clustering for Business Investments in London</a></h3>
-										<p>Used the k-means clustering algorithm on demographic and income data, identifying similar boroughs within London. 
-										Once the clusters had been established each borough was compared to the cluster it fell within, identifying potential 
-										business venue opportunities. Demographic data was web scraped using BeautifulSoup and pandas, 
-										Scikit-learn was utilized for k-means, venue data was collected using the FourSquare API, and visuals were 
-										generated using matplotlib and folium libraries. </p>
+										<h3><a href="https://github.com/danielbsimpson/Facial-recognition-and-Mask-Identification" class="link">Facial Recognition &amp; Mask Detection</a></h3>
+										<p>OpenCV identifies individual faces in an image, then feeds each cropped face into a Keras CNN built on ImageNet to classify whether the person is wearing a mask or not.</p>
 									</header>
 								</article>
 
@@ -223,76 +116,121 @@
 										<img src="images/money.jpg" alt="" />
 									</span>
 									<header class="major">
-										<h3><a href="https://www.kaggle.com/dbsimpson/us-wages" class="link">Visualizing Wages in the US</a></h3>
-										<p>Utilizing the plotly library in python, interactive visuals are created using data collected from the Federal Reserve Bank of New York.
-										College majors are looked at specifically for annual wages along with unemployment and underemployment.
-										The dot com boom, the 2008 financial crisis, and the 2020 Covid-19 pandemic are all looked at for their effects on the job market as a whole.</p>
-									</header>
-								</article>
-								<article>
-									<span class="image">
-										<img src="images/san-fran-housing.png" alt="" />
-									</span>
-									<header class="major">
-										<h3><a href="https://www.kaggle.com/dbsimpson/exploring-san-francisco-housing-with-plotly" class="link">San Fransisco Housing</a></h3>
-										<p>Using the plotly library, visuals are created to understand the rising cost of housing in the bay area. Data was collected from the 
-										Federal Reserve Bank of St. Louis. The house price index, workers index, rent index,  income index, and consumer price index were all utilized.
-										The final part of the notebook uses Facebook's Prophet to make a prediction on the cost of housing in the coming years.</p>
-									</header>
-								</article>
-								<article>
-									<span class="image">
-										<img src="images/Network_img.jpg" alt="" />
-									</span>
-									<header class="major">
-										<h3><a href="https://github.com/danielbsimpson/Mask-Recognition-using-CNN-and-Transfer-Learning" class="link">CNN and Transfer Learning</a></h3>
-										<p>Implementation of two Convolutional Neural Networks for face mask detection using Keras. A Kaggle image dataset was used for training. 
-										Transfer learning is used in the second part to demostrate the usefulness of pre-trained models. InceptionResNetV2 pre-trained model is
-										used for transfer learning and Matplotlib is used for visualization of training over time.</p>
-									</header>
-								</article>
-								<article>
-									<span class="image">
-										<img src="images/maps.jpg" alt="" />
-									</span>
-									<header class="major">
-										<h3><a href="https://www.kaggle.com/dbsimpson/covid-19-choropleth-visuals" class="link">Visualizing Covid-19 with Choropleth Maps</a></h3>
-										<p>A Kaggle Notebook Using Plotly choropleth maps to visualize diagnosed Covid-19 cases and related deaths.
-										Geojson maps of the US by state and countries by continent and globally are looked at over time since the start of the pandemic.</p>
-									</header>
-								</article>
-								<article>
-									<span class="image">
-										<img src="images/python.jpg" alt="" />
-									</span>
-									<header class="major">
-										<h3><a href="https://www.kaggle.com/dbsimpson/multiple-models-for-titanic-data-set" class="link">Multiple models on Titanic Dataset</a></h3>
-										<p>A Kaggle Notebook using Python, I apply multiple machine learning algorithms to model surival of passengers on the Titanic Dataset. Gaussian Naive Bayes, Logistic Regression, Decision Tree, KNN,
-										Random Forest, Support Vector Classifier, XGBoost, and Neural Networks are all applied. Sci-kit learn and keras are the libraries that I used for this project. k-fold cross Validation
-										is used to access each models performance.</p>
-									</header>
-								</article>
-								<article>
-									<span class="image">
-										<img src="images/virus.jpg" alt="" />
-									</span>
-									<header class="major">
-										<h3><a href="https://github.com/danielbsimpson/Bar-Chart-Race-Covid-19" class="link">Covid-19 Bar Chart Race</a></h3>
-										<p>A bar chart race of the states with the highest diagnosed cases of Covid-19 in the United States.
-										Data goes from end of January to September and uses Pandas for data storage/manipulation along with Matplotlib for data visualization.</p>
+										<h3><a href="budget_app/index.html" class="link">Personal Budget Dashboard</a></h3>
+										<p>Interactive personal finance dashboard tracking income, expenses, and savings with configurable categories and dynamic Chart.js charts — fully client-side, no backend.</p>
 									</header>
 								</article>
 
 								<article>
 									<span class="image">
-										<img src="images/US_Map.jpg" alt="" />
+										<img src="images/London.jpg" alt="" />
 									</span>
 									<header class="major">
-										<h3><a href="https://github.com/danielbsimpson/Traveling-Salesman" class="link">Traveling Salesman</a></h3>
-										<p>Solving the traveling salesman problem using a random search algorithm to find the shortest path available. Tkinter is used for map visualization, identifying the
-										location and order by which each city should be visited.</p>
+										<h3><a href="https://github.com/danielbsimpson/IBM-Data-Science-Capstone" class="link">Clustering Business Investments — London</a></h3>
+										<p>K-means clustering on London borough demographic data, combined with FourSquare venue data, to identify optimal business investment opportunities across the city.</p>
 									</header>
 								</article>
+
+							</section>
+
+						<!-- Additional Projects -->
+							<section class="project-grid-section">
+								<div class="inner">
+									<span class="section-label">All Projects</span>
+									<header class="major">
+										<h2>More Projects</h2>
+									</header>
+									<div class="project-grid">
+
+										<div class="project-card">
+
+											<h4><a href="https://github.com/danielbsimpson/MMA-ML-Predictions">UFC Fight Predictions</a></h4>
+											<p>Multiple ML models trained on 5,000+ UFC fights (1993–2019) to predict outcomes, then used to forecast the 5 main fights in UFC 259 with SKLearn, XGBoost, and Keras.</p>
+										</div>
+
+										<div class="project-card">
+											<h4><a href="https://github.com/danielbsimpson/Anomaly-Detection">Anomaly Detection with ML</a></h4>
+											<p>Applies k-means, isolation forests, SVM, and LSTMs to NAB benchmark datasets, then tests supervised fraud detection techniques on a credit card dataset.</p>
+										</div>
+
+										<div class="project-card">
+
+											<h4><a href="https://github.com/danielbsimpson/Mask-Recognition-using-CNN-and-Transfer-Learning">CNN &amp; Transfer Learning</a></h4>
+											<p>Two CNNs for mask detection — one trained from scratch, one leveraging InceptionResNetV2 transfer learning — demonstrating pre-trained model efficiency.</p>
+										</div>
+
+										<div class="project-card">
+											<h4><a href="https://github.com/danielbsimpson/regression_world_data">Regression Inference — Life Expectancy</a></h4>
+											<p>OLS regression with p-value-driven feature selection on world health data to identify the strongest statistical predictors of life expectancy.</p>
+										</div>
+
+										<div class="project-card">
+											<h4><a href="https://www.kaggle.com/dbsimpson/us-wages">Visualizing Wages in the US</a></h4>
+											<p>Interactive Plotly visuals from Federal Reserve data exploring the effects of the dot-com boom, 2008 crisis, and Covid-19 on US wages and employment.</p>
+										</div>
+
+										<div class="project-card">
+											<h4><a href="https://www.kaggle.com/dbsimpson/exploring-san-francisco-housing-with-plotly">San Francisco Housing Analysis</a></h4>
+											<p>Plotly visuals on Bay Area housing trends using Federal Reserve indices, with a Facebook Prophet forecast of future housing costs.</p>
+										</div>
+
+										<div class="project-card">
+											<h4><a href="https://www.kaggle.com/dbsimpson/covid-19-choropleth-visuals">Covid-19 Choropleth Maps</a></h4>
+											<p>Plotly choropleth maps visualizing Covid-19 cases and deaths across US states and global countries over time since the start of the pandemic.</p>
+										</div>
+
+										<div class="project-card">
+											<h4><a href="https://www.kaggle.com/dbsimpson/multiple-models-for-titanic-data-set">Multiple Models — Titanic Dataset</a></h4>
+											<p>Eight ML algorithms (Naive Bayes through XGBoost and Neural Networks) benchmarked on the Titanic survival dataset using k-fold cross-validation.</p>
+										</div>
+
+										<div class="project-card">
+											<h4><a href="https://github.com/danielbsimpson/Bar-Chart-Race-Covid-19">Covid-19 Bar Chart Race</a></h4>
+											<p>Animated bar chart race of US state-level Covid-19 case counts from January to September 2020, built with Pandas and Matplotlib.</p>
+										</div>
+
+										<div class="project-card">
+											<h4><a href="https://github.com/danielbsimpson/Traveling-Salesman">Traveling Salesman</a></h4>
+											<p>Random search algorithm solving the Traveling Salesman Problem with a Tkinter map visualization showing the optimal city visit order.</p>
+										</div>
+
+										<div class="project-card">
+											<h4><a href="https://used-cars-england.herokuapp.com/">UK Used Car Dashboard</a></h4>
+											<p>Plotly/Dash dashboard on 44,000+ UK used cars scraped from Autotrader with BeautifulSoup, deployed on Heroku for interactive price exploration.</p>
+										</div>
+
+									</div>
+								</div>
+							</section>
+
+						<!-- Work Projects -->
+							<section id="work-section">
+								<div class="inner">
+									<header class="major-work-header">
+										<h1>Work Projects</h1>
+									</header>
+									<div class="work-tile-grid">
+										<div class="work-tile">Customer Lifetime Value Models</div>
+										<div class="work-tile">Loyalty Churn Model</div>
+										<div class="work-tile">Comments Ingestion NLP Pipeline</div>
+										<div class="work-tile">Omnichannel Propensity Model</div>
+										<div class="work-tile">Large Language Model Prototype</div>
+										<div class="work-tile">Snowflake Cortex LLM Dashboards</div>
+										<div class="work-tile">EComm Customer Segmentation</div>
+										<div class="work-tile">Retail Store Clustering Analysis</div>
+										<div class="work-tile">Brand Health Survey Analysis</div>
+										<div class="work-tile">Email NLP Analysis</div>
+										<div class="work-tile">Attribution Model</div>
+										<div class="work-tile">Customer Acquisition Model</div>
+										<div class="work-tile">MLDevOps Dashboard</div>
+										<div class="work-tile">Customer Survival Analysis</div>
+										<div class="work-tile">Cox Proportional Hazard Model</div>
+										<div class="work-tile">Snowpark CLTV POC</div>
+										<div class="work-tile">Customer Service Dashboard</div>
+										<div class="work-tile">Early Access Product Selector</div>
+									</div>
+								</div>
+							</section>
 
 						<!-- OLD CONTENT 
 								<article>
@@ -354,48 +292,60 @@
 
 				<!-- Contact -->
 					<section id="contact">
-						<div class="inner">
+					<div class="inner">
 
-							<section class="split">
-								<section>
-									<div class="contact-method">
-										<span class="icon solid alt fa-envelope"></span>
-										<h3>Email</h3>
-										<a href="mailto:simpson.danielb@gmail.com">simpson.danielb@gmail.com</a>
-									</div>
-								</section>
-								<section>
-									<div class="contact-method">
-										<span class="icon solid alt fa-phone"></span>
-										<h3>Phone</h3>
-										<span>+1 (617) 564-6001</span>
-									</div>
-								</section>
-								<section>
-									<div class="contact-method">
-										<span class="icon solid alt fa-home"></span>
-										<h3>Address</h3>
-										<span>Framingham<br />
-										Massachusetts, USA</span>
-									</div>
-								</section>
+						<section class="split">
+							<section>
+								<div class="contact-method">
+									<span class="icon solid alt fa-envelope"></span>
+									<h3>Email</h3>
+									<a href="mailto:simpson.danielb@gmail.com">simpson.danielb@gmail.com</a>
+								</div>
 							</section>
-						</div>
-					</section>
+							<section>
+								<div class="contact-method">
+									<span class="icon solid alt fa-phone"></span>
+									<h3>Phone</h3>
+									<span>+1 (617) 564-6001</span>
+								</div>
+							</section>
+							<section>
+								<div class="contact-method">
+									<span class="icon solid alt fa-home"></span>
+									<h3>Address</h3>
+									<span>Framingham<br />
+									Massachusetts, USA</span>
+								</div>
+							</section>
+						</section>
 
-				<!-- Footer -->
-					<footer id="footer">
-						<div class="inner">
-							<ul class="icons">
-								<li><a href="https://github.com/danielbsimpson" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
-								<li><a href="https://www.linkedin.com/in/daniel-b-simpson/" class="icon brands alt fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
-								<li><a href="https://www.instagram.com/danielbsimpson/?hl=en" class="icon brands alt fa-instagram"><span class="label">Instagram</span></a></li>
-							</ul>
-							<ul class="copyright">
-								<li>&copy; Untitled</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
-							</ul>
-						</div>
-					</footer>
+						<section class="split">
+							<section>
+								<div class="contact-method">
+									<span class="icon brands alt fa-github"></span>
+									<h3>GitHub</h3>
+									<a href="https://github.com/danielbsimpson">danielbsimpson</a>
+								</div>
+							</section>
+							<section>
+								<div class="contact-method">
+									<span class="icon brands alt fa-linkedin-in"></span>
+									<h3>LinkedIn</h3>
+									<a href="https://www.linkedin.com/in/daniel-b-simpson/">daniel-b-simpson</a>
+								</div>
+							</section>
+							<section>
+								<div class="contact-method">
+									<span class="icon brands alt fa-instagram"></span>
+									<h3>Instagram</h3>
+									<a href="https://www.instagram.com/danielbsimpson/">danielbsimpson</a>
+								</div>
+							</section>
+						</section>
+
+					</div>
+				</section>
+
 
 			</div>
 
@@ -407,6 +357,7 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+			<script src="assets/js/particles.js"></script>
 
 	</body>
 </html>

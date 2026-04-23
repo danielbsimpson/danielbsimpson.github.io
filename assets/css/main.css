@@ -1,5 +1,6 @@
 @import url(fontawesome-all.min.css);
 @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300italic,600,600italic");
+@import url("https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700&family=Orbitron:wght@400;600;700&display=swap");
 
 /*
 	Forty by HTML5 UP
@@ -3977,4 +3978,452 @@ input, select, textarea {
 	padding: 10px;
 	border-radius: 5px;
 	box-sizing: border-box;
+}
+
+/* ==========================================================================
+   DEEP SPACE THEME OVERRIDE
+   ========================================================================== */
+
+/* --- CSS Custom Properties --- */
+:root {
+	--space-bg:      #0a0a0a;
+	--space-bg2:     #0d0d0d;
+	--space-card:    #161616;
+	--space-card2:   #1c1c1c;
+	--space-border:  rgba(180, 200, 220, 0.12);
+	--space-accent:  #00aaff;
+	--space-glow:    0 0 20px rgba(0, 170, 255, 0.35);
+	--space-text:    #b8c4cc;
+	--space-heading: #dde6ed;
+	--space-dim:     rgba(180, 196, 208, 0.5);
+}
+
+/* --- Particle Canvas --- */
+#star-canvas {
+	position: fixed;
+	top: 0; left: 0;
+	width: 100%; height: 100%;
+	z-index: 0;
+	pointer-events: none;
+}
+
+#wrapper {
+	position: relative;
+	z-index: 1;
+}
+
+/* --- Global Background --- */
+body {
+	background: var(--space-bg) !important;
+}
+
+/* --- Typography --- */
+body, input, select, textarea {
+	color: var(--space-text);
+	font-family: "Exo 2", "Source Sans Pro", Helvetica, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	color: var(--space-heading);
+	font-family: "Orbitron", "Exo 2", sans-serif;
+	letter-spacing: 0.04em;
+}
+
+header.major > :first-child::after {
+	background-color: var(--space-accent) !important;
+	box-shadow: 0 0 8px var(--space-accent), 0 0 20px rgba(0, 170, 255, 0.3);
+}
+
+a:hover {
+	color: var(--space-accent) !important;
+}
+
+/* --- Header --- */
+#header {
+	background-color: rgba(8, 8, 8, 0.97) !important;
+	box-shadow: 0 1px 0 var(--space-border), 0 2px 20px rgba(0, 0, 0, 0.5) !important;
+	border-bottom: 1px solid var(--space-border);
+	backdrop-filter: blur(8px);
+}
+
+/* Always fixed — override the base theme's position:absolute on .alt */
+#header.alt {
+	position: fixed !important;
+	background-color: rgba(8, 8, 8, 0.97) !important;
+	box-shadow: 0 1px 0 var(--space-border), 0 2px 20px rgba(0, 0, 0, 0.5) !important;
+}
+
+#header .logo strong {
+	background-color: var(--space-accent) !important;
+	color: #060c1a !important;
+	font-family: "Orbitron", sans-serif;
+	letter-spacing: 0.08em;
+}
+
+#header .logo:hover strong {
+	background-color: #33bbff !important;
+	box-shadow: 0 0 14px rgba(0, 170, 255, 0.5);
+}
+
+/* --- Banner --- */
+#banner {
+	background-image: none !important;
+}
+
+#banner.major {
+	height: 37vh !important;
+	min-height: 15em !important;
+	max-height: 25em !important;
+	padding: 3em 0 1em 0 !important;
+}
+
+#banner:after {
+	display: none !important;
+}
+
+#banner h1 {
+	font-family: "Orbitron", sans-serif;
+	text-shadow: 0 0 30px rgba(0, 170, 255, 0.35), 0 0 60px rgba(0, 0, 0, 0.5);
+}
+
+#banner p {
+	color: rgba(190, 205, 215, 0.85);
+}
+
+#banner.style2:after {
+	display: none !important;
+}
+
+/* --- Main content area --- */
+#main {
+	background: transparent !important;
+}
+
+#main > * {
+	border-top-color: var(--space-border) !important;
+}
+
+/* --- Spotlights --- */
+.spotlights > section {
+	background-color: var(--space-card) !important;
+	border: 1px solid var(--space-border);
+}
+
+.spotlights > section:nth-child(2n) {
+	background-color: var(--space-card2) !important;
+}
+
+/* --- Buttons --- */
+.button {
+	border-color: rgba(180, 200, 220, 0.25) !important;
+	color: #ffffff !important;
+	transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.button:hover {
+	background-color: rgba(30, 30, 30, 0.8) !important;
+	border-color: var(--space-accent) !important;
+	box-shadow: var(--space-glow);
+	color: #ffffff !important;
+}
+
+.button.primary {
+	background-color: var(--space-accent) !important;
+	border-color: var(--space-accent) !important;
+	color: #060c1a !important;
+}
+
+.button.primary:hover {
+	background-color: #33bbff !important;
+	box-shadow: var(--space-glow);
+	color: #060c1a !important;
+}
+
+/* --- Tile overlay colours (dark charcoal) --- */
+.tiles article:nth-child(6n - 5):before { background-color: #111111 !important; }
+.tiles article:nth-child(6n - 4):before { background-color: #0e0e0e !important; }
+.tiles article:nth-child(6n - 3):before { background-color: #131313 !important; }
+.tiles article:nth-child(6n - 2):before { background-color: #101010 !important; }
+.tiles article:nth-child(6n - 1):before { background-color: #121212 !important; }
+.tiles article:nth-child(6n):before     { background-color: #0f0f0f !important; }
+
+.tiles article:after {
+	background-color: rgba(0, 0, 0, 0.45) !important;
+}
+
+.tiles article h3 {
+	font-family: "Orbitron", sans-serif;
+	font-size: 1.3em;
+}
+
+.tiles article h3 a:hover {
+	color: var(--space-accent) !important;
+	text-shadow: 0 0 10px rgba(0, 170, 255, 0.6);
+}
+
+/* --- Featured Tiles --- */
+.featured-tiles {
+	padding: 2em 1.5em;
+	gap: 1.2em;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.featured-tiles article {
+	width: calc(33.333% - 0.8em) !important;
+	height: 38vh !important;
+	max-height: 34em !important;
+	min-height: 20em !important;
+	border: 1px solid rgba(20, 20, 20, 0.9);
+	margin: 0 !important;
+	transition: transform 0.25s ease, opacity 0.25s ease, filter 1s ease, border-color 0.25s ease, box-shadow 0.25s ease !important;
+}
+
+.featured-tiles article:before {
+	background: linear-gradient(135deg, rgba(5,5,5,0.93) 0%, rgba(20,20,20,0.75) 100%) !important;
+}
+
+.featured-tiles article:hover {
+	border-color: var(--space-accent) !important;
+	box-shadow: 0 0 30px rgba(0, 170, 255, 0.25), inset 0 0 30px rgba(0, 100, 200, 0.08) !important;
+}
+
+.featured-tiles article h3 {
+	font-size: 1.4em;
+	text-shadow: 0 0 15px rgba(0, 170, 255, 0.4);
+}
+
+@media screen and (max-width: 980px) {
+	.featured-tiles article {
+		width: calc(50% - 0.6em) !important;
+	}
+}
+
+@media screen and (max-width: 736px) {
+	.featured-tiles {
+		padding: 1em 0.75em;
+		gap: 0.75em;
+	}
+	.featured-tiles article {
+		width: 100% !important;
+		height: 20em !important;
+		max-height: none !important;
+		min-height: 0 !important;
+	}
+	.featured-tiles article h3 {
+		font-size: 1.25em;
+	}
+}
+
+/* --- Compact Project Grid --- */
+.project-grid-section {
+	background: transparent;
+	border-top: solid 1px var(--space-border);
+}
+
+.project-grid-section > .inner {
+	padding: 4em 0 3.5em 0;
+	margin: 0 auto;
+	max-width: 65em;
+	width: calc(100% - 6em);
+}
+
+.project-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 1.5em;
+	margin-top: 2em;
+}
+
+.project-card {
+	background: var(--space-card);
+	border: 1px solid var(--space-border);
+	border-radius: 3px;
+	padding: 1.6em 1.8em;
+	transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.project-card:hover {
+	border-color: var(--space-accent);
+	box-shadow: 0 0 16px rgba(0, 170, 255, 0.18);
+	transform: translateY(-2px);
+}
+
+.project-card h4 {
+	font-family: "Orbitron", sans-serif;
+	font-size: 0.68em;
+	letter-spacing: 0.06em;
+	margin-bottom: 0.55em;
+	line-height: 1.5;
+}
+
+.project-card h4 a {
+	border: 0 !important;
+	color: var(--space-accent) !important;
+	transition: color 0.2s ease !important;
+}
+
+.project-card h4 a:hover {
+	color: #66ccff !important;
+	text-shadow: 0 0 8px rgba(0, 170, 255, 0.5);
+}
+
+.project-card p {
+	font-size: 0.72em;
+	color: var(--space-dim);
+	line-height: 1.6;
+	margin: 0;
+}
+
+@media screen and (max-width: 980px) {
+	.project-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media screen and (max-width: 480px) {
+	.project-grid { grid-template-columns: 1fr; }
+	.project-grid-section > .inner { width: calc(100% - 3em); padding: 3em 0 2em 0; }
+}
+
+/* --- Work Projects Section --- */
+#work-section {
+	background: transparent;
+}
+
+#work-section > .inner {
+	padding: 3em;
+	margin: 0 auto;
+	max-width: 65em;
+	background: var(--space-card);
+	border: 1px solid var(--space-border);
+	border-radius: 4px;
+	width: calc(100% - 6em);
+}
+
+.major-work-header h1 {
+	font-family: "Orbitron", sans-serif !important;
+	color: var(--space-accent) !important;
+	font-size: 1.3em !important;
+	letter-spacing: 0.1em !important;
+	border-bottom: 1px solid var(--space-border);
+	padding-bottom: 0.6em;
+	margin-bottom: 1.2em !important;
+}
+
+.work-tile-grid {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.65em;
+}
+
+.work-tile {
+	background: var(--space-card);
+	border: 1px solid var(--space-border);
+	border-radius: 3px;
+	padding: 0.55em 1.1em;
+	font-family: "Exo 2", "Source Sans Pro", sans-serif;
+	font-size: 0.72em;
+	color: var(--space-text);
+	letter-spacing: 0.02em;
+	white-space: nowrap;
+	cursor: default;
+	user-select: none;
+}
+
+@media screen and (max-width: 736px) {
+	.work-tile {
+		font-size: 0.7em;
+		padding: 0.5em 0.9em;
+	}
+	#work-section > .inner { padding: 2em; width: calc(100% - 3em); }
+}
+
+/* --- Contact social column --- */
+.contact-social {
+	padding-top: 1em;
+}
+
+.contact-social h3 {
+	font-family: "Orbitron", sans-serif;
+	font-size: 0.75em;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: var(--space-accent);
+	margin-bottom: 1.2em;
+}
+
+.contact-social .icons {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 1em;
+}
+
+.contact-social .icons li {
+	display: block;
+	padding: 0;
+}
+
+.contact-social .icons li a {
+	border: 0;
+	display: flex;
+	align-items: center;
+	gap: 0.75em;
+	color: var(--space-text);
+	font-size: 0.9em;
+	transition: color 0.2s ease;
+}
+
+.contact-social .icons li a:hover {
+	color: var(--space-accent) !important;
+	text-shadow: 0 0 10px rgba(0, 170, 255, 0.5);
+}
+
+.contact-social .icons li a .icon-label {
+	font-family: "Exo 2", sans-serif;
+	letter-spacing: 0.04em;
+}
+
+/* --- Contact --- */
+#contact {
+	background: transparent !important;
+	border-color: var(--space-border) !important;
+}
+
+#contact .contact-method .icon {
+	color: var(--space-accent) !important;
+}
+
+/* --- Footer --- */
+#footer {
+	background-color: rgba(6, 12, 26, 0.98) !important;
+	border-top: solid 1px var(--space-border) !important;
+}
+
+#footer .icons a:hover {
+	color: var(--space-accent) !important;
+	text-shadow: 0 0 10px rgba(0, 170, 255, 0.5);
+}
+
+/* --- Menu --- */
+#menu {
+	background: rgba(5, 5, 5, 0.98) !important;
+	backdrop-filter: blur(16px);
+}
+
+#menu ul.links > li > a:not(.button) {
+	border-top-color: var(--space-border) !important;
+}
+
+/* --- Section eyebrow label --- */
+.section-label {
+	font-family: "Orbitron", sans-serif;
+	font-size: 0.6em;
+	letter-spacing: 0.22em;
+	text-transform: uppercase;
+	color: var(--space-accent);
+	margin-bottom: 0.4em;
+	opacity: 0.85;
+	display: block;
 }
