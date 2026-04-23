@@ -12,8 +12,21 @@
 		<link rel="icon" type="image/png" href="images/basic_ds.png" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<style>
+			#banner.style2 {
+				align-items: flex-start !important;
+				padding-top: 8em !important;
+				height: auto !important;
+				min-height: 34em !important;
+				max-height: none !important;
+				margin-bottom: 0 !important;
+			}
+		</style>
 	</head>
 	<body class="is-preload">
+
+		<!-- Star field canvas (behind everything) -->
+		<canvas id="star-canvas"></canvas>
 
 		<!-- Wrapper -->
 			<div id="wrapper">
@@ -69,56 +82,41 @@
 							</section>
 
 						<!-- Two -->
-							<section id="two" class="spotlights">
-								<section>
-									<a href="generic.html" class="image">
-										<img src="images/stocks.jpg" alt="" data-position="center center" />
-									</a>
-									<div class="content">
-										<div class="inner">
-											<header class="major">
-												<h3>Primary Objective</h3>
-											</header>
-											<p>The goal of this project is to explore utilizing a dollar cost averaging like strategy along with Long short-term memory neural network models to autonomously manage portfolios from a specific basket of pre-determined assets. 
-											The model will determine when to buy assets, sell assets, hold assets, and when to simply hold onto dollars to maximize profits over long periods of time. 
-											This could be useful for those who don't have the ability to pay the premium of a fund manager, or who don't have the available assets to get into the market with an early lump sum;
-											yet wish to invest every pay period with a well-informed purchase decision. <br />
-											In the end everything will come together to form the diversified portfolio, a model for each stock to indicate each pay period whether to purchase or sell said stock. 
-											Stocks with purchase orders for the said pay period will be looked at and potentially bought, while stocks with sell orders will be dumped in exchange for liquid cash, 
-											which can then be funneled into the purchase of other stocks. If no stocks have a positive outlook for the month, liquid cash can be held within the account. 
-											Any leftover cash will be carried over into the next pay period to be invested later.</p>
-											</ul>
-										</div>
-									</div>
-								</section>
-								<section>
-									<a href="generic.html" class="image">
-										<img src="images/microtubules.jpg" alt="" data-position="top center" />
-									</a>
-									<div class="content">
-										<div class="inner">
-											<header class="major">
-												<h3>Secondary Objective</h3>
-											</header>
-											<p>As an additional goal I hope to optimize the models using genetic algorithms. 
-											Pitting a set of random Long short-term memory neural network models against each other for each stock, and carrying over the winners' features, natural selection will root out the optimal strategy for each share. 
-											Depending on the time it takes to run and train these models or if the models seem to stabilize, will determine the number of generations that can be utilized before optimization is deemed complete.
-											</p>
-											</ul>
-										</div>
-									</div>
-								</section>
-								</section>
+							<section id="two">
+								<div class="inner">
+									<header class="major">
+										<h3>Primary Objective</h3>
+									</header>
+									<p>The goal of this project is to explore utilizing a dollar cost averaging like strategy along with Long short-term memory neural network models to autonomously manage portfolios from a specific basket of pre-determined assets.
+									The model will determine when to buy assets, sell assets, hold assets, and when to simply hold onto dollars to maximize profits over long periods of time.
+									This could be useful for those who don't have the ability to pay the premium of a fund manager, or who don't have the available assets to get into the market with an early lump sum;
+									yet wish to invest every pay period with a well-informed purchase decision.</p>
+									<p>In the end everything will come together to form the diversified portfolio, a model for each stock to indicate each pay period whether to purchase or sell said stock.
+									Stocks with purchase orders for the said pay period will be looked at and potentially bought, while stocks with sell orders will be dumped in exchange for liquid cash,
+									which can then be funneled into the purchase of other stocks. If no stocks have a positive outlook for the month, liquid cash can be held within the account.
+									Any leftover cash will be carried over into the next pay period to be invested later.</p>
+								</div>
 							</section>
 
 						<!-- Three -->
 							<section id="three">
 								<div class="inner">
 									<header class="major">
+										<h3>Secondary Objective</h3>
+									</header>
+									<p>As an additional goal I hope to optimize the models using genetic algorithms.
+									Pitting a set of random Long short-term memory neural network models against each other for each stock, and carrying over the winners' features, natural selection will root out the optimal strategy for each share.
+									Depending on the time it takes to run and train these models or if the models seem to stabilize, will determine the number of generations that can be utilized before optimization is deemed complete.</p>
+								</div>
+							</section>
+
+						<!-- Four -->
+							<section id="four">
+								<div class="inner">
+									<header class="major">
 										<h2>Contact Me</h2>
 									</header>
 									<p>If you would like to discuss this project with me in detail please feel free to contact me!</p>
-									</ul>
 								</div>
 							</section>
 
@@ -126,47 +124,60 @@
 
 				<!-- Contact -->
 					<section id="contact">
-						<div class="inner">
-							<section class="split">
-								<section>
-									<div class="contact-method">
-										<span class="icon solid alt fa-envelope"></span>
-										<h3>Email</h3>
-										<a href="mailto:simpson.danielb@gmail.com">simpson.danielb@gmail.com</a>
-									</div>
-								</section>
-								<section>
-									<div class="contact-method">
-										<span class="icon solid alt fa-phone"></span>
-										<h3>Phone</h3>
-										<span>+1 (617) 564-6001</span>
-									</div>
-								</section>
-								<section>
-									<div class="contact-method">
-										<span class="icon solid alt fa-home"></span>
-										<h3>Address</h3>
-										<span>Framingham<br />
-										Massachusetts, USA</span>
-									</div>
-								</section>
+					<div class="inner">
+
+						<section class="split">
+							<section>
+								<div class="contact-method">
+									<span class="icon solid alt fa-envelope"></span>
+									<h3>Email</h3>
+									<a href="mailto:simpson.danielb@gmail.com">simpson.danielb@gmail.com</a>
+								</div>
 							</section>
-						</div>
+							<section>
+								<div class="contact-method">
+									<span class="icon solid alt fa-phone"></span>
+									<h3>Phone</h3>
+									<span>+1 (617) 564-6001</span>
+								</div>
+							</section>
+							<section>
+								<div class="contact-method">
+									<span class="icon solid alt fa-home"></span>
+									<h3>Address</h3>
+									<span>Framingham<br />
+									Massachusetts, USA</span>
+								</div>
+							</section>
+						</section>
+
+						<section class="split">
+							<section>
+								<div class="contact-method">
+									<span class="icon brands alt fa-github"></span>
+									<h3>GitHub</h3>
+									<a href="https://github.com/danielbsimpson">danielbsimpson</a>
+								</div>
+							</section>
+							<section>
+								<div class="contact-method">
+									<span class="icon brands alt fa-linkedin-in"></span>
+									<h3>LinkedIn</h3>
+									<a href="https://www.linkedin.com/in/daniel-b-simpson/">daniel-b-simpson</a>
+								</div>
+							</section>
+							<section>
+								<div class="contact-method">
+									<span class="icon brands alt fa-instagram"></span>
+									<h3>Instagram</h3>
+									<a href="https://www.instagram.com/danielbsimpson/">danielbsimpson</a>
+								</div>
+							</section>
+						</section>
+
+					</div>
 					</section>
 
-				<!-- Footer -->
-					<footer id="footer">
-						<div class="inner">
-							<ul class="icons">
-								<li><a href="https://github.com/danielbsimpson" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
-								<li><a href="https://www.linkedin.com/in/daniel-b-simpson/" class="icon brands alt fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
-								<li><a href="https://www.instagram.com/danielbsimpson/?hl=en" class="icon brands alt fa-instagram"><span class="label">Instagram</span></a></li>
-							</ul>
-							<ul class="copyright">
-								<li>&copy; Untitled</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
-							</ul>
-						</div>
-					</footer>
 
 			</div>
 
@@ -178,6 +189,7 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+			<script src="assets/js/particles.js"></script>
 
 	</body>
 
