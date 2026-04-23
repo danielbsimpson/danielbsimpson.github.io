@@ -4200,6 +4200,9 @@ a:hover {
 }
 
 @media screen and (max-width: 736px) {
+	#banner.major {
+		padding: 6em 0 1em 0 !important;
+	}
 	.featured-tiles {
 		padding: 1em 0.75em;
 		gap: 0.75em;
