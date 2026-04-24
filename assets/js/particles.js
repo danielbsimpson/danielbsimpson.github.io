@@ -21,32 +21,12 @@
 	var spikeAngle  = 0;         // very slow rotation of diffraction spikes
 	var scrollDirty = false;
 
-	// Intensity target for each section — increases as user scrolls deeper
-	var SECTION_MAP = [
-		{ selector: '#banner',               intensity: 0.15 },
-		{ selector: '#one',                  intensity: 0.45 },
-		{ selector: '.project-grid-section', intensity: 0.65 },
-		{ selector: '#work-section',         intensity: 0.75 },
-		{ selector: '#two',                  intensity: 0.88 },
-		{ selector: '#contact',              intensity: 1.00 }
-	];
-
+	// Intensity maps continuously to scroll position (0.15 at top → 1.0 at bottom)
 	function computeTargetIntensity() {
-		var viewH = window.innerHeight;
-		var best  = { intensity: 0.15, overlap: 0 };
-		SECTION_MAP.forEach(function (s) {
-			var el = document.querySelector(s.selector);
-			if (!el) return;
-			var rect = el.getBoundingClientRect();
-			// How much of the section overlaps the central 60 % of the viewport?
-			var visTop  = Math.max(rect.top,    viewH * 0.2);
-			var visBot  = Math.min(rect.bottom, viewH * 0.8);
-			var overlap = Math.max(0, visBot - visTop);
-			if (overlap > best.overlap) {
-				best = { intensity: s.intensity, overlap: overlap };
-			}
-		});
-		return best.intensity;
+		var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+		var maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+		var t = Math.min(1, Math.max(0, scrollTop / maxScroll));
+		return 0.15 + t * 0.85;
 	}
 
 	// ── Central star renderer ───────────────────────────────────────────────
@@ -172,14 +152,14 @@
 			ctx.fillRect(px - radius - 1, py - radius - 1, radius * 2 + 2, radius * 2 + 2);
 		}
 
-		// Shadow overlay — darkness on unlit side, transparent on lit side
+		// Shadow overlay — darkness on unlit side, wide soft penumbra, transparent on lit side
 		var shadowG = ctx.createLinearGradient(darkEdgeX, darkEdgeY, litEdgeX, litEdgeY);
 		shadowG.addColorStop(0,                                      'rgba(0, 2, 8, 1.0)');
-		shadowG.addColorStop(Math.max(0, termPos - 0.09),            'rgba(0, 2, 8, 1.0)');
-		shadowG.addColorStop(Math.max(0, termPos - 0.04),            'rgba(0, 5, 15, 0.82)');
-		shadowG.addColorStop(termPos,                                'rgba(5, 10, 25, 0.32)');
-		shadowG.addColorStop(Math.min(1, termPos + 0.05),            'rgba(0, 0, 0, 0.06)');
-		shadowG.addColorStop(Math.min(1, termPos + 0.15),            'rgba(0, 0, 0, 0)');
+		shadowG.addColorStop(Math.max(0, termPos - 0.22),            'rgba(0, 2, 8, 1.0)');
+		shadowG.addColorStop(Math.max(0, termPos - 0.12),            'rgba(0, 4, 12, 0.90)');
+		shadowG.addColorStop(termPos,                                'rgba(5, 10, 25, 0.42)');
+		shadowG.addColorStop(Math.min(1, termPos + 0.14),            'rgba(0, 0, 0, 0.08)');
+		shadowG.addColorStop(Math.min(1, termPos + 0.30),            'rgba(0, 0, 0, 0)');
 		shadowG.addColorStop(1,                                      'rgba(0, 0, 0, 0)');
 		ctx.fillStyle = shadowG;
 		ctx.fillRect(px - radius - 1, py - radius - 1, radius * 2 + 2, radius * 2 + 2);
@@ -268,8 +248,8 @@
 			scrollDirty = false;
 		}
 
-		// Smoothly lerp intensity toward target (~1.5 s transition at 60 fps)
-		starIntensity += (targetIntensity - starIntensity) * 0.025;
+		// Smoothly lerp intensity toward target — fast enough to track each scroll pixel
+		starIntensity += (targetIntensity - starIntensity) * 0.07;
 
 		// Advance animation state
 		pulsePhase += 0.018;
