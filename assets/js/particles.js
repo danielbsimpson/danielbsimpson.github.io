@@ -113,10 +113,12 @@
 	function drawPlanet() {
 		var starX = canvas.width  * 0.5;
 		var starY = canvas.height * 0.36;
-		var radius = 110;
-		// Position: lower-right of the star, further out
-		var px = starX + 320;
-		var py = starY + 260;
+		// Scale planet size and offset relative to canvas width so it stays
+		// on-screen at all viewport sizes (phones, tablets, desktops).
+		var scale  = Math.min(1, canvas.width / 960);
+		var radius = Math.max(55, Math.round(110 * scale));
+		var px = Math.min(canvas.width  - radius - 4, starX + 320 * scale);
+		var py = Math.min(canvas.height - radius - 4, starY  + 260 * scale);
 
 		var eff = Math.min(1, Math.max(0, starIntensity));
 
