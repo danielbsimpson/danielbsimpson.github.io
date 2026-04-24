@@ -125,6 +125,10 @@
 		ctx.fill();
 	}
 
+	// ── Planet image preload ──────────────────────────────────────────────
+	var earthImage = new Image();
+	earthImage.src = 'images/earth_image.png';
+
 	// ── Planet renderer ────────────────────────────────────────────────────
 	function drawPlanet() {
 		var starX = canvas.width  * 0.5;
@@ -160,30 +164,24 @@
 		ctx.arc(px, py, radius, 0, Math.PI * 2);
 		ctx.clip();
 
-		// Dark planet base
-		ctx.fillStyle = 'rgb(5, 8, 15)';
-		ctx.fillRect(px - radius - 1, py - radius - 1, radius * 2 + 2, radius * 2 + 2);
+		// Draw earth image if loaded, otherwise fall back to dark fill
+		if (earthImage.complete && earthImage.naturalWidth > 0) {
+			ctx.drawImage(earthImage, px - radius, py - radius, radius * 2, radius * 2);
+		} else {
+			ctx.fillStyle = 'rgb(5, 8, 15)';
+			ctx.fillRect(px - radius - 1, py - radius - 1, radius * 2 + 2, radius * 2 + 2);
+		}
 
-		// Subtle dark surface texture
-		var surfG = ctx.createRadialGradient(
-			px + dx * radius * 0.3, py + dy * radius * 0.3, 0,
-			px, py, radius
-		);
-		surfG.addColorStop(0, 'rgba(20, 26, 44, 1)');
-		surfG.addColorStop(1, 'rgba(5, 8, 15, 1)');
-		ctx.fillStyle = surfG;
-		ctx.fillRect(px - radius - 1, py - radius - 1, radius * 2 + 2, radius * 2 + 2);
-
-		// Illumination gradient from dark edge → lit edge
-		var illumG = ctx.createLinearGradient(darkEdgeX, darkEdgeY, litEdgeX, litEdgeY);
-		illumG.addColorStop(0,                                      'rgba(5, 8, 15, 1)');
-		illumG.addColorStop(Math.max(0, termPos - 0.09),            'rgba(5, 8, 15, 1)');
-		illumG.addColorStop(Math.max(0, termPos - 0.04),            'rgba(12, 28, 55, '  + (eff * 0.55) + ')');
-		illumG.addColorStop(termPos,                                'rgba(38, 72, 128, ' + (eff * 0.72) + ')');
-		illumG.addColorStop(Math.min(1, termPos + 0.05),            'rgba(72, 116, 178, '+ (eff * 0.84) + ')');
-		illumG.addColorStop(Math.min(1, termPos + 0.18),            'rgba(108, 152, 210,'+ (eff * 0.91) + ')');
-		illumG.addColorStop(1,                                      'rgba(155, 195, 240, '+ (eff * 0.93) + ')');
-		ctx.fillStyle = illumG;
+		// Shadow overlay — darkness on unlit side, transparent on lit side
+		var shadowG = ctx.createLinearGradient(darkEdgeX, darkEdgeY, litEdgeX, litEdgeY);
+		shadowG.addColorStop(0,                                      'rgba(0, 2, 8, 1.0)');
+		shadowG.addColorStop(Math.max(0, termPos - 0.09),            'rgba(0, 2, 8, 1.0)');
+		shadowG.addColorStop(Math.max(0, termPos - 0.04),            'rgba(0, 5, 15, 0.82)');
+		shadowG.addColorStop(termPos,                                'rgba(5, 10, 25, 0.32)');
+		shadowG.addColorStop(Math.min(1, termPos + 0.05),            'rgba(0, 0, 0, 0.06)');
+		shadowG.addColorStop(Math.min(1, termPos + 0.15),            'rgba(0, 0, 0, 0)');
+		shadowG.addColorStop(1,                                      'rgba(0, 0, 0, 0)');
+		ctx.fillStyle = shadowG;
 		ctx.fillRect(px - radius - 1, py - radius - 1, radius * 2 + 2, radius * 2 + 2);
 
 		ctx.restore();
