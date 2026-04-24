@@ -125,6 +125,93 @@
 		ctx.fill();
 	}
 
+	// ── Planet renderer ────────────────────────────────────────────────────
+	function drawPlanet() {
+		var starX = canvas.width  * 0.5;
+		var starY = canvas.height * 0.36;
+		var radius = 110;
+		// Position: lower-right of the star, further out
+		var px = starX + 320;
+		var py = starY + 260;
+
+		var eff = Math.min(1, Math.max(0, starIntensity));
+
+		// Direction from planet toward star (normalized)
+		var dx = starX - px;
+		var dy = starY - py;
+		var dlen = Math.sqrt(dx * dx + dy * dy);
+		dx /= dlen; dy /= dlen;
+
+		// Star-facing edge and opposite dark edge
+		var litEdgeX  = px + dx * radius;
+		var litEdgeY  = py + dy * radius;
+		var darkEdgeX = px - dx * radius;
+		var darkEdgeY = py - dy * radius;
+
+		// Terminator position in gradient (0 = darkEdge, 1 = litEdge)
+		// eff=0  → 0.94 (tiny crescent, nearly all dark)
+		// eff=1  → 0.50 (full half illuminated)
+		var termPos = 0.94 - eff * 0.44;
+
+		ctx.save();
+
+		// Clip to planet disc
+		ctx.beginPath();
+		ctx.arc(px, py, radius, 0, Math.PI * 2);
+		ctx.clip();
+
+		// Dark planet base
+		ctx.fillStyle = 'rgb(5, 8, 15)';
+		ctx.fillRect(px - radius - 1, py - radius - 1, radius * 2 + 2, radius * 2 + 2);
+
+		// Subtle dark surface texture
+		var surfG = ctx.createRadialGradient(
+			px + dx * radius * 0.3, py + dy * radius * 0.3, 0,
+			px, py, radius
+		);
+		surfG.addColorStop(0, 'rgba(20, 26, 44, 1)');
+		surfG.addColorStop(1, 'rgba(5, 8, 15, 1)');
+		ctx.fillStyle = surfG;
+		ctx.fillRect(px - radius - 1, py - radius - 1, radius * 2 + 2, radius * 2 + 2);
+
+		// Illumination gradient from dark edge → lit edge
+		var illumG = ctx.createLinearGradient(darkEdgeX, darkEdgeY, litEdgeX, litEdgeY);
+		illumG.addColorStop(0,                                      'rgba(5, 8, 15, 1)');
+		illumG.addColorStop(Math.max(0, termPos - 0.09),            'rgba(5, 8, 15, 1)');
+		illumG.addColorStop(Math.max(0, termPos - 0.04),            'rgba(12, 28, 55, '  + (eff * 0.55) + ')');
+		illumG.addColorStop(termPos,                                'rgba(38, 72, 128, ' + (eff * 0.72) + ')');
+		illumG.addColorStop(Math.min(1, termPos + 0.05),            'rgba(72, 116, 178, '+ (eff * 0.84) + ')');
+		illumG.addColorStop(Math.min(1, termPos + 0.18),            'rgba(108, 152, 210,'+ (eff * 0.91) + ')');
+		illumG.addColorStop(1,                                      'rgba(155, 195, 240, '+ (eff * 0.93) + ')');
+		ctx.fillStyle = illumG;
+		ctx.fillRect(px - radius - 1, py - radius - 1, radius * 2 + 2, radius * 2 + 2);
+
+		ctx.restore();
+
+		// Atmospheric rim glow on the lit side
+		if (eff > 0.05) {
+			var atmRad = radius + 5;
+			var atmG = ctx.createRadialGradient(
+				px + dx * radius * 0.5, py + dy * radius * 0.5, radius * 0.88,
+				px, py, atmRad
+			);
+			atmG.addColorStop(0,   'rgba(70, 120, 220, 0)');
+			atmG.addColorStop(0.5, 'rgba(65, 115, 205, ' + (eff * 0.11) + ')');
+			atmG.addColorStop(1,   'rgba(45,  85, 175, 0)');
+			ctx.beginPath();
+			ctx.arc(px, py, atmRad, 0, Math.PI * 2);
+			ctx.fillStyle = atmG;
+			ctx.fill();
+		}
+
+		// Dark rim to define planet edge against background
+		ctx.beginPath();
+		ctx.arc(px, py, radius, 0, Math.PI * 2);
+		ctx.strokeStyle = 'rgba(30, 45, 80, ' + (0.3 + eff * 0.12) + ')';
+		ctx.lineWidth = 0.8;
+		ctx.stroke();
+	}
+
 	// ── Drifting star field ─────────────────────────────────────────────────
 	function resize() {
 		canvas.width  = window.innerWidth;
@@ -193,11 +280,14 @@
 		// Central star drawn first (sits behind everything)
 		drawCentralStar();
 
-		// Drifting stars on top
+		// Drifting stars on top of star glow, but behind planet
 		for (var i = 0; i < stars.length; i++) {
 			stars[i].update();
 			stars[i].draw();
 		}
+
+		// Planet drawn last — fully opaque base ensures stars don't show through
+		drawPlanet();
 
 		requestAnimationFrame(animate);
 	}
