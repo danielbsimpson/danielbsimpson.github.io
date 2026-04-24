@@ -3952,12 +3952,12 @@ input, select, textarea {
 			visibility: visible;
 		}
 
-#two .inner {
+body.page-index #two .inner {
 	max-width: 1200px;
 	margin: 0 auto;
 }
 
-#two .major-work-header h1 {
+body.page-index #two .major-work-header h1 {
     text-align: center;
     margin: 0 auto;
 	border-bottom: 2px solid #ccc;
@@ -4397,6 +4397,15 @@ a:hover {
 #contact {
 	background: transparent !important;
 	border-color: var(--space-border) !important;
+	border-bottom: none !important;
+}
+
+#contact > .inner > :nth-child(2n - 1) {
+	border-right: none !important;
+}
+
+#contact > .inner > .split > *:before {
+	border-top: none !important;
 }
 
 #contact .contact-method .icon {
