@@ -113,14 +113,21 @@
 	function drawPlanet() {
 		var starX = canvas.width  * 0.5;
 		var starY = canvas.height * 0.36;
-		// Scale planet size and offset relative to canvas width so it stays
-		// on-screen at all viewport sizes (phones, tablets, desktops).
+		// Scale planet size relative to canvas width for all viewport sizes.
 		var scale  = Math.min(1, canvas.width / 960);
 		var radius = Math.max(55, Math.round(110 * scale));
-		var px = Math.min(canvas.width  - radius - 4, starX + 320 * scale);
-		var py = Math.min(canvas.height - radius - 4, starY  + 260 * scale);
 
 		var eff = Math.min(1, Math.max(0, starIntensity));
+
+		// Orbit: planet starts lower-right and arcs counter-clockwise (toward
+		// upper-right) as the user scrolls down. Total travel ≈ 28° over the
+		// full page — subtle but continuous.
+		var orbitDist = Math.sqrt(320 * 320 + 260 * 260) * scale; // ≈ 413 * scale
+		var baseAngle = Math.atan2(260, 320);                      // starting angle (~39° below horizontal)
+		var orbitT    = (eff - 0.15) / 0.85;                       // 0 at top of page, 1 at bottom
+		var angle     = baseAngle - orbitT * 0.50;                 // counter-clockwise (0.50 rad ≈ 28.6°)
+		var px = Math.min(canvas.width  - radius - 4, Math.max(radius + 4, starX + Math.cos(angle) * orbitDist));
+		var py = Math.min(canvas.height - radius - 4, Math.max(radius + 4, starY  + Math.sin(angle) * orbitDist));
 
 		// Direction from planet toward star (normalized)
 		var dx = starX - px;
