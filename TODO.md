@@ -12,11 +12,11 @@
 - [x] Ensure planet images are consistent in style/resolution with the existing Earth asset
 
 ### Space Warp Transition
-- [ ] Implement a "zoom through space" animation when navigating between pages
-  - [ ] Research CSS/JS approaches (e.g. CSS keyframe warp tunnel, Three.js, Canvas)
-  - [ ] Trigger animation on outbound link click before the new page loads
-  - [ ] Mirror the animation on page load (arriving at the new planet)
-  - [ ] Ensure the transition degrades gracefully when JS is disabled or `prefers-reduced-motion` is set
+- [x] Implement a "zoom through space" animation when navigating between pages
+  - [x] Research CSS/JS approaches (e.g. CSS keyframe warp tunnel, Three.js, Canvas)
+  - [x] Trigger animation on outbound link click before the new page loads
+  - [x] Mirror the animation on page load (arriving at the new planet)
+  - [x] Ensure the transition degrades gracefully when JS is disabled or `prefers-reduced-motion` is set
 
 ---
 
