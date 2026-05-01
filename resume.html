@@ -36,6 +36,105 @@
 			.edu-tile::after {
 				display: none !important;
 			}
+
+			/* ── Job Tiles ─────────────────────────────────────── */
+			.job-tile-grid {
+				display: flex;
+				flex-direction: column;
+				gap: 1.4em;
+				margin-top: 1em;
+			}
+
+			.job-tile {
+				background: rgba(22, 22, 22, 0.55);
+				border: 1px solid var(--space-border);
+				border-radius: 4px;
+				padding: 1.6em 2em;
+				backdrop-filter: blur(4px);
+				-webkit-backdrop-filter: blur(4px);
+				transition: border-color 0.2s ease, box-shadow 0.2s ease;
+			}
+
+			.job-tile:hover {
+				border-color: var(--space-accent);
+				box-shadow: 0 0 18px rgba(0, 170, 255, 0.12);
+			}
+
+			.job-tile-header {
+				display: flex;
+				justify-content: space-between;
+				align-items: baseline;
+				flex-wrap: wrap;
+				gap: 0.4em;
+				margin-bottom: 0.15em;
+			}
+
+			.job-tile-company {
+				font-family: "Orbitron", sans-serif;
+				font-size: 0.78em;
+				letter-spacing: 0.06em;
+				text-transform: uppercase;
+				color: var(--space-accent);
+				margin: 0;
+			}
+
+			.job-tile-dates {
+				font-size: 0.75em;
+				opacity: 0.6;
+				white-space: nowrap;
+				margin: 0;
+			}
+
+			.job-tile-location {
+				font-size: 0.75em;
+				opacity: 0.55;
+				margin: 0 0 1em 0;
+				font-style: italic;
+			}
+
+			.job-role {
+				margin-top: 0.9em;
+				padding-top: 0.9em;
+				border-top: 1px solid rgba(255,255,255,0.06);
+			}
+
+			.job-role:first-of-type {
+				margin-top: 0;
+				padding-top: 0;
+				border-top: none;
+			}
+
+			.job-role-title {
+				font-size: 0.88em;
+				font-weight: 600;
+				color: var(--space-text);
+				margin: 0 0 0.3em 0;
+				letter-spacing: 0.02em;
+			}
+
+			.job-role-dates {
+				font-size: 0.72em;
+				opacity: 0.55;
+				margin: 0 0 0.5em 0;
+				font-style: italic;
+			}
+
+			.job-role p {
+				font-size: 0.82em;
+				line-height: 1.65;
+				opacity: 0.85;
+				margin: 0;
+			}
+
+			@media screen and (max-width: 736px) {
+				.job-tile {
+					padding: 1.2em 1.4em;
+				}
+				.job-tile-header {
+					flex-direction: column;
+					gap: 0.2em;
+				}
+			}
 		</style>
 	</head>
 	<body class="is-preload">
@@ -173,138 +272,174 @@
 								<!-- Employment History -->
 								<div class="resume-section">
 									<h2>Employment History</h2>
+									<div class="job-tile-grid">
 
-									<h3 class="resume-company">The TJX Companies &mdash; Framingham, MA</h3>
-									<p class="resume-dates"><em>July 2025 to Present</em></p>
+										<!-- TJX -->
+										<div class="job-tile">
+											<div class="job-tile-header">
+												<h3 class="job-tile-company">The TJX Companies</h3>
+												<span class="job-tile-dates">January 2023 &ndash; Present</span>
+											</div>
+											<p class="job-tile-location">Framingham, MA &amp; London, UK</p>
+											<div class="job-role">
+												<p class="job-role-title">Data Science Manager</p>
+												<p class="job-role-dates">March 2026 &ndash; Present &middot; Framingham, MA</p>
+												<p>Leading a small team comprising a Data Scientist and Data Engineer to deliver data science and AI solutions across the US Consumer business, while continuing to support European operations. Guiding the team in adopting modern data tooling and ways of working, enabling effective use of platforms including Databricks, Snowflake, Streamlit, GitHub, and GitHub Copilot to accelerate development and improve operational efficiency. Partnering with a wide range of business functions to support their shift toward automation and AI &mdash; replacing legacy systems and processes with faster, more scalable solutions. Established and championed an AI strategy and framework for ways of working going forward, while actively training and upskilling the team across a broad range of data science techniques and technologies.</p>
+											</div>
+											<div class="job-role">
+												<p class="job-role-title">Data Scientist</p>
+												<p class="job-role-dates">June 2025 &ndash; March 2026 &middot; Framingham, MA</p>
+												<p>Working on the US Consumer Business and Insights team while continuing to support the European offices, delivering data science solutions across both markets. Built and deployed models spanning product scoring, first-year sales store predictors, and customer lifetime value to drive strategic business decisions. Developed and integrated AI tools to enhance team workflows, introduced automation tooling to improve operational efficiency, and contributed to defining the company's AI strategy and ways of working moving forward. Actively trained and upskilled team members across a range of data science techniques and technologies.</p>
+											</div>
+											<div class="job-role">
+												<p class="job-role-title">Data Scientist <span style="opacity:0.55; font-weight:400;">&mdash; TJX Europe</span></p>
+												<p class="job-role-dates">January 2023 &ndash; June 2025 &middot; London, UK</p>
+												<p>Working on the customer insights team to analyze and build models focused on understanding the customer base. Working within the Marketing department and communicating with a wide range of teams to implement predictive models for better business decision making. Leveraging various tools like Snowflake, Databricks and PowerBI for creating and monitoring large data pipelines and machine learning models. Working with outside vendors to test their cutting edge technologies that might bring in business value for the company. Creating numerous proof of concept projects for research and development within the company. Mentoring various members of the team to upskill and develop across a wide range of skills and technologies.</p>
+											</div>
+										</div>
 
-									<h4 class="resume-role">Data Science Manager</h4>
-									<p>Leading a small team comprising a Data Scientist and Data Engineer to deliver data science and AI
-									solutions across the US Consumer business, while continuing to support European operations. Guiding
-									the team in adopting modern data tooling and ways of working, enabling effective use of platforms
-									including Databricks, Snowflake, Streamlit, GitHub, and GitHub Copilot to accelerate development and
-									improve operational efficiency. Partnering with a wide range of business functions to support their
-									shift toward automation and AI &mdash; replacing legacy systems and processes with faster, more
-									scalable solutions. Established and championed an AI strategy and framework for ways of working going
-									forward, while actively training and upskilling the team across a broad range of data science
-									techniques and technologies.</p>
+										<!-- Decoded -->
+										<div class="job-tile">
+											<div class="job-tile-header">
+												<h3 class="job-tile-company">Decoded</h3>
+												<span class="job-tile-dates">May 2021 &ndash; December 2023</span>
+											</div>
+											<p class="job-tile-location">London, England</p>
+											<div class="job-role">
+												<p class="job-role-title">Data Tutor</p>
+												<p class="job-role-dates">June 2022 &ndash; December 2023</p>
+												<p>Working in the Product team to develop modules for the level 3 and level 4 data apprenticeship program, along with working on commercial content for the advanced academy. Delivering high quality data-centric workshops to various clients from multiple industries. Running a learner help desk to address all technical questions that clients might have while developing internal data projects for business insights.</p>
+											</div>
+											<div class="job-role">
+												<p class="job-role-title">Senior Data Mentor</p>
+												<p class="job-role-dates">January 2022 &ndash; June 2022</p>
+												<p>Working with the Content and Technology teams on projects related to automation to improve processes within the business and the development of material for the product team. Mentoring learners across multiple industries while they complete the level 4 Data Analyst Apprenticeship program over an 18 month period. Guiding learners to develop robust and impactful data science projects for their organisations.</p>
+											</div>
+											<div class="job-role">
+												<p class="job-role-title">Data Mentor</p>
+												<p class="job-role-dates">May 2021 &ndash; January 2022</p>
+												<p>Overseeing the learning progression of multiple learners from various organisations. Guiding learners through the level 4 Data Analyst Apprenticeship program over 18 months. Critiquing and providing feedback on data driven projects across multiple industries. Providing help on various data tools such as Anaconda, Jupyter Notebook, Python and SQL. Helping learners understand various data science techniques such as Clustering, Regression, Neural Networks, Time series analysis, Classification, and Text analysis.</p>
+											</div>
+										</div>
 
-									<h4 class="resume-role">Data Scientist &mdash; June 2025 to March 2026</h4>
-									<p>Working on the US Consumer Business and Insights team while continuing to support the European
-									offices, delivering data science solutions across both markets. Built and deployed models spanning
-									product scoring, first-year sales store predictors, and customer lifetime value to drive strategic
-									business decisions. Developed and integrated AI tools to enhance team workflows, introduced automation
-									tooling to improve operational efficiency, and contributed to defining the company's AI strategy and
-									ways of working moving forward. Actively trained and upskilled team members across a range of data
-									science techniques and technologies.</p>
+										<!-- Bryant High School (Teacher) -->
+										<div class="job-tile">
+											<div class="job-tile-header">
+												<h3 class="job-tile-company">Bryant High School</h3>
+												<span class="job-tile-dates">August 2016 &ndash; August 2019</span>
+											</div>
+											<p class="job-tile-location">Alexandria, VA</p>
+											<div class="job-role">
+												<p class="job-role-title">Mathematics Teacher</p>
+												<p>Preparing and managing lessons for all levels of secondary mathematics and statistics. Directing an instructional assistant to help manage the students, along with designing interactive and engaging projects for my students to develop applicable skills for their future. Collecting, cleaning, and presenting data in the form of academic achievements to present to my principal directly. Nominated for Outstanding New Teacher Award 2018.</p>
+											</div>
+										</div>
 
-									<h3 class="resume-company">TJX Europe &mdash; London, UK</h3>
-									<p class="resume-dates"><em>January 2023 to June 2025</em></p>
+										<!-- ARP -->
+										<div class="job-tile">
+											<div class="job-tile-header">
+												<h3 class="job-tile-company">ARP</h3>
+												<span class="job-tile-dates">May 2016 &ndash; August 2019</span>
+											</div>
+											<p class="job-tile-location">Alexandria, VA</p>
+											<div class="job-role">
+												<p class="job-role-title">Bartender and Server</p>
+												<p>Creating a relaxing and comfortable environment for customers, while allowing relevant information sharing between management and kitchen staff. Offering a detailed analysis of food, drinks, ingredients, specials, and possible pairings. Developing personal and professional relationships with patrons and staff alike.</p>
+											</div>
+										</div>
 
-									<h4 class="resume-role">Data Scientist</h4>
-									<p>Working on the customer insights team to analyze and build models focused on understanding the
-									customer base. Working within the Marketing department and communicating with a wide range of teams
-									to implement predictive models for better business decision making. Leveraging various tools like
-									Snowflake, Databricks and PowerBI for creating and monitoring large data pipelines and machine
-									learning models. Working with outside vendors to test their cutting edge technologies that might
-									bring in business value for the company. Creating numerous proof of concept projects for research
-									and development within the company. Mentoring various members of the team to upskill and develop
-									across a wide range of skills and technologies.</p>
+										<!-- The Learning Network -->
+										<div class="job-tile">
+											<div class="job-tile-header">
+												<h3 class="job-tile-company">The Learning Network</h3>
+												<span class="job-tile-dates">April 2015 &ndash; April 2016</span>
+											</div>
+											<p class="job-tile-location">Surat Thani, Thailand</p>
+											<div class="job-role">
+												<p class="job-role-title">Math and Science Teacher</p>
+												<p>Developing and executing lesson plans for large class sizes for students who learned English as a second language. Curating yearlong projects with students and designing extracurricular activities for all age groups.</p>
+											</div>
+										</div>
 
-									<h3 class="resume-company">Decoded &mdash; London, England</h3>
-									<p class="resume-dates"><em>May 2021 to December 2023</em></p>
+										<!-- Virtue Feed & Grain -->
+										<div class="job-tile">
+											<div class="job-tile-header">
+												<h3 class="job-tile-company">Virtue Feed &amp; Grain</h3>
+												<span class="job-tile-dates">June 2014 &ndash; April 2015</span>
+											</div>
+											<p class="job-tile-location">Alexandria, VA</p>
+											<div class="job-role">
+												<p class="job-role-title">Waiter</p>
+												<p>Providing patrons with daily specials and keeping them informed on ingredients and menu items. Keeping a constant line of communication going between bar staff, management, kitchen staff and customers.</p>
+											</div>
+										</div>
 
-									<h4 class="resume-role">Data Tutor &mdash; June 2022 to December 2023</h4>
-									<p>Working in the Product team to develop modules for the level 3 and level 4 data apprenticeship
-									program, along with working on commercial content for the advanced academy. Delivering high quality
-									data-centric workshops to various clients from multiple industries. Running a learner help desk to
-									address all technical questions that clients might have while developing internal data projects for
-									business insights.</p>
+										<!-- Bryant High School (IA) -->
+										<div class="job-tile">
+											<div class="job-tile-header">
+												<h3 class="job-tile-company">Bryant High School</h3>
+												<span class="job-tile-dates">August 2013 &ndash; August 2014</span>
+											</div>
+											<p class="job-tile-location">Alexandria, VA</p>
+											<div class="job-role">
+												<p class="job-role-title">Instructional Assistant</p>
+												<p>Assisting in the mathematics and biology classrooms with lectures, personal tutoring, and generally answering questions for students.</p>
+											</div>
+										</div>
 
-									<h4 class="resume-role">Senior Data Mentor &mdash; January 2022 to June 2022</h4>
-									<p>Working with the Content and Technology teams on projects related to automation to improve
-									processes within the business and the development of material for the product team. Mentoring
-									learners across multiple industries while they complete the level 4 Data Analyst Apprenticeship
-									program over an 18 month period. Guiding learners to develop robust and impactful data science
-									projects for their organisations.</p>
+										<!-- King Street Blues -->
+										<div class="job-tile">
+											<div class="job-tile-header">
+												<h3 class="job-tile-company">King Street Blues</h3>
+												<span class="job-tile-dates">May 2011 &ndash; June 2014</span>
+											</div>
+											<p class="job-tile-location">Alexandria, VA</p>
+											<div class="job-role">
+												<p class="job-role-title">Bartender and Server</p>
+												<p>Mixed and served alcoholic and nonalcoholic drinks to patrons of bar, following standard recipes. Served wine and draught or bottled beer, utilizing interpersonal communication and public relations skills.</p>
+											</div>
+										</div>
 
-									<h4 class="resume-role">Data Mentor &mdash; May 2021 to January 2022</h4>
-									<p>Overseeing the learning progression of multiple learners from various organisations. Guiding
-									learners through the level 4 Data Analyst Apprenticeship program over 18 months. Critiquing and
-									providing feedback on data driven projects across multiple industries. Providing help on various
-									data tools such as Anaconda, Jupyter Notebook, Python and SQL. Helping learners understand various
-									data science techniques such as Clustering, Regression, Neural Networks, Time series analysis,
-									Classification, and Text analysis.</p>
+										<!-- WVU Research -->
+										<div class="job-tile">
+											<div class="job-tile-header">
+												<h3 class="job-tile-company">West Virginia University</h3>
+												<span class="job-tile-dates">May 2010 &ndash; May 2013</span>
+											</div>
+											<p class="job-tile-location">Morgantown, WV</p>
+											<div class="job-role">
+												<p class="job-role-title">Research Assistant</p>
+												<p>Working in a biological modeling lab focused on flowcytometry research. Establishing pipetting skills and expanding analysis intelligence on large sums of data using Excel and MATLAB.</p>
+											</div>
+										</div>
 
-									<h3 class="resume-company">Bryant High School &mdash; Alexandria, VA</h3>
-									<p class="resume-dates"><em>August 2016 to August 2019</em></p>
+										<!-- Center for Multi-disciplinary Studies -->
+										<div class="job-tile">
+											<div class="job-tile-header">
+												<h3 class="job-tile-company">Center for Multi-disciplinary Studies</h3>
+												<span class="job-tile-dates">March 2009 &ndash; April 2009</span>
+											</div>
+											<p class="job-tile-location">Durgapur, India</p>
+											<div class="job-role">
+												<p class="job-role-title">Research Assistant</p>
+												<p>Industrial-agricultural research project designed to discover the advantages of certain species of rice in this geographic region. Assisted with data collection and crop yield analyses.</p>
+											</div>
+										</div>
 
-									<h4 class="resume-role">Mathematics Teacher</h4>
-									<p>Preparing and managing lessons for all levels of secondary mathematics and statistics. Directing
-									an instructional assistant to help manage the students, along with designing interactive and engaging
-									projects for my students to develop applicable skills for their future. Collecting, cleaning, and
-									presenting data in the form of academic achievements to present to my principal directly. Nominated
-									for Outstanding New Teacher Award 2018.</p>
+										<!-- Hilltribe Holidays Thailand -->
+										<div class="job-tile">
+											<div class="job-tile-header">
+												<h3 class="job-tile-company">Hilltribe Holidays Thailand</h3>
+												<span class="job-tile-dates">February 2009 &ndash; March 2009</span>
+											</div>
+											<p class="job-tile-location">Chiang Mai, Thailand</p>
+											<div class="job-role">
+												<p class="job-role-title">Research Assistant</p>
+												<p>Industrial-agricultural research project designed to discover the advantages of certain species of rice in this geographic region. Assisted with data collection and crop yield analyses.</p>
+											</div>
+										</div>
 
-									<h3 class="resume-company">ARP &mdash; Alexandria, VA</h3>
-									<p class="resume-dates"><em>May 2016 to August 2019</em></p>
-
-									<h4 class="resume-role">Bartender and Server</h4>
-									<p>Creating a relaxing and comfortable environment for customers, while allowing relevant information
-									sharing between management and kitchen staff. Offering a detailed analysis of food, drinks,
-									ingredients, specials, and possible pairings. Developing personal and professional relationships
-									with patrons and staff alike.</p>
-
-									<h3 class="resume-company">The Learning Network &mdash; Surat Thani, Thailand</h3>
-									<p class="resume-dates"><em>April 2015 to April 2016</em></p>
-
-									<h4 class="resume-role">Math and Science Teacher</h4>
-									<p>Developing and executing lesson plans for large class sizes for students who learned English as a
-									second language. Curating yearlong projects with students and designing extracurricular activities
-									for all age groups.</p>
-
-									<h3 class="resume-company">Virtue Feed &amp; Grain &mdash; Alexandria, VA</h3>
-									<p class="resume-dates"><em>June 2014 to April 2015</em></p>
-
-									<h4 class="resume-role">Waiter</h4>
-									<p>Providing patrons with daily specials and keeping them informed on ingredients and menu items.
-									Keeping a constant line of communication going between bar staff, management, kitchen staff and
-									customers.</p>
-
-									<h3 class="resume-company">Bryant High School &mdash; Alexandria, VA</h3>
-									<p class="resume-dates"><em>August 2013 to August 2014</em></p>
-
-									<h4 class="resume-role">Instructional Assistant</h4>
-									<p>Assisting in the mathematics and biology classrooms with lectures, personal tutoring, and
-									generally answering questions for students.</p>
-
-									<h3 class="resume-company">King Street Blues &mdash; Alexandria, VA</h3>
-									<p class="resume-dates"><em>May 2011 to June 2014</em></p>
-
-									<h4 class="resume-role">Bartender and Server</h4>
-									<p>Mixed and served alcoholic and nonalcoholic drinks to patrons of bar, following standard recipes.
-									Served wine and draught or bottled beer, utilizing interpersonal communication and public relations
-									skills.</p>
-
-									<h3 class="resume-company">West Virginia University &mdash; Morgantown, WV</h3>
-									<p class="resume-dates"><em>May 2010 to May 2013</em></p>
-
-									<h4 class="resume-role">Research Assistant</h4>
-									<p>Working in a biological modeling lab focused on flowcytometry research. Establishing pipetting
-									skills and expanding analysis intelligence on large sums of data using Excel and MATLAB.</p>
-
-									<h3 class="resume-company">Center for Multi-disciplinary Studies &mdash; Durgapur, India</h3>
-									<p class="resume-dates"><em>March 2009 to April 2009</em></p>
-
-									<h4 class="resume-role">Research Assistant</h4>
-									<p>Industrial-agricultural research project designed to discover the advantages of certain species
-									of rice in this geographic region. Assisted with data collection and crop yield analyses.</p>
-
-									<h3 class="resume-company">Hilltribe Holidays Thailand &mdash; Chiang Mai, Thailand</h3>
-									<p class="resume-dates"><em>February 2009 to March 2009</em></p>
-
-									<h4 class="resume-role">Research Assistant</h4>
-									<p>Industrial-agricultural research project designed to discover the advantages of certain species
-									of rice in this geographic region. Assisted with data collection and crop yield analyses.</p>
+									</div>
 								</div>
 
 							</div>
