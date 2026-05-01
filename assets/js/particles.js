@@ -156,8 +156,11 @@
 		ctx.clip();
 
 		// Draw earth image if loaded, otherwise fall back to dark fill
+		// imgScale compensates for transparent padding inside the source image.
+		var imgScale = parseFloat(canvas.dataset.planetScale) || 1.0;
 		if (earthImage.complete && earthImage.naturalWidth > 0) {
-			ctx.drawImage(earthImage, px - radius, py - radius, radius * 2, radius * 2);
+			var drawR = radius * imgScale;
+			ctx.drawImage(earthImage, px - drawR, py - drawR, drawR * 2, drawR * 2);
 		} else {
 			ctx.fillStyle = 'rgb(5, 8, 15)';
 			ctx.fillRect(px - radius - 1, py - radius - 1, radius * 2 + 2, radius * 2 + 2);
