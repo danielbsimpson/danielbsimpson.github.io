@@ -4163,10 +4163,13 @@ a:hover {
 
 /* --- Featured Tiles --- */
 .featured-tiles {
-	padding: 2em 1.5em;
+	padding: 2em 0;
 	gap: 1.2em;
 	display: flex;
 	flex-wrap: wrap;
+	max-width: 65em;
+	width: calc(100% - 6em);
+	margin: 0 auto;
 }
 
 .featured-tiles article {
@@ -4176,21 +4179,28 @@ a:hover {
 	min-height: 20em !important;
 	border: 1px solid rgba(20, 20, 20, 0.9);
 	margin: 0 !important;
+	padding: 2em 2.2em 1.5em 2.2em !important;
 	transition: transform 0.25s ease, opacity 0.25s ease, filter 1s ease, border-color 0.25s ease, box-shadow 0.25s ease !important;
 }
 
-.featured-tiles article:before {
-	background: linear-gradient(135deg, rgba(5,5,5,0.93) 0%, rgba(20,20,20,0.75) 100%) !important;
-}
-
-.featured-tiles article:hover {
-	border-color: var(--space-accent) !important;
-	box-shadow: 0 0 30px rgba(0, 170, 255, 0.25), inset 0 0 30px rgba(0, 100, 200, 0.08) !important;
+.featured-tiles article header {
+	overflow: visible !important;
 }
 
 .featured-tiles article h3 {
-	font-size: 1.4em;
+	font-size: 1.15em;
+	line-height: 1.35;
+	white-space: normal !important;
+	overflow: visible !important;
+	text-overflow: unset !important;
 	text-shadow: 0 0 15px rgba(0, 170, 255, 0.4);
+	margin-bottom: 0.5em;
+}
+
+.featured-tiles article p {
+	font-size: 0.8em;
+	line-height: 1.55;
+	margin-top: 0;
 }
 
 @media screen and (max-width: 980px) {
@@ -4204,17 +4214,19 @@ a:hover {
 		padding: 6em 0 1em 0 !important;
 	}
 	.featured-tiles {
-		padding: 1em 0.75em;
+		padding: 1em 0;
 		gap: 0.75em;
+		width: calc(100% - 3em);
 	}
 	.featured-tiles article {
 		width: 100% !important;
 		height: 20em !important;
 		max-height: none !important;
 		min-height: 0 !important;
+		padding: 1.5em 1.8em !important;
 	}
 	.featured-tiles article h3 {
-		font-size: 1.25em;
+		font-size: 1.1em;
 	}
 }
 
@@ -4239,11 +4251,13 @@ a:hover {
 }
 
 .project-card {
-	background: var(--space-card);
+	background: rgba(22, 22, 22, 0.55);
 	border: 1px solid var(--space-border);
 	border-radius: 3px;
 	padding: 1.6em 1.8em;
 	transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+	backdrop-filter: blur(4px);
+	-webkit-backdrop-filter: blur(4px);
 }
 
 .project-card:hover {
