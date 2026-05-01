@@ -3,13 +3,13 @@
 ## Visual / Animations
 
 ### Planet Per Page
-- [ ] Source planet images for each page (currently Earth only)
-  - [ ] Mars
-  - [ ] Jupiter
-  - [ ] Saturn
-  - [ ] Others (e.g. Venus, Neptune, Moon)
-- [ ] Assign a unique planet to each page so the scroll-reveal animation shows the correct planet
-- [ ] Ensure planet images are consistent in style/resolution with the existing Earth asset
+- [x] Source planet images for each page (currently Earth only)
+  - [x] Mars
+  - [x] Venus
+  - [x] Neptune
+  - [ ] Others (e.g. Jupiter, Saturn, Moon)
+- [x] Assign a unique planet to each page so the scroll-reveal animation shows the correct planet
+- [x] Ensure planet images are consistent in style/resolution with the existing Earth asset
 
 ### Space Warp Transition
 - [ ] Implement a "zoom through space" animation when navigating between pages

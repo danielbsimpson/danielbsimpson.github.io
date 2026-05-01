@@ -106,8 +106,10 @@
 	}
 
 	// ── Planet image preload ──────────────────────────────────────────────
+	// Use data-planet attribute on the canvas to select the planet per page,
+	// falling back to Earth when the attribute is absent.
 	var earthImage = new Image();
-	earthImage.src = 'images/earth_image.png';
+	earthImage.src = canvas.dataset.planet || 'images/earth_image.png';
 
 	// ── Planet renderer ────────────────────────────────────────────────────
 	function drawPlanet() {
