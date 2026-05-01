@@ -33,10 +33,10 @@
 
 ## URL / Naming Convention
 - [ ] Rename pages to more descriptive filenames
-  - [ ] `index.html` → `home.html` (update all internal links and `_config.yml` if needed)
-  - [ ] `landing.html` → `msc_project.html` (or equivalent)
-  - [ ] `generic.html` → review and rename to a descriptive name
-  - [ ] `elements.html` → keep as dev reference or move to a `/dev/` subfolder
-  - [ ] Update all internal `<a href="">` references across every page after renaming
-  - [ ] Update any GitHub Pages / Jekyll config that references old filenames
-  - [ ] Set up redirects (e.g. a meta-refresh or 404 redirect) from old URLs for any shared/bookmarked links
+  - [ ] `index.html` → `home.html` ⚠️ **Skipped** — GitHub Pages serves `index.html` as the site root (`danielbsimpson.github.io/`); renaming it would break the root URL. Keeping as `index.html`.
+  - [x] `landing.html` → `msc_project.html` (redirect stub left at old path)
+  - [x] `generic.html` → `about.html` (redirect stub left at old path)
+  - [x] `elements.html` → moved to `dev/elements.html` (redirect stub left at old path)
+  - [x] Update all internal `<a href="">` references across every page after renaming
+  - [x] Update any GitHub Pages / Jekyll config that references old filenames (`_config.yml` only sets theme — no filenames to update)
+  - [x] Set up redirects (meta-refresh stubs at `generic.html`, `landing.html`, `elements.html` → new URLs)
