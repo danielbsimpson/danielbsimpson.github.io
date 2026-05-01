@@ -197,19 +197,334 @@
 								<!-- Technology Expertise -->
 								<div class="resume-section">
 									<h2>Technology Expertise</h2>
-									<p>Expertise using <strong>DataBricks</strong>, <strong>Snowflake</strong>, <strong>PowerBI</strong>,
-									<strong>MATLAB</strong> and <strong>Microsoft Office</strong> leveraging <strong>Python</strong>
-									(<em>PySpark, Scikit-Learn, Keras, TensorFlow, Pandas, Matplotlib, Plotly, Dash, Seaborn, GeoPandas,
-									SciPy and NumPy</em>), <strong>SQL</strong> and <strong>R</strong>.</p>
-									<p>Specialization with <strong>Deep Learning</strong> and various other supervised and unsupervised
-									<strong>machine learning</strong> techniques in Python and R (<strong>decision trees, artificial neural
-									networks, clustering, SVM, random forests, regression analysis, Bayesian networks, and genetic
-									algorithms</strong>).</p>
-									<p>Experience with <strong>Google Cloud Platform</strong>, <strong>Azure</strong>, <strong>AWS</strong>,
-									<strong>Spark</strong>, <strong>C++</strong>, <strong>JavaScript</strong>, <strong>HTML</strong>,
-									<strong>CSS</strong> and <strong>Java</strong>.</p>
-									<p>Knowledge of Git Control, Scrum, Unix commands and distributed computing.</p>
+
+									<div class="skills-constellation-wrap">
+										<canvas id="skills-canvas"></canvas>
+
+										<!-- Brain at centre -->
+										<img id="skills-brain" class="skills-brain" src="images/brain_image.png" alt="Brain" />
+
+										<!-- Skill logos — positions set by JS -->
+										<div class="skill-node" data-label="Python">        <img src="images/skills_logos/python_logo.svg"              alt="Python" /></div>
+										<div class="skill-node" data-label="SQL">           <img src="images/skills_logos/Sql_logo.png"                 alt="SQL" /></div>
+										<div class="skill-node" data-label="R">             <img src="images/skills_logos/R_logo.svg"                   alt="R" /></div>
+										<div class="skill-node" data-label="Databricks">    <img src="images/skills_logos/Databricks_Logo.png"          alt="Databricks" /></div>
+										<div class="skill-node" data-label="Snowflake">     <img src="images/skills_logos/Snowflake_Logo.png"           alt="Snowflake" /></div>
+										<div class="skill-node" data-label="Power BI">      <img src="images/skills_logos/Power_BI_Logo.svg"            alt="Power BI" /></div>
+										<div class="skill-node" data-label="TensorFlow">    <img src="images/skills_logos/TensorFlow_logo.svg"          alt="TensorFlow" /></div>
+										<div class="skill-node" data-label="Scikit-learn">  <img src="images/skills_logos/Scikit_learn_logo.svg"        alt="Scikit-learn" /></div>
+										<div class="skill-node" data-label="Pandas">        <img src="images/skills_logos/pandas_logo.png"              alt="Pandas" /></div>
+										<div class="skill-node" data-label="Spark">         <img src="images/skills_logos/Apache_Spark_logo.svg"        alt="Spark" /></div>
+										<div class="skill-node" data-label="AWS">           <img src="images/skills_logos/Amazon_Web_Services_Logo.svg" alt="AWS" /></div>
+										<div class="skill-node" data-label="Azure">         <img src="images/skills_logos/Microsoft_Azure_Logo.svg"     alt="Azure" /></div>
+										<div class="skill-node" data-label="GCP">           <img src="images/skills_logos/Google_cloud_logo.png"        alt="GCP" /></div>
+										<div class="skill-node" data-label="Streamlit">     <img src="images/skills_logos/streamlit_logo.svg"           alt="Streamlit" /></div>
+										<div class="skill-node" data-label="GitHub">        <img src="images/skills_logos/Github_logo.svg"              alt="GitHub" /></div>
+										<div class="skill-node" data-label="Copilot">       <img src="images/skills_logos/GitHub_Copilot.svg"           alt="GitHub Copilot" /></div>
+										<div class="skill-node" data-label="JavaScript">    <img src="images/skills_logos/JavaScript-logo.png"          alt="JavaScript" /></div>
+										<div class="skill-node" data-label="HTML">          <img src="images/skills_logos/HTML5_logo.svg"               alt="HTML5" /></div>
+										<div class="skill-node" data-label="CSS">           <img src="images/skills_logos/CSS3_logo.svg"                alt="CSS3" /></div>
+										<div class="skill-node" data-label="C++">           <img src="images/skills_logos/C++_Logo.svg"                 alt="C++" /></div>
+										<div class="skill-node" data-label="MS Office">     <img src="images/skills_logos/Microsoft_Office_Logo.png"    alt="MS Office" /></div>
+										<div class="skill-node" data-label="GeoPandas">     <img src="images/skills_logos/geopandas_logo.webp"          alt="GeoPandas" /></div>
+									</div>
 								</div>
+
+								<style>
+									/* ── Space-cloud container ─────────────────────────── */
+									.skills-constellation-wrap {
+										position: relative;
+										width: 100%;
+										aspect-ratio: 16 / 9;
+										min-height: 340px;
+										max-height: 560px;
+										margin-top: 1.5em;
+										overflow: hidden;
+										border-radius: 10px;
+										border: 1px solid rgba(0, 140, 255, 0.28);
+										background:
+											radial-gradient(ellipse 80% 70% at 50% 50%,
+												rgba(0, 30, 80,  0.55) 0%,
+												rgba(0, 10, 35,  0.72) 55%,
+												rgba(0,  3, 12,  0.88) 100%);
+										box-shadow:
+											0 0 0 1px rgba(0, 100, 220, 0.10),
+											0 0 40px rgba(0,  80, 200, 0.18),
+											0 0 90px rgba(0,  40, 140, 0.12),
+											inset 0 0 60px rgba(0, 20, 80, 0.30),
+											inset 0 0 120px rgba(0, 10, 40, 0.20);
+									}
+
+									/* Subtle star-noise overlay via SVG data URI */
+									.skills-constellation-wrap::before {
+										content: '';
+										position: absolute;
+										inset: 0;
+										border-radius: inherit;
+										background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+										background-size: 200px 150px;
+										opacity: 0.5;
+										pointer-events: none;
+										z-index: 0;
+									}
+
+									/* Soft rim glow pulse */
+									@keyframes nebula-pulse {
+										0%, 100% { box-shadow:
+											0 0 0 1px rgba(0,100,220,0.10),
+											0 0 40px rgba(0, 80,200,0.18),
+											0 0 90px rgba(0, 40,140,0.12),
+											inset 0 0 60px rgba(0,20,80,0.30),
+											inset 0 0 120px rgba(0,10,40,0.20); }
+										50%       { box-shadow:
+											0 0 0 1px rgba(0,140,255,0.20),
+											0 0 55px rgba(0,100,220,0.26),
+											0 0 110px rgba(0, 60,180,0.16),
+											inset 0 0 70px rgba(0,30,100,0.35),
+											inset 0 0 130px rgba(0,15, 55,0.25); }
+									}
+									.skills-constellation-wrap {
+										animation: nebula-pulse 6s ease-in-out infinite;
+									}
+
+									#skills-canvas {
+										position: absolute;
+										inset: 0;
+										width: 100%;
+										height: 100%;
+										display: block;
+										z-index: 1;
+									}
+									.skills-brain {
+										position: absolute;
+										transform: translate(-50%, -50%);
+										width: 136px;
+										height: 136px;
+										object-fit: contain;
+										filter: drop-shadow(0 0 18px rgba(0,170,255,0.75))
+										        drop-shadow(0 0  8px rgba(0,200,255,0.50));
+										pointer-events: none;
+										z-index: 2;
+									}
+									.skill-node {
+										position: absolute;
+										transform: translate(-50%, -50%);
+										display: flex;
+										flex-direction: column;
+										align-items: center;
+										gap: 5px;
+										cursor: default;
+										z-index: 3;
+										transition: transform 0.2s ease, filter 0.2s ease;
+									}
+									.skill-node:hover {
+										transform: translate(-50%, -50%) scale(1.28);
+										filter: drop-shadow(0 0 10px rgba(0,170,255,0.85));
+									}
+									.skill-node img {
+										width: 48px;
+										height: 48px;
+										object-fit: contain;
+										display: block;
+										border: none !important;
+									}
+									.skill-node::after {
+										content: attr(data-label);
+										font-size: 0.68em;
+										color: rgba(180,220,255,0.88);
+										letter-spacing: 0.04em;
+										white-space: nowrap;
+										text-align: center;
+									}
+									@media screen and (max-width: 736px) {
+										.skills-constellation-wrap {
+											aspect-ratio: unset;
+											height: 420px;
+										}
+										.skill-node img { width: 36px; height: 36px; }
+										.skills-brain   { width: 100px; height: 100px; }
+									}
+								</style>
+
+								<script>
+								(function () {
+									var wrap   = document.querySelector('.skills-constellation-wrap');
+									var canvas = document.getElementById('skills-canvas');
+									var brain  = document.getElementById('skills-brain');
+									var nodes  = Array.from(document.querySelectorAll('.skill-node'));
+									var ctx    = canvas.getContext('2d');
+
+									var phase = 0;          // slow drift phase
+									var positions = [];     // current {x,y} of each node (canvas-space)
+
+									function resize() {
+										canvas.width  = wrap.offsetWidth;
+										canvas.height = wrap.offsetHeight;
+										placeNodes();
+									}
+
+									function placeNodes() {
+										var W = canvas.width;
+										var H = canvas.height;
+										var cx = W * 0.5;
+										var cy = H * 0.5;
+
+										// Brain sits at centre
+										brain.style.left = cx + 'px';
+										brain.style.top  = cy + 'px';
+
+										// Distribute nodes evenly on two concentric ellipses
+										var n = nodes.length;
+										var inner = Math.ceil(n * 0.45);   // ~10 on inner ring
+										var outer = n - inner;             // ~12 on outer ring
+
+										var rx1 = W * 0.26,  ry1 = H * 0.30;   // inner ellipse radii
+										var rx2 = W * 0.44,  ry2 = H * 0.42;   // outer ellipse radii
+
+										positions = [];
+										for (var i = 0; i < n; i++) {
+											var isOuter = i >= inner;
+											var idx     = isOuter ? i - inner : i;
+											var count   = isOuter ? outer : inner;
+											var offset  = isOuter ? Math.PI / outer : 0;   // stagger outer ring
+											var angle   = offset + (idx / count) * Math.PI * 2;
+											var rx = isOuter ? rx2 : rx1;
+											var ry = isOuter ? ry2 : ry1;
+
+											var x = cx + Math.cos(angle) * rx;
+											var y = cy + Math.sin(angle) * ry;
+											positions.push({ baseX: x, baseY: y, x: x, y: y,
+											                 driftR: 4 + Math.random() * 4,
+											                 driftS: 0.6 + Math.random() * 0.5,
+											                 driftO: Math.random() * Math.PI * 2 });
+										}
+									}
+
+									function animate(ts) {
+										phase = ts * 0.0004;
+										var W = canvas.width, H = canvas.height;
+										var cx = W * 0.5,    cy = H * 0.5;
+
+										ctx.clearRect(0, 0, W, H);
+
+										// Soft nebula radial glow behind everything
+										var nebG = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.min(W, H) * 0.6);
+										nebG.addColorStop(0,   'rgba(0, 80, 200, 0.13)');
+										nebG.addColorStop(0.4, 'rgba(0, 40, 120, 0.07)');
+										nebG.addColorStop(1,   'rgba(0,  0,   0, 0.00)');
+										ctx.fillStyle = nebG;
+										ctx.fillRect(0, 0, W, H);
+
+										// Update drifted positions
+										for (var i = 0; i < nodes.length; i++) {
+											var p = positions[i];
+											if (!p) continue;
+											var a = phase * p.driftS + p.driftO;
+											p.x = p.baseX + Math.cos(a) * p.driftR;
+											p.y = p.baseY + Math.sin(a) * p.driftR;
+											nodes[i].style.left = p.x + 'px';
+											nodes[i].style.top  = p.y + 'px';
+										}
+
+										// ── Spoke lines: brain → each node ──────────────────
+										// First pass: fat glowing line (blur effect via wide transparent stroke)
+										ctx.setLineDash([]);
+										ctx.lineWidth = 4;
+										for (var i = 0; i < positions.length; i++) {
+											var p = positions[i];
+											if (!p) continue;
+											var dist = Math.sqrt((p.x - cx) * (p.x - cx) + (p.y - cy) * (p.y - cy));
+											var t    = Math.max(0, 1 - dist / (Math.min(W, H) * 0.55));
+											var glowAlpha = 0.06 + t * 0.10;
+											var grad = ctx.createLinearGradient(cx, cy, p.x, p.y);
+											grad.addColorStop(0,   'rgba(0,200,255,' + (glowAlpha * 2.0) + ')');
+											grad.addColorStop(0.35,'rgba(0,170,255,' + (glowAlpha * 1.2) + ')');
+											grad.addColorStop(1,   'rgba(0,130,220,' + (glowAlpha * 0.5) + ')');
+											ctx.beginPath();
+											ctx.moveTo(cx, cy);
+											ctx.lineTo(p.x, p.y);
+											ctx.strokeStyle = grad;
+											ctx.stroke();
+										}
+										// Second pass: bright solid core line
+										ctx.lineWidth = 1.4;
+										for (var i = 0; i < positions.length; i++) {
+											var p = positions[i];
+											if (!p) continue;
+											var dist = Math.sqrt((p.x - cx) * (p.x - cx) + (p.y - cy) * (p.y - cy));
+											var t    = Math.max(0, 1 - dist / (Math.min(W, H) * 0.55));
+											var alpha = 0.30 + t * 0.45;
+											var grad = ctx.createLinearGradient(cx, cy, p.x, p.y);
+											grad.addColorStop(0,   'rgba(0,220,255,' + alpha + ')');
+											grad.addColorStop(0.5, 'rgba(0,170,255,' + (alpha * 0.75) + ')');
+											grad.addColorStop(1,   'rgba(0,120,220,' + (alpha * 0.40) + ')');
+											ctx.beginPath();
+											ctx.moveTo(cx, cy);
+											ctx.lineTo(p.x, p.y);
+											ctx.strokeStyle = grad;
+											ctx.stroke();
+										}
+
+										// ── Cross-connections between nearby nodes ───────────
+										ctx.setLineDash([]);
+										ctx.lineWidth = 0.8;
+										for (var i = 0; i < positions.length; i++) {
+											for (var j = i + 1; j < positions.length; j++) {
+												var pi = positions[i], pj = positions[j];
+												if (!pi || !pj) continue;
+												var dx = pi.x - pj.x, dy = pi.y - pj.y;
+												var d  = Math.sqrt(dx * dx + dy * dy);
+												var thresh = W * 0.20;
+												if (d < thresh) {
+													var f = 1 - d / thresh;
+													ctx.beginPath();
+													ctx.moveTo(pi.x, pi.y);
+													ctx.lineTo(pj.x, pj.y);
+													ctx.strokeStyle = 'rgba(0,160,255,' + (0.08 + f * 0.20) + ')';
+													ctx.stroke();
+												}
+											}
+										}
+
+										// ── Glowing dots at each node ────────────────────────
+										for (var i = 0; i < positions.length; i++) {
+											var p = positions[i];
+											if (!p) continue;
+											// outer halo
+											var halo = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, 8);
+											halo.addColorStop(0,   'rgba(0,200,255,0.30)');
+											halo.addColorStop(0.5, 'rgba(0,160,255,0.10)');
+											halo.addColorStop(1,   'rgba(0,100,200,0.00)');
+											ctx.fillStyle = halo;
+											ctx.beginPath();
+											ctx.arc(p.x, p.y, 8, 0, Math.PI * 2);
+											ctx.fill();
+											// bright core dot
+											ctx.fillStyle = 'rgba(120,220,255,0.70)';
+											ctx.beginPath();
+											ctx.arc(p.x, p.y, 2.2, 0, Math.PI * 2);
+											ctx.fill();
+										}
+
+										// ── Pulsing brain centre glow ────────────────────────
+										var pulse = 0.55 + 0.45 * Math.sin(phase * 3.5);
+										var brainGlow = ctx.createRadialGradient(cx, cy, 0, cx, cy, 62);
+										brainGlow.addColorStop(0,   'rgba(0,220,255,' + (0.20 * pulse) + ')');
+										brainGlow.addColorStop(0.4, 'rgba(0,160,220,' + (0.10 * pulse) + ')');
+										brainGlow.addColorStop(1,   'rgba(0, 80,180,0.00)');
+										ctx.fillStyle = brainGlow;
+										ctx.beginPath();
+										ctx.arc(cx, cy, 62, 0, Math.PI * 2);
+										ctx.fill();
+
+										requestAnimationFrame(animate);
+									}
+
+									window.addEventListener('resize', resize);
+									resize();
+									requestAnimationFrame(animate);
+								}());
+								</script>
 
 								<hr />
 
