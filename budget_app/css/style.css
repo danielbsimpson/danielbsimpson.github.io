@@ -250,6 +250,17 @@ input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; marg
 #top-bar h1 { font-size: 1.2rem; font-weight: 700; }
 #today-line { font-size: 0.75rem; color: var(--text-dim); margin-top: 1px; }
 
+/* ── Disclaimer banner ──────────────────────────────────────────────────── */
+#disclaimer-banner {
+  padding: 8px 20px;
+  background: rgba(243, 156, 18, 0.08);
+  border-bottom: 1px solid rgba(243, 156, 18, 0.3);
+  color: var(--yellow);
+  font-size: 0.72rem;
+  line-height: 1.5;
+  flex-shrink: 0;
+}
+
 /* ── Tabs ───────────────────────────────────────────────────────────────── */
 #tabs-wrapper {
   flex: 1;
