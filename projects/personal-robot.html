@@ -32,20 +32,10 @@
 					<li><a href="../about.html">About Me</a></li>
 					<li><a href="../msc_project.html">MSc Project</a></li>
 					<li><a href="../resume.html">My Resume</a></li>
-					<li class="nav-has-sub">
-						<a href="#">Projects <span class="nav-sub-arrow"></span></a>
-						<ul class="nav-sub">
-							<li><a href="personal-robot.html">Personal Robot</a></li>
-							<li><a href="dungeon-master.html">Personal Dungeon Master</a></li>
-							<li><a href="starling.html">STARLING Voice Interface</a></li>
-							<li><a href="facial-recognition.html">Facial Recognition</a></li>
-							<li><a href="covid-dashboard.html">Covid-19 Dashboard</a></li>
-							<li><a href="portfolio-website.html">Portfolio Website</a></li>
-						</ul>
-					</li>
+					<li><a href="index.html">Featured Projects</a></li>
 				</ul>
 				<ul class="actions stacked">
-					<li><a href="../index.html" class="button primary fit">View All Projects</a></li>
+					<li><a href="index.html" class="button primary fit">← All Projects</a></li>
 				</ul>
 			</nav>
 
@@ -60,7 +50,7 @@
 
 						<ul class="actions" style="margin-bottom: 0.5em;">
 							<li><a href="https://github.com/danielbsimpson/personal_robot" class="button icon brands fa-github">View on GitHub</a></li>
-							<li><a href="../index.html" class="button small">← Back to Projects</a></li>
+							<li><a href="index.html" class="button small">← Back to Projects</a></li>
 						</ul>
 
 						<div class="project-page-hero" style="margin-top: 1.5em;">
@@ -86,15 +76,21 @@
 
 						<div class="project-section">
 							<h2>What It Is</h2>
-							<p>The Personal Robot is my most ambitious long-running personal project — a fully local, open-source robot built up in progressive phases. It starts as a conversational AI running a small LLM (currently Phi-4-mini via Ollama) entirely on-device, and grows through each phase into something that can hear, speak, see, remember, and eventually move.</p>
-							<p>Every component is local. No OpenAI API keys, no cloud subscriptions, no data sent offsite. Everything — the language model, the speech recognition, the text-to-speech, the vision pipeline — runs on the hardware itself.</p>
+							<p>This is ORION — a fully local, open-source personal robot, built from the ground up on consumer hardware with no cloud APIs and no external dependencies. The goal is a small physical robot that can perceive its environment, recognise the people in it, hold conversations, and build its own personality over time through accumulated interactions.</p>
+							<p>ORION currently lives entirely in software, progressing through a phased build plan from a local conversational LLM through memory, voice, and computer vision, toward an eventual physical form on a Raspberry Pi. Every component — language model, speech recognition, text-to-speech, vision pipeline — is designed to run locally, with the only running cost being electricity.</p>
 						</div>
 
 						<div class="project-section">
-							<h2>Why I Built It</h2>
-							<p>Robotics has been a passion of mine since long before I worked in data science. The idea of building a system that can perceive the world, remember experiences, and carry on a coherent conversation is something I find genuinely thrilling — and deeply connected to questions I've been fascinated by since my undergraduate days studying neurobiology and philosophy.</p>
-							<p>How does memory work in biological systems? How does an entity build a coherent model of the world from sensory input? How does experience shape future behaviour? These are the questions that drew me to neuroscience — and they're also exactly the design challenges you face when building a robot with a persistent memory layer, a vision system, and a voice.</p>
-							<p>This project is my hands-on way of exploring those ideas. It's also just enormously fun to build.</p>
+							<h2>The Origin</h2>
+							<p>The idea of building a personal robot has been in the back of my mind since childhood — but for most of that time it felt firmly in the realm of science fiction rather than something a single person could actually build. The LLM revolution of 2022 changed that perception quickly. The first models were too large for consumer hardware, but the pace at which capable models have been compressed and optimised since then has been remarkable. By 2026, with small models running respectably on a laptop GPU and tools like GitHub Copilot meaningfully accelerating development, a full robotics pipeline on consumer hardware had gone from a fantasy to something worth actually starting.</p>
+							<p>ORION is named after my first Dungeons &amp; Dragons character — a small personal touch that felt right for a project this long in the making.</p>
+						</div>
+
+						<div class="project-section">
+							<h2>The Philosophy</h2>
+							<p>What genuinely drives this project is curiosity about memory — how it forms, how it shapes identity, and what it would mean for an artificial system to have something analogous to it. I took a neurobiology course during my undergraduate years and it left a lasting impression: the mechanisms of neuroplasticity, the way memories are consolidated and retrieved, the degree to which our personalities are shaped by accumulated experience rather than fixed at birth.</p>
+							<p>I've been influenced equally by philosophers and AI researchers. Daniel Dennett's work on consciousness and the nature of mind; Andrej Karpathy's clarity about what neural networks actually do and don't do; Yann LeCun's arguments about the limits of current architectures and what genuine machine intelligence might require. The philosophy of mind has always fascinated me, and this project is, in a way, a hands-on exploration of those questions: what does it mean to remember? Can a system develop something like a personality through interaction? Does it matter whether the substrate is biological?</p>
+							<p>I don't have answers. But building ORION is my way of taking the questions seriously.</p>
 						</div>
 
 						<div class="project-section">
@@ -102,36 +98,43 @@
 							<ul class="phase-list">
 								<li>
 									<span class="phase-badge">Phase 1</span>
-									<p><strong>Conversational LLM</strong> — A local chat interface running Phi-4-mini via Ollama. The foundation: a fast, capable small language model that can hold a conversation without any internet connection.</p>
+									<p><strong>Conversational LLM</strong> — A local chat interface running a small LLM via Ollama. The foundation: a capable language model that can hold a conversation with no internet connection and no API key.</p>
 								</li>
 								<li>
 									<span class="phase-badge">Phase 2</span>
-									<p><strong>RAG Memory</strong> — Persistent memory via a vector store (ChromaDB) and retrieval-augmented generation pipeline built with LangChain. The robot can recall previous conversations and build a growing personal knowledge base.</p>
+									<p><strong>Memory</strong> — Persistent memory via a vector store and RAG pipeline. This phase is ongoing and experimental — different memory architectures behave very differently with small models, and finding what works reliably for context awareness versus fact retrieval is an active area of exploration. ORION has also been given the ability to rewrite its own personality files based on conversations, with mixed but genuinely interesting results.</p>
 								</li>
 								<li>
 									<span class="phase-badge">Phase 3</span>
-									<p><strong>Voice I/O</strong> — Whisper for speech-to-text and Kokoro for text-to-speech, giving the robot ears and a voice. Streaming responses ensure natural, low-latency conversations.</p>
+									<p><strong>Voice I/O</strong> — Whisper for speech-to-text and Kokoro for text-to-speech, developed in parallel through the <a href="starling.html">STARLING project</a>. The speech pipeline is being refined as a standalone system before full integration into ORION.</p>
 								</li>
 								<li>
 									<span class="phase-badge">Phase 4</span>
-									<p><strong>Computer Vision</strong> — YOLOv8 for real-time object detection and OpenCV for face recognition. The robot can now see, identify objects in its environment, and recognise individual people.</p>
+									<p><strong>Computer Vision</strong> — YOLOv8 for object detection and OpenCV for face recognition. The goal is practical rather than broad: ORION should recognise a small set of familiar faces when they enter the room, notice an unfamiliar face, and be able to ask who that person is and remember the answer.</p>
 								</li>
 								<li>
 									<span class="phase-badge">Phase 5</span>
-									<p><strong>Physical Robot</strong> — Everything moves onto a Raspberry Pi 5 with a physical chassis. The robot becomes self-contained: a device that can perceive, think, remember, and move entirely on its own hardware.</p>
+									<p><strong>Physical Robot</strong> — A basic chassis with wheels, a camera, a microphone, and a speaker, all connected to a Raspberry Pi. Running the full pipeline on the Pi alone will be constrained, and in practice compute may need to be streamed from a local machine over the network — but the direction of travel in on-device AI makes even that constraint feel temporary.</p>
 								</li>
 							</ul>
 						</div>
 
 						<div class="project-section">
-							<h2>What I've Learned</h2>
-							<p>Building this project has pushed me across hardware, systems programming, and applied AI in ways no professional project has. Designing a reliable RAG memory layer that doesn't hallucinate stale context, tuning Whisper for low-latency transcription on constrained hardware, getting YOLOv8 to run at a usable framerate on a Pi — each phase has been a genuine engineering challenge.</p>
-							<p>It has also deepened my understanding of local LLM deployment significantly — the tradeoffs between model size, quantisation, and response quality; how to structure prompts for small models; how streaming works at the API level. All of that feeds directly back into how I approach AI tooling in my professional work.</p>
+							<h2>The Local-First Constraint</h2>
+							<p>Building everything locally isn't the easy path. Getting models to run well on specific hardware — a laptop GPU for development, a Pi for deployment — involves real tradeoffs in model selection, quantisation, execution order, and pipeline design. Every phase introduces new constraints that have to be solved rather than bypassed.</p>
+							<p>But using a cloud API was never seriously on the table. Anyone can plug a toy into an API — that's not the challenge. The point is to build something genuinely functional from first principles, on hardware I own, without depending on any external service. The engineering problems that constraint creates are exactly the ones worth solving.</p>
+						</div>
+
+						<div class="project-section">
+							<h2>The Wider Ecosystem</h2>
+							<p>Several of my other projects exist, at least in part, as research for ORION. <a href="starling.html">STARLING</a> is a dedicated exploration of the speech pipeline — STT, LLM, TTS, latency optimisation — on the kind of constrained hardware the robot will eventually use. The <a href="dungeon-master.html">Personal Dungeon Master</a> project is a deep exploration of memory architectures: how knowledge graphs handle context versus fact retrieval, how small LLMs behave with different memory structures, what it takes to maintain coherent long-running state.</p>
+							<p>The overlap is deliberate. Each project advances a specific part of the problem, in a context where it can be developed and tested independently before being folded back into the robot.</p>
 						</div>
 
 						<div class="project-section">
 							<h2>What's Next</h2>
-							<p>Phase 5 is the goal: a fully self-contained physical robot running entirely on Raspberry Pi 5 hardware. Beyond that, I'm interested in adding a longer-term episodic memory layer — something closer to how humans form and retrieve autobiographical memories — and exploring how the robot's behaviour might adapt and evolve over time based on accumulated experience.</p>
+							<p>The project is currently in a considered pause while the memory and speech systems mature through their respective projects. The next concrete step is committing to a Raspberry Pi and beginning the work of getting the existing pipeline to run on constrained hardware — the moment the software meets a physical body.</p>
+							<p>The longer vision is something more interesting than a capable assistant. In 3–5 years, I'd like to see a small physical ORION exploring my apartment, talking to whoever walks in, and — critically — building its own personality through those interactions. Not a fixed set of traits, but something that evolves. A system that is genuinely shaped by its accumulated experience of the world and the people in it. Whether that constitutes anything philosophically meaningful is a question I'm happy to leave open.</p>
 						</div>
 
 					</div>
