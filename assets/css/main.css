@@ -3405,7 +3405,7 @@ input, select, textarea {
 		display: -webkit-flex;
 		display: -ms-flex;
 		display: flex;
-		padding: 6em 0 2em 0 ;
+		padding: 9em 0 2em 0 ;
 		background-attachment: fixed;
 		background-position: center;
 		background-repeat: no-repeat;
@@ -3414,8 +3414,8 @@ input, select, textarea {
 		cursor: default;
 		height: 60vh;
 		margin-bottom: -3.25em;
-		max-height: 32em;
-		min-height: 22em;
+		max-height: 52em;
+		min-height: 32em;
 		position: relative;
 		top: -3.25em;
 	}
@@ -4090,10 +4090,10 @@ a:hover {
 }
 
 #banner.major {
-	height: 37vh !important;
-	min-height: 15em !important;
-	max-height: 25em !important;
-	padding: 3em 0 1em 0 !important;
+	height: auto !important;
+	min-height: 32em !important;
+	max-height: none !important;
+	padding: 8em 0 3em 0 !important;
 }
 
 #banner:after {
@@ -4182,7 +4182,7 @@ a:hover {
 
 /* --- Featured Tiles --- */
 .featured-tiles {
-	padding: 2em 0;
+	padding: 4em 0 2em 0;
 	gap: 1.2em;
 	display: flex;
 	flex-wrap: wrap;
@@ -4646,8 +4646,9 @@ a:hover {
         display: flex;
         flex-direction: column;
         gap: 1.8em;
-        padding: 3em 4em;
-        max-width: 1300px;
+        padding: 3em 0;
+        max-width: 65em;
+        width: calc(100% - 6em);
         margin: 0 auto;
 }
 
@@ -4674,8 +4675,8 @@ a:hover {
 }
 
 .project-row-image {
-        flex: 0 0 42%;
-        width: 42%;
+        flex: 0 0 38%;
+        width: 38%;
         padding: 1.4em 0 1.4em 1.4em;
         display: flex;
         align-items: center;
@@ -4701,6 +4702,14 @@ a:hover {
         display: flex;
         flex-direction: column;
         justify-content: center;
+}
+
+/* Button alignment — mirrors image position */
+.project-row:not(.reverse) .project-row-content .button {
+        align-self: flex-end;
+}
+.project-row.reverse .project-row-content .button {
+        align-self: flex-start;
 }
 
 .project-row-content h3 {
@@ -4740,7 +4749,7 @@ a:hover {
 }
 
 @media screen and (max-width: 980px) {
-        .project-row-list { padding: 2em 2em; }
+        .project-row-list { width: calc(100% - 4em); padding: 2em 0; }
         .project-row-image { flex: 0 0 38%; width: 38%; }
 }
 
