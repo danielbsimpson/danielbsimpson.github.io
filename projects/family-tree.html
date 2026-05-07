@@ -65,8 +65,14 @@
 
 						<div class="project-section">
 							<h2>What It Is</h2>
-							<p>The Family Tree is an interactive ancestry visualisation built as a standalone web page. It renders the family's relationships as an expandable, navigable node graph — allowing you to trace lineages, explore branches, and view biographical details for individual family members, all from a single HTML file with JSON data.</p>
-							<p>The tree is rendered entirely client-side using D3.js, with no backend server, database, or external API calls. The data is stored in a structured JSON file that can be updated directly.</p>
+							<p>An interactive family tree built as a single standalone web page. It renders family relationships as a navigable node graph using D3.js — expandable by branch, zoomable, and clickable to view individual profiles — driven entirely by a JSON data file with no backend, no database, and no external dependencies.</p>
+							<p>The goal was simple: a clear visual that anyone in my family can open in a browser and immediately navigate, without needing an account, an app, or a subscription to a genealogy service.</p>
+						</div>
+
+						<div class="project-section">
+							<h2>Why I Built It</h2>
+							<p>This was purely my own idea — I wanted a clean, visual way to navigate my wider family and make it easily accessible to any family member who was curious. Commercial genealogy tools tend to require subscriptions or lock data into proprietary formats, neither of which appealed. Building it myself meant I controlled the data, the design, and how it was shared.</p>
+							<p>It's a small project, and an unfinished one. I'm currently gathering data and photographs from family members and still refining the UX — the tree only spans a few generations at the moment, but the intention is to expand it as far back as the collective family knowledge allows.</p>
 						</div>
 
 						<div class="project-section">
@@ -78,23 +84,17 @@
 								</li>
 								<li>
 									<span class="phase-badge">Profiles</span>
-									<p>Click any node to view biographical details: name, birth year, relationships, and any additional notes stored in the JSON data.</p>
+									<p>Click any node to view biographical details: name, dates, relationships, and notes stored in the underlying JSON data.</p>
 								</li>
 								<li>
-									<span class="phase-badge">Zoom & Pan</span>
-									<p>Full zoom and pan support for navigating large trees without losing context of the broader structure.</p>
+									<span class="phase-badge">Zoom &amp; Pan</span>
+									<p>Full zoom and pan support for navigating larger trees without losing sight of the broader structure.</p>
 								</li>
 								<li>
 									<span class="phase-badge">Data-Driven</span>
-									<p>The entire tree is driven by a single JSON file — adding new family members or relationships requires only a data update, not code changes.</p>
+									<p>The entire tree is driven by a single JSON file — adding new members or branches requires only a data update, no code changes.</p>
 								</li>
 							</ul>
-						</div>
-
-						<div class="project-section">
-							<h2>Why I Built It</h2>
-							<p>My family has traced its lineage back several generations across multiple countries, and I wanted a way to visualise that history that was more interactive and navigable than a printed chart. Commercial genealogy tools either require subscriptions or lock data into proprietary formats — building my own meant I owned the data and the presentation entirely.</p>
-							<p>It also gave me a good excuse to work with D3's tree layout, which is a genuinely elegant solution to a complex hierarchical visualisation problem.</p>
 						</div>
 
 					</div>

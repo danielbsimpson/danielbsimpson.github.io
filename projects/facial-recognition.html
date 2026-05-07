@@ -25,20 +25,10 @@
 					<li><a href="../about.html">About Me</a></li>
 					<li><a href="../msc_project.html">MSc Project</a></li>
 					<li><a href="../resume.html">My Resume</a></li>
-					<li class="nav-has-sub">
-						<a href="#">Projects <span class="nav-sub-arrow"></span></a>
-						<ul class="nav-sub">
-							<li><a href="personal-robot.html">Personal Robot</a></li>
-							<li><a href="dungeon-master.html">Personal Dungeon Master</a></li>
-							<li><a href="starling.html">STARLING Voice Interface</a></li>
-							<li><a href="facial-recognition.html">Facial Recognition</a></li>
-							<li><a href="covid-dashboard.html">Covid-19 Dashboard</a></li>
-							<li><a href="portfolio-website.html">Portfolio Website</a></li>
-						</ul>
-					</li>
+					<li><a href="index.html">Featured Projects</a></li>
 				</ul>
 				<ul class="actions stacked">
-					<li><a href="../index.html" class="button primary fit">View All Projects</a></li>
+					<li><a href="index.html" class="button primary fit">← All Projects</a></li>
 				</ul>
 			</nav>
 
@@ -52,7 +42,7 @@
 
 						<ul class="actions" style="margin-bottom: 0.5em;">
 							<li><a href="https://github.com/danielbsimpson/Facial-recognition-and-Mask-Identification" class="button icon brands fa-github">View on GitHub</a></li>
-							<li><a href="../index.html" class="button small">← Back to Projects</a></li>
+							<li><a href="index.html" class="button small">← Back to Projects</a></li>
 						</ul>
 
 						<div class="project-page-hero" style="margin-top: 1.5em;">
@@ -73,16 +63,15 @@
 						</div>
 
 						<div class="project-section">
-							<h2>What It Is</h2>
-							<p>A two-stage computer vision pipeline: OpenCV first detects and isolates individual faces in an image using a Haar cascade classifier, then feeds each cropped face into a Keras convolutional neural network built on ImageNet weights to classify whether the person is wearing a face mask or not.</p>
-							<p>The pipeline can process both still images and live video streams, drawing bounding boxes and labelling each face with a confidence score in real time.</p>
+							<h2>The Context</h2>
+							<p>This was built immediately after completing my MSc, during a job search in a world that had largely shut down. Two things made it feel like the right project for that moment: I had just worked with vision models during my programme, so the technical pieces were fresh; and mask-wearing was one of the defining public health realities of 2020, which made the problem feel genuinely relevant rather than academic.</p>
+							<p>It's a small, focused project — a two-stage pipeline that detects faces with OpenCV and classifies each one as masked or unmasked using a Keras CNN. But it sat at the intersection of a topic I care about deeply and a set of skills I was actively trying to consolidate, and it gave me my first real hands-on experience combining classical computer vision with a learned neural classifier into something that actually worked end-to-end.</p>
 						</div>
 
 						<div class="project-section">
-							<h2>Why I Built It</h2>
-							<p>This project was built in 2020 during the early stages of the Covid-19 pandemic, when mask compliance was a genuine public health concern and computer vision solutions for automated detection were a real area of interest.</p>
-							<p>More broadly, computer vision has always been one of my deepest interests in AI. The idea that a model can learn to see — to extract meaningful structure from raw pixels — connects directly to the questions I've thought about since studying neurobiology: how does the visual cortex build representations of the world from photoreceptor signals? Convolutional neural networks are a direct computational analogy to that biological architecture, and I find that genuinely fascinating.</p>
-							<p>This project was my first real hands-on experience combining two vision techniques — classical detection with OpenCV and learned classification with a CNN — into a single usable pipeline.</p>
+							<h2>Why Computer Vision</h2>
+							<p>Vision is an area of AI I find genuinely compelling — not just as an engineering problem, but as a conceptual one. I've been interested in neurobiology since my undergraduate years, and the visual cortex in particular fascinates me: the way biological systems extract structure from raw photoreceptor signals through successive layers of abstraction is strikingly analogous to how convolutional neural networks process image data. That parallel isn't a coincidence — CNNs were partly inspired by that biology — and I find that connection meaningful.</p>
+							<p>Beyond the academic interest, I've been thinking for a long time about how visual context could be fed to a language model to give a system genuine awareness of its surroundings. That's the direction computer vision is heading in more complex robotics work, and it's exactly what <a href="personal-robot.html">ORION's</a> Phase 4 is designed to explore. This project was an early, modest step in that direction — at the time I built it, a fully capable local robot felt far out of reach. The learnings are still valuable for when that phase arrives.</p>
 						</div>
 
 						<div class="project-section">
@@ -90,26 +79,26 @@
 							<ul class="phase-list">
 								<li>
 									<span class="phase-badge">Detection</span>
-									<p><strong>OpenCV Haar Cascades</strong> — A pre-trained Haar cascade classifier detects face regions in the input image, returning bounding box coordinates for each detected face. This is fast and reliable for frontal faces.</p>
+									<p><strong>OpenCV Haar Cascades</strong> — A pre-trained Haar cascade classifier detects face regions in the input image, returning bounding box coordinates for each detected face.</p>
 								</li>
 								<li>
 									<span class="phase-badge">Crop</span>
-									<p><strong>Face Extraction</strong> — Each detected face region is cropped, resized to the model's expected input dimensions, and normalised before being passed to the CNN.</p>
+									<p><strong>Face Extraction</strong> — Each detected face region is cropped, resized to the model's expected input dimensions, and normalised before being passed to the classifier.</p>
 								</li>
 								<li>
 									<span class="phase-badge">Classify</span>
-									<p><strong>Keras CNN on ImageNet</strong> — A CNN trained with transfer learning from ImageNet weights classifies each face as masked or unmasked, returning a probability score for each class.</p>
+									<p><strong>Keras CNN</strong> — A CNN using transfer learning from ImageNet weights classifies each face as masked or unmasked, returning a probability score. The two-stage pipeline design — classical detection feeding a learned classifier — was my own architectural decision, informed by literature I was reading at the time.</p>
 								</li>
 								<li>
 									<span class="phase-badge">Output</span>
-									<p><strong>Annotated Visualisation</strong> — The original image is returned with bounding boxes colour-coded by classification result and labelled with the model's confidence score.</p>
+									<p><strong>Annotated Visualisation</strong> — The original image is returned with colour-coded bounding boxes and confidence scores labelled for each detected face.</p>
 								</li>
 							</ul>
 						</div>
 
 						<div class="project-section">
 							<h2>Companion Project</h2>
-							<p>This project has a companion: <a href="https://github.com/danielbsimpson/Mask-Recognition-using-CNN-and-Transfer-Learning">CNN &amp; Transfer Learning Comparison</a>, which benchmarks two separate CNN architectures for the mask detection task — one trained from scratch and one using InceptionResNetV2 transfer learning — to quantify the efficiency gains from pre-trained weights on a constrained dataset.</p>
+							<p>A companion project — <a href="https://github.com/danielbsimpson/Mask-Recognition-using-CNN-and-Transfer-Learning">CNN &amp; Transfer Learning Comparison</a> — benchmarks two CNN architectures against each other on the same task: one trained from scratch, one using InceptionResNetV2 transfer learning. The transfer learning approach outperformed the scratch-trained model, which was in line with what the literature at the time suggested. Useful confirmation, even if not a surprise.</p>
 						</div>
 
 					</div>

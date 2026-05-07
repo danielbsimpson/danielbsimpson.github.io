@@ -65,9 +65,17 @@
 						</div>
 
 						<div class="project-section">
-							<h2>What It Is</h2>
-							<p>Music League Stats is an interactive web dashboard built for tracking competitive music leagues — groups of friends who each submit songs to themed rounds and vote on each other's picks. The dashboard transforms raw CSV exports into a rich set of visual analytics: leaderboards, per-song breakdowns, fan maps, trend lines, economy stats, and a headlines system that surfaces memorable moments from each round.</p>
-							<p>Everything runs in the browser. There is no server, no database, and no backend — just static files loaded from CSV data exports.</p>
+							<h2>The Game</h2>
+							<p>Music League is a competitive music discovery game played in rounds. Each league runs for a set number of rounds — mine are ten — with one round per week, each built around a specific theme: <em>80s music</em>, <em>commute soundtracks</em>, <em>middle school dance hits</em>. Everyone submits a song anonymously that fits the theme, a Spotify playlist is generated for the group to listen to across the week, and then everyone votes — six votes each, with a maximum of three to any single song.</p>
+							<p>Each round ends with a podium: the top three vote-getters are celebrated. At the end of the league, overall standings are tallied and the winners are recognised. For my US work leagues, my wife designed custom cassette tape trophies for the podium finishers — a touch that turned a fun game into something people genuinely looked forward to.</p>
+							<p>I run two kinds of leagues. The work leagues tend to be musically diverse and skew toward popular music — a reflection of a wider range of tastes and backgrounds in the group. The friend leagues track closer to my own musical sensibilities, though with a narrower genre range. Both are genuinely competitive. Both have introduced me to artists I wouldn't have found on my own, and both have shaken up my Spotify algorithm in ways I'm grateful for.</p>
+						</div>
+
+						<div class="project-section">
+							<h2>Why I Built It</h2>
+							<p>The Music League app itself is fairly minimal out of the box: points per round, total points, and at the end of the league, a summary of who your biggest fan was and who you voted for most. It does provide a CSV export with all the underlying data — and the moment I saw that, I knew I could build something much richer.</p>
+							<p>The question wasn't whether the data supported more analysis. It clearly did. The question was which metrics would actually be interesting to the people playing. Voting patterns, streaks, genre performance, point flow across the league, who consistently over- or under-performed relative to expectations — all of that was sitting in the CSV, waiting. So I built the dashboard I wished the app had.</p>
+							<p>The result is pinned to multiple Discord and Microsoft Teams chats. People do visit it — not constantly, but they explore it, reference it mid-season, and occasionally use it to settle friendly arguments about who's been carrying the league.</p>
 						</div>
 
 						<div class="project-section">
@@ -75,31 +83,30 @@
 							<ul class="phase-list">
 								<li>
 									<span class="phase-badge">Leaderboard</span>
-									<p>Running point totals across all rounds, with per-round breakdowns and historical rank movement tracked over time.</p>
+									<p>Running point totals across all rounds, with per-round breakdowns and historical rank movement so you can see who's on a streak and who's fallen off.</p>
 								</li>
 								<li>
 									<span class="phase-badge">Song Stats</span>
-									<p>Per-song analytics including vote distribution, average scores, top performers, and round-by-round submission history for every player.</p>
+									<p>Per-song analytics including vote distribution, average scores, and submission history — so every player can see exactly how each of their picks performed.</p>
 								</li>
 								<li>
 									<span class="phase-badge">Fan Map</span>
-									<p>A D3.js chord diagram showing who votes for whom — revealing voting affinities and rivalries across the league.</p>
+									<p>A D3.js chord diagram visualising who votes for whom across the league. No great surprises when I first ran my own data through it — but a satisfying visual way for people to see which players they naturally align with most, and which rivalries are playing out in the numbers.</p>
 								</li>
 								<li>
 									<span class="phase-badge">Economy</span>
-									<p>Tracks cumulative point economy — which players consistently pick up votes, and where points flow across the league over time.</p>
+									<p>Tracks cumulative point flow across the league — which players consistently attract votes, where points are concentrated, and how that shifts over time.</p>
 								</li>
 								<li>
 									<span class="phase-badge">Headlines</span>
-									<p>Auto-generated narrative headlines for each round, surfacing standout moments: highest-voted songs, surprise results, and record-breakers.</p>
+									<p>Auto-generated narrative headlines for each completed round. Built on a rule-based system that identifies standout metrics and notable moments — highest-voted song, biggest upset, record-breakers — and then passes those structured inputs to an LLM to render them as readable, punchy headlines.</p>
 								</li>
 							</ul>
 						</div>
 
 						<div class="project-section">
-							<h2>Why I Built It</h2>
-							<p>Music League is a genuinely competitive game among a group of friends, and the built-in app gives you almost no analytics. I wanted to know who was on a winning streak, which genres were scoring best, and whether there were any interesting voting patterns hiding in the data. So I built the dashboard I wanted.</p>
-							<p>It also became a useful exercise in building something production-quality with vanilla JavaScript — no frameworks, no bundlers, just clean modular JS that loads and transforms CSV data in the browser. D3's chord layout for the fan map was a particularly satisfying problem to solve.</p>
+							<h2>How It's Maintained</h2>
+							<p>The dashboard is updated weekly while a league is active — a quick refresh after each round closes to pull in the new CSV data. When no league is running, it sits static as a record of the most recent season. It's a lightweight maintenance commitment for something that gets genuine use, which is a good ratio.</p>
 						</div>
 
 					</div>

@@ -25,20 +25,10 @@
 					<li><a href="../about.html">About Me</a></li>
 					<li><a href="../msc_project.html">MSc Project</a></li>
 					<li><a href="../resume.html">My Resume</a></li>
-					<li class="nav-has-sub">
-						<a href="#">Projects <span class="nav-sub-arrow"></span></a>
-						<ul class="nav-sub">
-							<li><a href="personal-robot.html">Personal Robot</a></li>
-							<li><a href="dungeon-master.html">Personal Dungeon Master</a></li>
-							<li><a href="starling.html">STARLING Voice Interface</a></li>
-							<li><a href="facial-recognition.html">Facial Recognition</a></li>
-							<li><a href="covid-dashboard.html">Covid-19 Dashboard</a></li>
-							<li><a href="portfolio-website.html">Portfolio Website</a></li>
-						</ul>
-					</li>
+					<li><a href="index.html">Featured Projects</a></li>
 				</ul>
 				<ul class="actions stacked">
-					<li><a href="../index.html" class="button primary fit">View All Projects</a></li>
+					<li><a href="index.html" class="button primary fit">← All Projects</a></li>
 				</ul>
 			</nav>
 
@@ -52,7 +42,7 @@
 
 						<ul class="actions" style="margin-bottom: 0.5em;">
 							<li><a href="https://github.com/danielbsimpson/Covid-19-tracking-USA" class="button icon brands fa-github">View on GitHub</a></li>
-							<li><a href="../index.html" class="button small">← Back to Projects</a></li>
+							<li><a href="index.html" class="button small">← Back to Projects</a></li>
 						</ul>
 
 						<div class="project-page-hero" style="margin-top: 1.5em;">
@@ -73,16 +63,16 @@
 						</div>
 
 						<div class="project-section">
-							<h2>What It Is</h2>
-							<p>An interactive web dashboard built with Plotly Dash that tracks US Covid-19 case counts and reproduction rate (R-rate) estimates at the county level, updated from Johns Hopkins University's public dataset. Users can explore trends across states and counties, compare R-rate trajectories, and see how the pandemic evolved geographically over time.</p>
-							<p>The dashboard was deployed on Google Cloud Platform and ran as a live public resource during the pandemic.</p>
+							<h2>The Story Behind It</h2>
+							<p>I had just completed my MSc in Data Science at Birkbeck, University of London, and was in the middle of a job search when Adam Halasz — a mathematics professor at West Virginia University and one of the most formative people in my academic life — reached out. He wanted a dashboard that used the Johns Hopkins dataset rather than the numbers the state was reporting, to get a clearer, more reliable picture of how the pandemic was actually developing across the US. Could I build it?</p>
+							<p>It was exactly the right project at exactly the right moment. I'd spent a year learning Dash, Plotly, cloud deployment, and data pipelines — and here was a real problem, for a real person I respected, that I could actually solve with those tools. Adam had a specific request for the R-rate estimation, and I used the EpiEstim package in R to implement it properly — a Bayesian epidemiological method that produces estimates with uncertainty bounds rather than a crude rolling average.</p>
+							<p>The dashboard was deployed on Google Cloud Platform and ran as a live public resource. In the end it was used primarily by Adam himself, and eventually shut down. An attempt to host it through the WVU Mathematics department didn't survive the politics of institutional websites. But that wasn't really the point.</p>
 						</div>
 
 						<div class="project-section">
-							<h2>Why I Built It</h2>
-							<p>In 2020 I was living in London, watching the pandemic unfold with enormous uncertainty about what the numbers actually meant. Case counts are intuitive but misleading — they reflect testing capacity as much as true infection rates. The reproduction number R tells a more honest story: is each infected person infecting more or fewer than one other person? Is the epidemic growing or shrinking?</p>
-							<p>I'd been working with Dash and Plotly as visualization tools, and I saw an opportunity to build something genuinely useful: a dashboard that made the R-rate — not just case counts — visible at a granular geographic level. Using the EpiEstim R package to estimate R from case data gave me a statistically rigorous method for the estimation rather than a simple rolling average.</p>
-							<p>This project sits at the intersection of public health, data communication, and technical deployment — areas I care deeply about. Making complex epidemiological data accessible and interactive for a general audience is exactly the kind of problem I find meaningful.</p>
+							<h2>Why Adam Matters</h2>
+							<p>During my undergraduate years at WVU I was genuinely lost — moving between psychology, biology, physics, philosophy, mathematics, and statistics, drawn to all of it and unsure how any of it connected. Adam was the person who helped me find the thread. Working as a research assistant in his lab, analysing datasets generated by flow cytometry machines, I saw for the first time how mathematics could be applied in a real research setting — how the abstract became useful, how data told stories about biological systems.</p>
+							<p>That experience is what eventually led me to pursue an MSc in Data Science. Building this dashboard was a way of completing a circle: taking everything I'd learned in the years since, and giving something of genuine value back to the person who first pointed me in the right direction.</p>
 						</div>
 
 						<div class="project-section">
@@ -90,27 +80,26 @@
 							<ul class="phase-list">
 								<li>
 									<span class="phase-badge">Data</span>
-									<p><strong>Johns Hopkins CSSE</strong> — Daily case counts sourced from the Johns Hopkins University Center for Systems Science and Engineering public GitHub repository, parsed and cleaned with Pandas.</p>
+									<p><strong>Johns Hopkins CSSE</strong> — Daily case counts sourced from the Johns Hopkins University Center for Systems Science and Engineering public repository, chosen specifically for its reliability over state-reported figures. Parsed and cleaned with Pandas.</p>
 								</li>
 								<li>
 									<span class="phase-badge">R-Rate</span>
-									<p><strong>EpiEstim (R package)</strong> — The epidemiological reproduction number R was estimated using the EpiEstim package in R, which uses a Bayesian framework and the serial interval distribution of Covid-19 to produce robust estimates with uncertainty bounds.</p>
+									<p><strong>EpiEstim (R package)</strong> — The reproduction number R was estimated using the EpiEstim package — a Bayesian epidemiological method that uses the serial interval distribution of Covid-19 to produce robust estimates with uncertainty bounds. Included at Adam's specific request.</p>
 								</li>
 								<li>
 									<span class="phase-badge">Visualisation</span>
-									<p><strong>Plotly Dash</strong> — Interactive choropleth maps, time series charts, and county-level drilldowns built with Plotly and served via the Dash framework — a Python-native way to build analytical web apps without writing JavaScript.</p>
+									<p><strong>Plotly Dash</strong> — Interactive choropleth maps, time series charts, and county-level drilldowns built with Plotly and served via the Dash framework — a Python-native way to build analytical web applications without writing JavaScript.</p>
 								</li>
 								<li>
 									<span class="phase-badge">Deployment</span>
-									<p><strong>Google Cloud Platform</strong> — The app was containerised and deployed on GCP, giving me hands-on experience with cloud deployment of a data-driven web application.</p>
+									<p><strong>Google Cloud Platform</strong> — One of my first public deployments built for someone else. Containerised and hosted on GCP, giving me hands-on experience running a live, data-driven web application for a real audience.</p>
 								</li>
 							</ul>
 						</div>
 
 						<div class="project-section">
-							<h2>What I Learned</h2>
-							<p>Beyond the technical skills — cross-language data pipelines, GCP deployment, Dash architecture — this project taught me a great deal about data communication. Deciding which numbers to show, how to label them, how to handle uncertainty (the R-rate comes with confidence intervals) so users don't misread precision as certainty: these are genuinely hard problems that go beyond data science into design and epistemology.</p>
-							<p>It also gave me my first real experience running a public-facing deployed application, handling the operational concerns that don't exist in a notebook: uptime, data freshness, error handling, and performance under load.</p>
+							<h2>What It Represents</h2>
+							<p>This is a smaller project technically than most of what I build now. But it sits at a meaningful junction in my story — the bridge between an undergraduate spent wandering across disciplines and a career spent applying all of them. The skills were new, the tools were fresh out of an MSc, and the person it was built for was the one who first showed me why those skills were worth acquiring.</p>
 						</div>
 
 					</div>
