@@ -65,8 +65,14 @@
 
 						<div class="project-section">
 							<h2>What It Is</h2>
-							<p>The Personal Budget Dashboard is an interactive finance tracker built entirely in the browser. It visualises income, expenses, and savings across configurable categories using dynamic Chart.js charts — with no backend server, no database, and no data ever leaving the client.</p>
-							<p>Transactions are loaded from a JSON data file and the dashboard updates all charts and summaries in real time. The sidebar breaks down spending by category, and the main view shows monthly trends across the full period.</p>
+							<p>A proof-of-concept personal finance dashboard built entirely in vanilla JavaScript — no framework, no backend, no data leaving the browser. It visualises income, expenses, and savings across configurable categories using Chart.js, populated with US median figures as default demo data.</p>
+							<p>This is a web-native clone of a private tool I actually use: a Streamlit app connected to a Supabase backend that I use to balance expenses and track savings goals each month. That version sits behind a login and stays off my public portfolio for obvious reasons. This version exists to demonstrate the front-end and dashboard design work in a form anyone can open, explore, and plug their own numbers into — though without a backend, nothing persists across page refreshes.</p>
+						</div>
+
+						<div class="project-section">
+							<h2>Why I Built It</h2>
+							<p>The motivation was straightforward: I wanted to replicate the front end of my Streamlit dashboard in a fully web-native framework I could host on GitHub Pages. Streamlit is excellent for rapid prototyping, but it requires a running Python server — not ideal for a static portfolio site. Rebuilding it in HTML, CSS, and JavaScript was a useful exercise in seeing how the same design translates across frameworks, and a chance to sharpen skills in building data-driven interfaces without any Python in the stack.</p>
+							<p>It is a POC and experiment more than anything else. The tool I rely on day-to-day is the Streamlit version. This one is here as a demonstration of capability — dashboard design, client-side data handling, and web-native visualisation.</p>
 						</div>
 
 						<div class="project-section">
@@ -85,16 +91,10 @@
 									<p>Line charts showing income and expense trends over time, making it easy to spot months where spending spikes or savings improve.</p>
 								</li>
 								<li>
-									<span class="phase-badge">Fully Client-Side</span>
-									<p>All data stays in the browser. The app runs from static files with no server, making it easy to self-host or run locally from a single folder.</p>
+									<span class="phase-badge">Demo Data</span>
+									<p>Pre-loaded with US median figures so the dashboard is immediately explorable. Numbers can be edited directly in the browser — though without a backend, changes won't survive a page refresh.</p>
 								</li>
 							</ul>
-						</div>
-
-						<div class="project-section">
-							<h2>Why I Built It</h2>
-							<p>Most personal finance apps require a bank connection, a subscription, or the trust that your financial data is being handled securely by a third party. I wanted something simpler: a tool I could run locally, load my own exported transaction data into, and use entirely offline. Privacy by design, not as a feature.</p>
-							<p>It also gave me an opportunity to work with Chart.js in depth — exploring how to build responsive, animated financial charts that update cleanly when data or filter state changes.</p>
 						</div>
 
 					</div>
