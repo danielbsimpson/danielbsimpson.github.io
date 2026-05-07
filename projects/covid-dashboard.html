@@ -1,0 +1,161 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Covid-19 Dashboard — Daniel Simpson</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="icon" type="image/png" href="../images/basic_ds.png" />
+		<link rel="stylesheet" href="../assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<canvas id="star-canvas" data-planet="../images/earth_image.png"></canvas>
+
+		<div id="wrapper">
+
+			<header id="header">
+				<a href="../index.html" class="logo"><strong>GitHub Projects</strong> <span>by Daniel Simpson</span></a>
+				<nav><a href="#menu">Menu</a></nav>
+			</header>
+
+			<nav id="menu">
+				<ul class="links">
+					<li><a href="../index.html">Home</a></li>
+					<li><a href="../about.html">About Me</a></li>
+					<li><a href="../msc_project.html">MSc Project</a></li>
+					<li><a href="../resume.html">My Resume</a></li>
+					<li class="nav-has-sub">
+						<a href="#">Projects <span class="nav-sub-arrow"></span></a>
+						<ul class="nav-sub">
+							<li><a href="personal-robot.html">Personal Robot</a></li>
+							<li><a href="dungeon-master.html">Personal Dungeon Master</a></li>
+							<li><a href="starling.html">STARLING Voice Interface</a></li>
+							<li><a href="facial-recognition.html">Facial Recognition</a></li>
+							<li><a href="covid-dashboard.html">Covid-19 Dashboard</a></li>
+							<li><a href="portfolio-website.html">Portfolio Website</a></li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="actions stacked">
+					<li><a href="../index.html" class="button primary fit">View All Projects</a></li>
+				</ul>
+			</nav>
+
+			<div id="main" class="alt">
+				<section id="one">
+					<div class="inner">
+
+						<header class="major">
+							<h1>Covid-19 Dashboard</h1>
+						</header>
+
+						<ul class="actions" style="margin-bottom: 0.5em;">
+							<li><a href="https://github.com/danielbsimpson/Covid-19-tracking-USA" class="button icon brands fa-github">View on GitHub</a></li>
+							<li><a href="../index.html" class="button small">← Back to Projects</a></li>
+						</ul>
+
+						<div class="project-page-hero" style="margin-top: 1.5em;">
+							<img src="../images/virus.jpg" alt="Covid-19 Dashboard" />
+							<div class="project-page-hero-overlay">
+								<p>Dash &amp; Plotly web app tracking US Covid-19 cases and R-rate estimates by county — hosted on GCP.</p>
+							</div>
+						</div>
+
+						<div class="tech-pill-row" style="margin-bottom: 2.5em;">
+							<span class="tech-pill">Python</span>
+							<span class="tech-pill">Plotly Dash</span>
+							<span class="tech-pill">Pandas</span>
+							<span class="tech-pill">R</span>
+							<span class="tech-pill">EpiEstim</span>
+							<span class="tech-pill">Google Cloud Platform</span>
+							<span class="tech-pill">Johns Hopkins Data</span>
+						</div>
+
+						<div class="project-section">
+							<h2>What It Is</h2>
+							<p>An interactive web dashboard built with Plotly Dash that tracks US Covid-19 case counts and reproduction rate (R-rate) estimates at the county level, updated from Johns Hopkins University's public dataset. Users can explore trends across states and counties, compare R-rate trajectories, and see how the pandemic evolved geographically over time.</p>
+							<p>The dashboard was deployed on Google Cloud Platform and ran as a live public resource during the pandemic.</p>
+						</div>
+
+						<div class="project-section">
+							<h2>Why I Built It</h2>
+							<p>In 2020 I was living in London, watching the pandemic unfold with enormous uncertainty about what the numbers actually meant. Case counts are intuitive but misleading — they reflect testing capacity as much as true infection rates. The reproduction number R tells a more honest story: is each infected person infecting more or fewer than one other person? Is the epidemic growing or shrinking?</p>
+							<p>I'd been working with Dash and Plotly as visualization tools, and I saw an opportunity to build something genuinely useful: a dashboard that made the R-rate — not just case counts — visible at a granular geographic level. Using the EpiEstim R package to estimate R from case data gave me a statistically rigorous method for the estimation rather than a simple rolling average.</p>
+							<p>This project sits at the intersection of public health, data communication, and technical deployment — areas I care deeply about. Making complex epidemiological data accessible and interactive for a general audience is exactly the kind of problem I find meaningful.</p>
+						</div>
+
+						<div class="project-section">
+							<h2>Technical Details</h2>
+							<ul class="phase-list">
+								<li>
+									<span class="phase-badge">Data</span>
+									<p><strong>Johns Hopkins CSSE</strong> — Daily case counts sourced from the Johns Hopkins University Center for Systems Science and Engineering public GitHub repository, parsed and cleaned with Pandas.</p>
+								</li>
+								<li>
+									<span class="phase-badge">R-Rate</span>
+									<p><strong>EpiEstim (R package)</strong> — The epidemiological reproduction number R was estimated using the EpiEstim package in R, which uses a Bayesian framework and the serial interval distribution of Covid-19 to produce robust estimates with uncertainty bounds.</p>
+								</li>
+								<li>
+									<span class="phase-badge">Visualisation</span>
+									<p><strong>Plotly Dash</strong> — Interactive choropleth maps, time series charts, and county-level drilldowns built with Plotly and served via the Dash framework — a Python-native way to build analytical web apps without writing JavaScript.</p>
+								</li>
+								<li>
+									<span class="phase-badge">Deployment</span>
+									<p><strong>Google Cloud Platform</strong> — The app was containerised and deployed on GCP, giving me hands-on experience with cloud deployment of a data-driven web application.</p>
+								</li>
+							</ul>
+						</div>
+
+						<div class="project-section">
+							<h2>What I Learned</h2>
+							<p>Beyond the technical skills — cross-language data pipelines, GCP deployment, Dash architecture — this project taught me a great deal about data communication. Deciding which numbers to show, how to label them, how to handle uncertainty (the R-rate comes with confidence intervals) so users don't misread precision as certainty: these are genuinely hard problems that go beyond data science into design and epistemology.</p>
+							<p>It also gave me my first real experience running a public-facing deployed application, handling the operational concerns that don't exist in a notebook: uptime, data freshness, error handling, and performance under load.</p>
+						</div>
+
+					</div>
+				</section>
+			</div>
+
+			<section id="contact">
+				<div class="inner">
+					<section class="split">
+						<section>
+							<div class="contact-method">
+								<span class="icon solid alt fa-envelope"></span>
+								<h3>Email</h3>
+								<a href="mailto:simpson.danielb@gmail.com">simpson.danielb@gmail.com</a>
+							</div>
+						</section>
+						<section>
+							<div class="contact-method">
+								<span class="icon brands alt fa-github"></span>
+								<h3>GitHub</h3>
+								<a href="https://github.com/danielbsimpson">danielbsimpson</a>
+							</div>
+						</section>
+						<section>
+							<div class="contact-method">
+								<span class="icon brands alt fa-linkedin-in"></span>
+								<h3>LinkedIn</h3>
+								<a href="https://www.linkedin.com/in/daniel-b-simpson/">daniel-b-simpson</a>
+							</div>
+						</section>
+					</section>
+				</div>
+			</section>
+
+		</div>
+
+		<script src="../assets/js/jquery.min.js"></script>
+		<script src="../assets/js/jquery.scrolly.min.js"></script>
+		<script src="../assets/js/jquery.scrollex.min.js"></script>
+		<script src="../assets/js/browser.min.js"></script>
+		<script src="../assets/js/breakpoints.min.js"></script>
+		<script src="../assets/js/util.js"></script>
+		<script src="../assets/js/main.js"></script>
+		<script src="../assets/js/particles.js"></script>
+		<script src="../assets/js/warp.js"></script>
+
+	</body>
+</html>

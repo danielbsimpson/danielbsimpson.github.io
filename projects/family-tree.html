@@ -1,0 +1,146 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Family Tree — Daniel Simpson</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="icon" type="image/png" href="../images/basic_ds.png" />
+		<link rel="stylesheet" href="../assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<canvas id="star-canvas" data-planet="../images/venus_image.png" data-planet-scale="1.03"></canvas>
+
+		<div id="wrapper">
+
+			<!-- Header -->
+			<header id="header">
+				<a href="../index.html" class="logo"><strong>GitHub Projects</strong> <span>by Daniel Simpson</span></a>
+				<nav><a href="#menu">Menu</a></nav>
+			</header>
+
+			<!-- Menu -->
+			<nav id="menu">
+				<ul class="links">
+					<li><a href="../index.html">Home</a></li>
+					<li><a href="../about.html">About Me</a></li>
+					<li><a href="../msc_project.html">MSc Project</a></li>
+					<li><a href="../resume.html">My Resume</a></li>
+					<li><a href="index.html">Featured Projects</a></li>
+				</ul>
+				<ul class="actions stacked">
+					<li><a href="index.html" class="button primary fit">← All Projects</a></li>
+				</ul>
+			</nav>
+
+			<!-- Main -->
+			<div id="main" class="alt">
+				<section id="one">
+					<div class="inner">
+
+						<header class="major">
+							<h1>Family Tree</h1>
+						</header>
+
+						<ul class="actions" style="margin-bottom: 0.5em;">
+							<li><a href="../family_tree/family_tree.html" class="button icon solid fa-sitemap">Open Family Tree</a></li>
+							<li><a href="index.html" class="button small">← Back to Projects</a></li>
+						</ul>
+
+						<div class="project-page-hero" style="margin-top: 1.5em;">
+							<img src="../images/Honeymoon_img.jpg" alt="Family Tree Project" />
+							<div class="project-page-hero-overlay">
+								<p>An interactive, client-side family tree visualisation — no database, no backend, just data and a browser.</p>
+							</div>
+						</div>
+
+						<div class="tech-pill-row" style="margin-bottom: 2.5em;">
+							<span class="tech-pill">JavaScript</span>
+							<span class="tech-pill">D3.js</span>
+							<span class="tech-pill">HTML</span>
+							<span class="tech-pill">CSS</span>
+							<span class="tech-pill">JSON</span>
+						</div>
+
+						<div class="project-section">
+							<h2>What It Is</h2>
+							<p>The Family Tree is an interactive ancestry visualisation built as a standalone web page. It renders the family's relationships as an expandable, navigable node graph — allowing you to trace lineages, explore branches, and view biographical details for individual family members, all from a single HTML file with JSON data.</p>
+							<p>The tree is rendered entirely client-side using D3.js, with no backend server, database, or external API calls. The data is stored in a structured JSON file that can be updated directly.</p>
+						</div>
+
+						<div class="project-section">
+							<h2>Features</h2>
+							<ul class="phase-list">
+								<li>
+									<span class="phase-badge">Node Graph</span>
+									<p>Collapsible D3.js tree layout — expand and collapse branches to navigate across generations without visual clutter.</p>
+								</li>
+								<li>
+									<span class="phase-badge">Profiles</span>
+									<p>Click any node to view biographical details: name, birth year, relationships, and any additional notes stored in the JSON data.</p>
+								</li>
+								<li>
+									<span class="phase-badge">Zoom & Pan</span>
+									<p>Full zoom and pan support for navigating large trees without losing context of the broader structure.</p>
+								</li>
+								<li>
+									<span class="phase-badge">Data-Driven</span>
+									<p>The entire tree is driven by a single JSON file — adding new family members or relationships requires only a data update, not code changes.</p>
+								</li>
+							</ul>
+						</div>
+
+						<div class="project-section">
+							<h2>Why I Built It</h2>
+							<p>My family has traced its lineage back several generations across multiple countries, and I wanted a way to visualise that history that was more interactive and navigable than a printed chart. Commercial genealogy tools either require subscriptions or lock data into proprietary formats — building my own meant I owned the data and the presentation entirely.</p>
+							<p>It also gave me a good excuse to work with D3's tree layout, which is a genuinely elegant solution to a complex hierarchical visualisation problem.</p>
+						</div>
+
+					</div>
+				</section>
+			</div>
+
+			<!-- Contact -->
+			<section id="contact">
+				<div class="inner">
+					<section class="split">
+						<section>
+							<div class="contact-method">
+								<span class="icon solid alt fa-envelope"></span>
+								<h3>Email</h3>
+								<a href="mailto:simpson.danielb@gmail.com">simpson.danielb@gmail.com</a>
+							</div>
+						</section>
+						<section>
+							<div class="contact-method">
+								<span class="icon brands alt fa-github"></span>
+								<h3>GitHub</h3>
+								<a href="https://github.com/danielbsimpson">danielbsimpson</a>
+							</div>
+						</section>
+						<section>
+							<div class="contact-method">
+								<span class="icon brands alt fa-linkedin-in"></span>
+								<h3>LinkedIn</h3>
+								<a href="https://www.linkedin.com/in/daniel-b-simpson/">daniel-b-simpson</a>
+							</div>
+						</section>
+					</section>
+				</div>
+			</section>
+
+		</div>
+
+		<script src="../assets/js/jquery.min.js"></script>
+		<script src="../assets/js/jquery.scrolly.min.js"></script>
+		<script src="../assets/js/jquery.scrollex.min.js"></script>
+		<script src="../assets/js/browser.min.js"></script>
+		<script src="../assets/js/breakpoints.min.js"></script>
+		<script src="../assets/js/util.js"></script>
+		<script src="../assets/js/main.js"></script>
+		<script src="../assets/js/particles.js"></script>
+		<script src="../assets/js/warp.js"></script>
+
+	</body>
+</html>

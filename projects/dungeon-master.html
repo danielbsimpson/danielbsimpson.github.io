@@ -1,0 +1,165 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Personal Dungeon Master — Daniel Simpson</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="icon" type="image/png" href="../images/basic_ds.png" />
+		<link rel="stylesheet" href="../assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<canvas id="star-canvas" data-planet="../images/neptune_image.png"></canvas>
+
+		<div id="wrapper">
+
+			<header id="header">
+				<a href="../index.html" class="logo"><strong>GitHub Projects</strong> <span>by Daniel Simpson</span></a>
+				<nav><a href="#menu">Menu</a></nav>
+			</header>
+
+			<nav id="menu">
+				<ul class="links">
+					<li><a href="../index.html">Home</a></li>
+					<li><a href="../about.html">About Me</a></li>
+					<li><a href="../msc_project.html">MSc Project</a></li>
+					<li><a href="../resume.html">My Resume</a></li>
+					<li class="nav-has-sub">
+						<a href="#">Projects <span class="nav-sub-arrow"></span></a>
+						<ul class="nav-sub">
+							<li><a href="personal-robot.html">Personal Robot</a></li>
+							<li><a href="dungeon-master.html">Personal Dungeon Master</a></li>
+							<li><a href="starling.html">STARLING Voice Interface</a></li>
+							<li><a href="facial-recognition.html">Facial Recognition</a></li>
+							<li><a href="covid-dashboard.html">Covid-19 Dashboard</a></li>
+							<li><a href="portfolio-website.html">Portfolio Website</a></li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="actions stacked">
+					<li><a href="../index.html" class="button primary fit">View All Projects</a></li>
+				</ul>
+			</nav>
+
+			<div id="main" class="alt">
+				<section id="one">
+					<div class="inner">
+
+						<header class="major">
+							<h1>Personal Dungeon Master</h1>
+						</header>
+
+						<ul class="actions" style="margin-bottom: 0.5em;">
+							<li><a href="https://github.com/danielbsimpson/personal-dungeon-master" class="button icon brands fa-github">View on GitHub</a></li>
+							<li><a href="../index.html" class="button small">← Back to Projects</a></li>
+						</ul>
+
+						<div class="project-page-hero" style="margin-top: 1.5em;">
+							<img src="../images/personal_dm_image.png" alt="Personal Dungeon Master" />
+							<div class="project-page-hero-overlay">
+								<p>A fully local AI Dungeon Master — persistent memory, seeded dice, and spoiler protection. No cloud APIs.</p>
+							</div>
+						</div>
+
+						<div class="tech-pill-row" style="margin-bottom: 2.5em;">
+							<span class="tech-pill">Python</span>
+							<span class="tech-pill">Ollama</span>
+							<span class="tech-pill">LangChain</span>
+							<span class="tech-pill">Knowledge Graph</span>
+							<span class="tech-pill">NetworkX</span>
+							<span class="tech-pill">D&amp;D 5e Rules</span>
+							<span class="tech-pill">FastAPI</span>
+						</div>
+
+						<div class="project-section">
+							<h2>What It Is</h2>
+							<p>The Personal Dungeon Master is a locally-run AI that guides players through Dungeons &amp; Dragons 5th edition adventures. It understands the rules, tracks the state of the world, remembers what has happened across sessions, and responds to player decisions with all the creativity and consistency of a good human DM — without ever sending your game data to a cloud service.</p>
+							<p>It uses a knowledge graph to maintain the state of the world: NPCs, locations, quest threads, relationships, and player history are all stored as nodes and edges that the model can query and update as the game progresses. A seeded dice engine ensures transparent, reproducible randomness. Spoiler protection means the DM only reveals what the player's character would reasonably know.</p>
+						</div>
+
+						<div class="project-section">
+							<h2>Why I Built It</h2>
+							<p>D&amp;D has been a hobby of mine for years. The thing that makes it special is the DM — a creative human who can improvise, remember everything, play a cast of characters, and keep the world feeling alive and consistent. That's an incredibly hard thing to replicate with AI, and exactly the kind of challenge I find compelling.</p>
+							<p>I'm deeply interested in how memory and continuity work in both biological and artificial systems — and a D&amp;D campaign is essentially a long-running, complex memory problem. The DM needs episodic memory (what happened last session), semantic memory (world lore and rules), and procedural memory (how to run encounters and adjudicate rules). Designing a system that handles all three using local AI tools is a fascinating engineering problem that sits right at the intersection of my professional and intellectual interests.</p>
+							<p>There's also something philosophically interesting about an AI that builds and maintains a persistent fictional world. It's a small-scale version of questions I think about in relation to consciousness and experience: what does it mean to have a coherent model of a world?</p>
+						</div>
+
+						<div class="project-section">
+							<h2>Key Features</h2>
+							<ul class="phase-list">
+								<li>
+									<span class="phase-badge">Memory</span>
+									<p><strong>Persistent Knowledge Graph</strong> — The game world is stored as a graph of entities and relationships. NPCs have motivations, history, and connections. Locations have descriptions and lore. All of it persists across sessions.</p>
+								</li>
+								<li>
+									<span class="phase-badge">Rules</span>
+									<p><strong>D&amp;D 5e Rule Engine</strong> — The DM understands 5e mechanics: ability checks, saving throws, combat initiative, spell slots, conditions, and death saving throws are all handled correctly.</p>
+								</li>
+								<li>
+									<span class="phase-badge">Fairness</span>
+									<p><strong>Seeded Dice Engine</strong> — All dice rolls use a seeded random engine, making results reproducible and auditable. No hidden fudging.</p>
+								</li>
+								<li>
+									<span class="phase-badge">Immersion</span>
+									<p><strong>Spoiler Protection</strong> — The DM only shares information the player character would plausibly know, preserving mystery and creating genuine discovery.</p>
+								</li>
+								<li>
+									<span class="phase-badge">Privacy</span>
+									<p><strong>Fully Local</strong> — Runs entirely via Ollama with no cloud APIs. Your campaign, your characters, and your game history stay on your machine.</p>
+								</li>
+							</ul>
+						</div>
+
+						<div class="project-section">
+							<h2>What I've Learned</h2>
+							<p>Building a coherent AI DM has pushed me hard on prompt engineering for small local models — getting a 7B or 14B parameter model to maintain consistent characterisation, follow rules correctly, and remember the state of a complex world is genuinely difficult. The knowledge graph approach has been far more reliable than pure RAG for this use case, since the structured data gives the model something precise to query rather than relying on fuzzy semantic similarity.</p>
+							<p>I've also learned a lot about the limits of current local models for long, complex creative tasks — and about how to work within those limits productively.</p>
+						</div>
+
+					</div>
+				</section>
+			</div>
+
+			<section id="contact">
+				<div class="inner">
+					<section class="split">
+						<section>
+							<div class="contact-method">
+								<span class="icon solid alt fa-envelope"></span>
+								<h3>Email</h3>
+								<a href="mailto:simpson.danielb@gmail.com">simpson.danielb@gmail.com</a>
+							</div>
+						</section>
+						<section>
+							<div class="contact-method">
+								<span class="icon brands alt fa-github"></span>
+								<h3>GitHub</h3>
+								<a href="https://github.com/danielbsimpson">danielbsimpson</a>
+							</div>
+						</section>
+						<section>
+							<div class="contact-method">
+								<span class="icon brands alt fa-linkedin-in"></span>
+								<h3>LinkedIn</h3>
+								<a href="https://www.linkedin.com/in/daniel-b-simpson/">daniel-b-simpson</a>
+							</div>
+						</section>
+					</section>
+				</div>
+			</section>
+
+		</div>
+
+		<script src="../assets/js/jquery.min.js"></script>
+		<script src="../assets/js/jquery.scrolly.min.js"></script>
+		<script src="../assets/js/jquery.scrollex.min.js"></script>
+		<script src="../assets/js/browser.min.js"></script>
+		<script src="../assets/js/breakpoints.min.js"></script>
+		<script src="../assets/js/util.js"></script>
+		<script src="../assets/js/main.js"></script>
+		<script src="../assets/js/particles.js"></script>
+		<script src="../assets/js/warp.js"></script>
+
+	</body>
+</html>

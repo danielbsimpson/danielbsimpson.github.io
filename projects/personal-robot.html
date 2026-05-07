@@ -1,0 +1,183 @@
+<!DOCTYPE HTML>
+<!--
+	Forty by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Personal Robot — Daniel Simpson</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="icon" type="image/png" href="../images/basic_ds.png" />
+		<link rel="stylesheet" href="../assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<canvas id="star-canvas" data-planet="../images/mars_image.png" data-planet-scale="1.07"></canvas>
+
+		<div id="wrapper">
+
+			<!-- Header -->
+			<header id="header">
+				<a href="../index.html" class="logo"><strong>GitHub Projects</strong> <span>by Daniel Simpson</span></a>
+				<nav><a href="#menu">Menu</a></nav>
+			</header>
+
+			<!-- Menu -->
+			<nav id="menu">
+				<ul class="links">
+					<li><a href="../index.html">Home</a></li>
+					<li><a href="../about.html">About Me</a></li>
+					<li><a href="../msc_project.html">MSc Project</a></li>
+					<li><a href="../resume.html">My Resume</a></li>
+					<li class="nav-has-sub">
+						<a href="#">Projects <span class="nav-sub-arrow"></span></a>
+						<ul class="nav-sub">
+							<li><a href="personal-robot.html">Personal Robot</a></li>
+							<li><a href="dungeon-master.html">Personal Dungeon Master</a></li>
+							<li><a href="starling.html">STARLING Voice Interface</a></li>
+							<li><a href="facial-recognition.html">Facial Recognition</a></li>
+							<li><a href="covid-dashboard.html">Covid-19 Dashboard</a></li>
+							<li><a href="portfolio-website.html">Portfolio Website</a></li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="actions stacked">
+					<li><a href="../index.html" class="button primary fit">View All Projects</a></li>
+				</ul>
+			</nav>
+
+			<!-- Main -->
+			<div id="main" class="alt">
+				<section id="one">
+					<div class="inner">
+
+						<header class="major">
+							<h1>Personal Robot</h1>
+						</header>
+
+						<ul class="actions" style="margin-bottom: 0.5em;">
+							<li><a href="https://github.com/danielbsimpson/personal_robot" class="button icon brands fa-github">View on GitHub</a></li>
+							<li><a href="../index.html" class="button small">← Back to Projects</a></li>
+						</ul>
+
+						<div class="project-page-hero" style="margin-top: 1.5em;">
+							<img src="../images/robot_image.jpg" alt="Personal Robot Project" />
+							<div class="project-page-hero-overlay">
+								<p>A fully local, open-source robot — no cloud APIs, no subscription, no data leaving the machine.</p>
+							</div>
+						</div>
+
+						<div class="tech-pill-row" style="margin-bottom: 2.5em;">
+							<span class="tech-pill">Python</span>
+							<span class="tech-pill">Ollama</span>
+							<span class="tech-pill">LangChain</span>
+							<span class="tech-pill">LlamaIndex</span>
+							<span class="tech-pill">ChromaDB</span>
+							<span class="tech-pill">Whisper STT</span>
+							<span class="tech-pill">Kokoro TTS</span>
+							<span class="tech-pill">YOLOv8</span>
+							<span class="tech-pill">OpenCV</span>
+							<span class="tech-pill">Raspberry Pi 5</span>
+							<span class="tech-pill">FastAPI</span>
+						</div>
+
+						<div class="project-section">
+							<h2>What It Is</h2>
+							<p>The Personal Robot is my most ambitious long-running personal project — a fully local, open-source robot built up in progressive phases. It starts as a conversational AI running a small LLM (currently Phi-4-mini via Ollama) entirely on-device, and grows through each phase into something that can hear, speak, see, remember, and eventually move.</p>
+							<p>Every component is local. No OpenAI API keys, no cloud subscriptions, no data sent offsite. Everything — the language model, the speech recognition, the text-to-speech, the vision pipeline — runs on the hardware itself.</p>
+						</div>
+
+						<div class="project-section">
+							<h2>Why I Built It</h2>
+							<p>Robotics has been a passion of mine since long before I worked in data science. The idea of building a system that can perceive the world, remember experiences, and carry on a coherent conversation is something I find genuinely thrilling — and deeply connected to questions I've been fascinated by since my undergraduate days studying neurobiology and philosophy.</p>
+							<p>How does memory work in biological systems? How does an entity build a coherent model of the world from sensory input? How does experience shape future behaviour? These are the questions that drew me to neuroscience — and they're also exactly the design challenges you face when building a robot with a persistent memory layer, a vision system, and a voice.</p>
+							<p>This project is my hands-on way of exploring those ideas. It's also just enormously fun to build.</p>
+						</div>
+
+						<div class="project-section">
+							<h2>Build Phases</h2>
+							<ul class="phase-list">
+								<li>
+									<span class="phase-badge">Phase 1</span>
+									<p><strong>Conversational LLM</strong> — A local chat interface running Phi-4-mini via Ollama. The foundation: a fast, capable small language model that can hold a conversation without any internet connection.</p>
+								</li>
+								<li>
+									<span class="phase-badge">Phase 2</span>
+									<p><strong>RAG Memory</strong> — Persistent memory via a vector store (ChromaDB) and retrieval-augmented generation pipeline built with LangChain. The robot can recall previous conversations and build a growing personal knowledge base.</p>
+								</li>
+								<li>
+									<span class="phase-badge">Phase 3</span>
+									<p><strong>Voice I/O</strong> — Whisper for speech-to-text and Kokoro for text-to-speech, giving the robot ears and a voice. Streaming responses ensure natural, low-latency conversations.</p>
+								</li>
+								<li>
+									<span class="phase-badge">Phase 4</span>
+									<p><strong>Computer Vision</strong> — YOLOv8 for real-time object detection and OpenCV for face recognition. The robot can now see, identify objects in its environment, and recognise individual people.</p>
+								</li>
+								<li>
+									<span class="phase-badge">Phase 5</span>
+									<p><strong>Physical Robot</strong> — Everything moves onto a Raspberry Pi 5 with a physical chassis. The robot becomes self-contained: a device that can perceive, think, remember, and move entirely on its own hardware.</p>
+								</li>
+							</ul>
+						</div>
+
+						<div class="project-section">
+							<h2>What I've Learned</h2>
+							<p>Building this project has pushed me across hardware, systems programming, and applied AI in ways no professional project has. Designing a reliable RAG memory layer that doesn't hallucinate stale context, tuning Whisper for low-latency transcription on constrained hardware, getting YOLOv8 to run at a usable framerate on a Pi — each phase has been a genuine engineering challenge.</p>
+							<p>It has also deepened my understanding of local LLM deployment significantly — the tradeoffs between model size, quantisation, and response quality; how to structure prompts for small models; how streaming works at the API level. All of that feeds directly back into how I approach AI tooling in my professional work.</p>
+						</div>
+
+						<div class="project-section">
+							<h2>What's Next</h2>
+							<p>Phase 5 is the goal: a fully self-contained physical robot running entirely on Raspberry Pi 5 hardware. Beyond that, I'm interested in adding a longer-term episodic memory layer — something closer to how humans form and retrieve autobiographical memories — and exploring how the robot's behaviour might adapt and evolve over time based on accumulated experience.</p>
+						</div>
+
+					</div>
+				</section>
+			</div>
+
+			<!-- Contact -->
+			<section id="contact">
+				<div class="inner">
+					<section class="split">
+						<section>
+							<div class="contact-method">
+								<span class="icon solid alt fa-envelope"></span>
+								<h3>Email</h3>
+								<a href="mailto:simpson.danielb@gmail.com">simpson.danielb@gmail.com</a>
+							</div>
+						</section>
+						<section>
+							<div class="contact-method">
+								<span class="icon brands alt fa-github"></span>
+								<h3>GitHub</h3>
+								<a href="https://github.com/danielbsimpson">danielbsimpson</a>
+							</div>
+						</section>
+						<section>
+							<div class="contact-method">
+								<span class="icon brands alt fa-linkedin-in"></span>
+								<h3>LinkedIn</h3>
+								<a href="https://www.linkedin.com/in/daniel-b-simpson/">daniel-b-simpson</a>
+							</div>
+						</section>
+					</section>
+				</div>
+			</section>
+
+		</div>
+
+		<script src="../assets/js/jquery.min.js"></script>
+		<script src="../assets/js/jquery.scrolly.min.js"></script>
+		<script src="../assets/js/jquery.scrollex.min.js"></script>
+		<script src="../assets/js/browser.min.js"></script>
+		<script src="../assets/js/breakpoints.min.js"></script>
+		<script src="../assets/js/util.js"></script>
+		<script src="../assets/js/main.js"></script>
+		<script src="../assets/js/particles.js"></script>
+		<script src="../assets/js/warp.js"></script>
+
+	</body>
+</html>

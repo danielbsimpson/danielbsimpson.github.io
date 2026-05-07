@@ -1,0 +1,146 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Personal Budget Dashboard — Daniel Simpson</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="icon" type="image/png" href="../images/basic_ds.png" />
+		<link rel="stylesheet" href="../assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<canvas id="star-canvas" data-planet="../images/mars_image.png" data-planet-scale="0.95"></canvas>
+
+		<div id="wrapper">
+
+			<!-- Header -->
+			<header id="header">
+				<a href="../index.html" class="logo"><strong>GitHub Projects</strong> <span>by Daniel Simpson</span></a>
+				<nav><a href="#menu">Menu</a></nav>
+			</header>
+
+			<!-- Menu -->
+			<nav id="menu">
+				<ul class="links">
+					<li><a href="../index.html">Home</a></li>
+					<li><a href="../about.html">About Me</a></li>
+					<li><a href="../msc_project.html">MSc Project</a></li>
+					<li><a href="../resume.html">My Resume</a></li>
+					<li><a href="index.html">Featured Projects</a></li>
+				</ul>
+				<ul class="actions stacked">
+					<li><a href="index.html" class="button primary fit">← All Projects</a></li>
+				</ul>
+			</nav>
+
+			<!-- Main -->
+			<div id="main" class="alt">
+				<section id="one">
+					<div class="inner">
+
+						<header class="major">
+							<h1>Personal Budget Dashboard</h1>
+						</header>
+
+						<ul class="actions" style="margin-bottom: 0.5em;">
+							<li><a href="../budget_app/index.html" class="button icon solid fa-wallet">Open Dashboard</a></li>
+							<li><a href="index.html" class="button small">← Back to Projects</a></li>
+						</ul>
+
+						<div class="project-page-hero" style="margin-top: 1.5em;">
+							<img src="../images/money.jpg" alt="Personal Budget Dashboard" />
+							<div class="project-page-hero-overlay">
+								<p>A fully client-side personal finance dashboard — track spending, savings, and income with no server and no data leaving your browser.</p>
+							</div>
+						</div>
+
+						<div class="tech-pill-row" style="margin-bottom: 2.5em;">
+							<span class="tech-pill">JavaScript</span>
+							<span class="tech-pill">Chart.js</span>
+							<span class="tech-pill">HTML</span>
+							<span class="tech-pill">CSS</span>
+							<span class="tech-pill">JSON</span>
+						</div>
+
+						<div class="project-section">
+							<h2>What It Is</h2>
+							<p>The Personal Budget Dashboard is an interactive finance tracker built entirely in the browser. It visualises income, expenses, and savings across configurable categories using dynamic Chart.js charts — with no backend server, no database, and no data ever leaving the client.</p>
+							<p>Transactions are loaded from a JSON data file and the dashboard updates all charts and summaries in real time. The sidebar breaks down spending by category, and the main view shows monthly trends across the full period.</p>
+						</div>
+
+						<div class="project-section">
+							<h2>Features</h2>
+							<ul class="phase-list">
+								<li>
+									<span class="phase-badge">Overview</span>
+									<p>At-a-glance summary of total income, total expenses, and net savings for the selected period — updated dynamically as filters change.</p>
+								</li>
+								<li>
+									<span class="phase-badge">Category Breakdown</span>
+									<p>Configurable spending categories with doughnut and bar chart visualisations — see exactly where money is going each month.</p>
+								</li>
+								<li>
+									<span class="phase-badge">Trend Analysis</span>
+									<p>Line charts showing income and expense trends over time, making it easy to spot months where spending spikes or savings improve.</p>
+								</li>
+								<li>
+									<span class="phase-badge">Fully Client-Side</span>
+									<p>All data stays in the browser. The app runs from static files with no server, making it easy to self-host or run locally from a single folder.</p>
+								</li>
+							</ul>
+						</div>
+
+						<div class="project-section">
+							<h2>Why I Built It</h2>
+							<p>Most personal finance apps require a bank connection, a subscription, or the trust that your financial data is being handled securely by a third party. I wanted something simpler: a tool I could run locally, load my own exported transaction data into, and use entirely offline. Privacy by design, not as a feature.</p>
+							<p>It also gave me an opportunity to work with Chart.js in depth — exploring how to build responsive, animated financial charts that update cleanly when data or filter state changes.</p>
+						</div>
+
+					</div>
+				</section>
+			</div>
+
+			<!-- Contact -->
+			<section id="contact">
+				<div class="inner">
+					<section class="split">
+						<section>
+							<div class="contact-method">
+								<span class="icon solid alt fa-envelope"></span>
+								<h3>Email</h3>
+								<a href="mailto:simpson.danielb@gmail.com">simpson.danielb@gmail.com</a>
+							</div>
+						</section>
+						<section>
+							<div class="contact-method">
+								<span class="icon brands alt fa-github"></span>
+								<h3>GitHub</h3>
+								<a href="https://github.com/danielbsimpson">danielbsimpson</a>
+							</div>
+						</section>
+						<section>
+							<div class="contact-method">
+								<span class="icon brands alt fa-linkedin-in"></span>
+								<h3>LinkedIn</h3>
+								<a href="https://www.linkedin.com/in/daniel-b-simpson/">daniel-b-simpson</a>
+							</div>
+						</section>
+					</section>
+				</div>
+			</section>
+
+		</div>
+
+		<script src="../assets/js/jquery.min.js"></script>
+		<script src="../assets/js/jquery.scrolly.min.js"></script>
+		<script src="../assets/js/jquery.scrollex.min.js"></script>
+		<script src="../assets/js/browser.min.js"></script>
+		<script src="../assets/js/breakpoints.min.js"></script>
+		<script src="../assets/js/util.js"></script>
+		<script src="../assets/js/main.js"></script>
+		<script src="../assets/js/particles.js"></script>
+		<script src="../assets/js/warp.js"></script>
+
+	</body>
+</html>

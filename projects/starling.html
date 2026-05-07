@@ -1,0 +1,165 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>STARLING Voice Interface — Daniel Simpson</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="icon" type="image/png" href="../images/basic_ds.png" />
+		<link rel="stylesheet" href="../assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<canvas id="star-canvas" data-planet="../images/venus_image.png" data-planet-scale="1.30"></canvas>
+
+		<div id="wrapper">
+
+			<header id="header">
+				<a href="../index.html" class="logo"><strong>GitHub Projects</strong> <span>by Daniel Simpson</span></a>
+				<nav><a href="#menu">Menu</a></nav>
+			</header>
+
+			<nav id="menu">
+				<ul class="links">
+					<li><a href="../index.html">Home</a></li>
+					<li><a href="../about.html">About Me</a></li>
+					<li><a href="../msc_project.html">MSc Project</a></li>
+					<li><a href="../resume.html">My Resume</a></li>
+					<li><a href="index.html">Featured Projects</a></li>
+				</ul>
+				<ul class="actions stacked">
+					<li><a href="index.html" class="button primary fit">← All Projects</a></li>
+				</ul>
+			</nav>
+
+			<div id="main" class="alt">
+				<section id="one">
+					<div class="inner">
+
+						<header class="major">
+							<h1>STARLING</h1>
+						</header>
+
+						<p style="font-size: 1.05em; opacity: 0.75; margin-top: -1em; margin-bottom: 1.5em; font-style: italic;">Local LLM Voice Interface</p>
+
+						<ul class="actions" style="margin-bottom: 0.5em;">
+							<li><a href="https://github.com/danielbsimpson/llm-speech-UI" class="button icon brands fa-github">View on GitHub</a></li>
+							<li><a href="index.html" class="button small">← Back to Projects</a></li>
+						</ul>
+
+						<div class="project-page-hero" style="margin-top: 1.5em;">
+							<img src="../images/REMI_example_image.png" alt="STARLING Voice Interface HUD" />
+							<div class="project-page-hero-overlay">
+								<p>Voice-driven local LLM with Whisper STT, Kokoro TTS, streaming responses, and an animated HUD.</p>
+							</div>
+						</div>
+
+						<div class="tech-pill-row" style="margin-bottom: 2.5em;">
+							<span class="tech-pill">Python</span>
+							<span class="tech-pill">Ollama</span>
+							<span class="tech-pill">Whisper STT</span>
+							<span class="tech-pill">Kokoro TTS</span>
+							<span class="tech-pill">Canvas API</span>
+							<span class="tech-pill">FastAPI</span>
+							<span class="tech-pill">Streaming</span>
+						</div>
+
+						<div class="project-section">
+							<h2>What It Is</h2>
+							<p>STARLING — <em>Speech-Triggered Autonomous Reasoning &amp; Local Intelligence Node Generator</em> — is a fully local voice interface for a large language model. You speak, Whisper transcribes your words in real time, the LLM responds via Ollama with streaming output, and Kokoro synthesises the reply into natural-sounding speech, all while an animated HUD visualises the system's live state.</p>
+							<p>Nothing leaves the machine. No API keys, no remote servers, no subscriptions. The entire pipeline — speech recognition, language model inference, text-to-speech — runs on local hardware, with the only running cost being electricity.</p>
+						</div>
+
+						<div class="project-section">
+							<h2>Why I Built It</h2>
+							<p>The motivation wasn't frustration with existing voice assistants — it was curiosity about how straightforward it would be to build one entirely from scratch, entirely locally. I wanted to prove out the concept: that with the right open-source components, a private, capable, conversational AI interface was achievable on consumer hardware without touching a single third-party API.</p>
+							<p>Local-first design is a philosophy I've come to genuinely enjoy. Beyond the obvious privacy and cost benefits — no compute bills beyond GPU wear, no data handed to corporations — there's a particular kind of engineering challenge in making constrained systems perform well. Getting meaningful latency out of a fully local speech-to-LLM-to-speech pipeline requires real problem-solving, and that's the part I find most satisfying.</p>
+							<p>STARLING also emerged as a necessary step in a larger vision: building a fully localised personal robot. The voice layer had to exist somewhere, and building it as a dedicated project gave me the space to develop and refine it properly. But somewhere along the way it became its own thing — the UX design took on a life of its own, and the project has grown well beyond its original role as a robot sub-component.</p>
+						</div>
+
+						<div class="project-section">
+							<h2>The Interface</h2>
+							<p>The animated HUD was always central to the design — I wanted something that felt genuinely alive rather than a static UI waiting for input. The sphere and orbiting elements went through many iterations of trial and error before landing on the current design, but the guiding principle was consistent throughout: the interface should <em>react</em>. It responds to mouse movement, shifts state visibly as the system moves between listening, processing, and speaking, and gives the whole interaction a presence that a text box simply doesn't.</p>
+							<p>The sci-fi thread running through this is deliberate. HAL 9000, JARVIS, and countless novels have shaped what I think a human-AI voice interface should <em>feel</em> like — not a command prompt with a microphone attached, but something that seems to come alive when you speak to it. STARLING is my attempt to build that feeling with real, local, open-source technology.</p>
+						</div>
+
+						<div class="project-section">
+							<h2>How It Works</h2>
+							<ul class="phase-list">
+								<li>
+									<span class="phase-badge">Input</span>
+									<p><strong>Whisper STT</strong> — OpenAI's Whisper model runs entirely locally, transcribing spoken input in real time. The model is small enough to run on CPU while remaining impressively accurate across accents and conversational speech.</p>
+								</li>
+								<li>
+									<span class="phase-badge">Inference</span>
+									<p><strong>Ollama LLM</strong> — The transcribed text is sent to a locally-running LLM via Ollama. Streaming mode means the first tokens arrive almost immediately, which is critical for keeping the overall pipeline latency tolerable.</p>
+								</li>
+								<li>
+									<span class="phase-badge">Output</span>
+									<p><strong>Kokoro TTS</strong> — The streamed response is synthesised into speech by Kokoro. Chunked synthesis means audio begins playing before the full response is generated, further reducing the gap between question and answer.</p>
+								</li>
+								<li>
+									<span class="phase-badge">HUD</span>
+									<p><strong>Reactive Interface</strong> — A canvas-based animated interface visualises system state in real time — listening, processing, speaking — with a sphere and orb design that responds to mouse input and transitions between states, making the interaction feel like a live presence rather than a request-response loop.</p>
+								</li>
+							</ul>
+						</div>
+
+						<div class="project-section">
+							<h2>Current State</h2>
+							<p>The latency surprised me. With a few engineering optimisations — streaming LLM output, chunked TTS, careful pipeline sequencing — the end-to-end response time after audio delivery sits around 2–3 seconds, which is close enough to a natural conversational pause that it rarely feels like waiting.</p>
+							<p>The conversational quality is the area that still needs the most work. Without persistent memory, the system can go off the rails in extended conversations — confabulating details about itself, losing thread context, behaving inconsistently. Once a memory layer is integrated, I expect this to improve significantly. For now, it works best in shorter, focused exchanges.</p>
+						</div>
+
+						<div class="project-section">
+							<h2>What's Next</h2>
+							<p>The next major feature is a <strong>dossier mode</strong>: activation words that trigger a structured presentation mode, where the LLM's output is delivered in a consistent, formatted manner while a relevant image is displayed alongside it. Think of it as a visual briefing system — you ask about something, and the interface switches into a clean, readable presentation rather than a conversational reply.</p>
+							<p>The use case I have in mind is a RAG-backed system built around information on friends — a fun, slightly absurd personal intelligence terminal. But the more general version is a Wikipedia-style dossier interface: ask about anything, get a structured visual summary. That version has a life of its own beyond the robot project, and is where I plan to take STARLING next.</p>
+						</div>
+
+					</div>
+				</section>
+			</div>
+
+			<section id="contact">
+				<div class="inner">
+					<section class="split">
+						<section>
+							<div class="contact-method">
+								<span class="icon solid alt fa-envelope"></span>
+								<h3>Email</h3>
+								<a href="mailto:simpson.danielb@gmail.com">simpson.danielb@gmail.com</a>
+							</div>
+						</section>
+						<section>
+							<div class="contact-method">
+								<span class="icon brands alt fa-github"></span>
+								<h3>GitHub</h3>
+								<a href="https://github.com/danielbsimpson">danielbsimpson</a>
+							</div>
+						</section>
+						<section>
+							<div class="contact-method">
+								<span class="icon brands alt fa-linkedin-in"></span>
+								<h3>LinkedIn</h3>
+								<a href="https://www.linkedin.com/in/daniel-b-simpson/">daniel-b-simpson</a>
+							</div>
+						</section>
+					</section>
+				</div>
+			</section>
+
+		</div>
+
+		<script src="../assets/js/jquery.min.js"></script>
+		<script src="../assets/js/jquery.scrolly.min.js"></script>
+		<script src="../assets/js/jquery.scrollex.min.js"></script>
+		<script src="../assets/js/browser.min.js"></script>
+		<script src="../assets/js/breakpoints.min.js"></script>
+		<script src="../assets/js/util.js"></script>
+		<script src="../assets/js/main.js"></script>
+		<script src="../assets/js/particles.js"></script>
+		<script src="../assets/js/warp.js"></script>
+
+	</body>
+</html>

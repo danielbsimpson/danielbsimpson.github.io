@@ -1,0 +1,166 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Portfolio Website — Daniel Simpson</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="icon" type="image/png" href="../images/basic_ds.png" />
+		<link rel="stylesheet" href="../assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<canvas id="star-canvas" data-planet="../images/earth_image.png"></canvas>
+
+		<div id="wrapper">
+
+			<header id="header">
+				<a href="../index.html" class="logo"><strong>GitHub Projects</strong> <span>by Daniel Simpson</span></a>
+				<nav><a href="#menu">Menu</a></nav>
+			</header>
+
+			<nav id="menu">
+				<ul class="links">
+					<li><a href="../index.html">Home</a></li>
+					<li><a href="../about.html">About Me</a></li>
+					<li><a href="../msc_project.html">MSc Project</a></li>
+					<li><a href="../resume.html">My Resume</a></li>
+					<li class="nav-has-sub">
+						<a href="#">Projects <span class="nav-sub-arrow"></span></a>
+						<ul class="nav-sub">
+							<li><a href="personal-robot.html">Personal Robot</a></li>
+							<li><a href="dungeon-master.html">Personal Dungeon Master</a></li>
+							<li><a href="starling.html">STARLING Voice Interface</a></li>
+							<li><a href="facial-recognition.html">Facial Recognition</a></li>
+							<li><a href="covid-dashboard.html">Covid-19 Dashboard</a></li>
+							<li><a href="portfolio-website.html">Portfolio Website</a></li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="actions stacked">
+					<li><a href="../index.html" class="button primary fit">View All Projects</a></li>
+				</ul>
+			</nav>
+
+			<div id="main" class="alt">
+				<section id="one">
+					<div class="inner">
+
+						<header class="major">
+							<h1>Portfolio Website</h1>
+						</header>
+
+						<ul class="actions" style="margin-bottom: 0.5em;">
+							<li><a href="https://github.com/danielbsimpson/danielbsimpson.github.io" class="button icon brands fa-github">View on GitHub</a></li>
+							<li><a href="../index.html" class="button small">← Back to Projects</a></li>
+						</ul>
+
+						<div class="project-page-hero" style="margin-top: 1.5em;">
+							<img src="../images/Network_img.jpg" alt="Portfolio Website" />
+							<div class="project-page-hero-overlay">
+								<p>Built with vanilla HTML, CSS, and JS on GitHub Pages — the site you're looking at right now.</p>
+							</div>
+						</div>
+
+						<div class="tech-pill-row" style="margin-bottom: 2.5em;">
+							<span class="tech-pill">HTML5</span>
+							<span class="tech-pill">CSS3</span>
+							<span class="tech-pill">JavaScript</span>
+							<span class="tech-pill">Canvas API</span>
+							<span class="tech-pill">GitHub Pages</span>
+							<span class="tech-pill">Jekyll</span>
+							<span class="tech-pill">Particles.js</span>
+						</div>
+
+						<div class="project-section">
+							<h2>What It Is</h2>
+							<p>This portfolio site — the one you're reading right now — built with vanilla HTML, CSS, and JavaScript, hosted on GitHub Pages. It started from an HTML5 UP template called Forty and has been progressively customised into a distinct space-themed experience with a range of custom interactive features.</p>
+							<p>Everything runs client-side. No backend, no database, no build step. Just static files served from GitHub.</p>
+						</div>
+
+						<div class="project-section">
+							<h2>Why I Built It</h2>
+							<p>I'm a data scientist who genuinely enjoys web development. Building this portfolio from scratch — rather than using a hosted solution — was an opportunity to practise front-end skills, explore creative ideas I'd been thinking about, and produce something that reflects my aesthetic rather than a template.</p>
+							<p>The space theme emerged naturally. I spend a lot of time thinking about large systems — neural networks, data pipelines, the scale of the internet — and the idea of the site feeling like a window into deep space, with stars and a planet drifting behind the content, felt like the right metaphor. The universe is the ultimate complex system.</p>
+							<p>It's also an honest demonstration of what I can do beyond Python. Employers and collaborators who look at this site see not just a list of projects, but evidence of design sensibility, front-end capability, and attention to detail — all things I think are undervalued in data scientists.</p>
+						</div>
+
+						<div class="project-section">
+							<h2>Custom Features</h2>
+							<ul class="phase-list">
+								<li>
+									<span class="phase-badge">Canvas</span>
+									<p><strong>Procedural Star Field</strong> — A full-screen canvas animation generates a field of stars that parallax-scroll as the user moves down the page, with a planet image that drifts slowly across the viewport. Each page uses a different planet.</p>
+								</li>
+								<li>
+									<span class="phase-badge">Transitions</span>
+									<p><strong>Hyperspace Warp</strong> — Clicking any internal link triggers a hyperspace jump animation: streaks of light accelerate outward to a white flash before navigating. The reverse animation plays on page load. Built entirely on a second canvas element.</p>
+								</li>
+								<li>
+									<span class="phase-badge">Resume</span>
+									<p><strong>Skills Constellation</strong> — The Technology Expertise section on the resume page renders 34 skill logos as floating nodes on an animated canvas, connected by glowing neural-network-style lines radiating from a central brain image. Each node is clickable and shows a description popup.</p>
+								</li>
+								<li>
+									<span class="phase-badge">Design</span>
+									<p><strong>Space Theme System</strong> — A consistent CSS variable system defines the colour palette, with frosted-glass cards, glowing borders, and Orbitron font headings throughout. The visual language is coherent across all pages.</p>
+								</li>
+								<li>
+									<span class="phase-badge">Nav</span>
+									<p><strong>Projects Dropdown</strong> — The burger menu includes a collapsible sub-menu linking to all dedicated project pages, with a smooth max-height transition and a rotating arrow indicator.</p>
+								</li>
+							</ul>
+						</div>
+
+						<div class="project-section">
+							<h2>What I've Learned</h2>
+							<p>This site has been a consistent learning project across several years. The canvas animations pushed me deep into the Canvas 2D API — linear gradients, radial gradients, path drawing, animation loops with <code>requestAnimationFrame</code>, hit detection, and pixel-level composition. The warp transition required thinking carefully about easing functions and frame timing to feel right.</p>
+							<p>The skills constellation taught me how to lay out a large number of absolutely-positioned DOM elements using JavaScript geometry, and how to keep a canvas layer in sync with DOM element positions during animation. It's a surprisingly complex synchronisation problem when you think about resize events, scroll, and drift animations all happening simultaneously.</p>
+							<p>More broadly, building a site that people actually visit — one that I care about and update — has given me a much more grounded understanding of what makes front-end work hard than any course or tutorial could.</p>
+						</div>
+
+					</div>
+				</section>
+			</div>
+
+			<section id="contact">
+				<div class="inner">
+					<section class="split">
+						<section>
+							<div class="contact-method">
+								<span class="icon solid alt fa-envelope"></span>
+								<h3>Email</h3>
+								<a href="mailto:simpson.danielb@gmail.com">simpson.danielb@gmail.com</a>
+							</div>
+						</section>
+						<section>
+							<div class="contact-method">
+								<span class="icon brands alt fa-github"></span>
+								<h3>GitHub</h3>
+								<a href="https://github.com/danielbsimpson">danielbsimpson</a>
+							</div>
+						</section>
+						<section>
+							<div class="contact-method">
+								<span class="icon brands alt fa-linkedin-in"></span>
+								<h3>LinkedIn</h3>
+								<a href="https://www.linkedin.com/in/daniel-b-simpson/">daniel-b-simpson</a>
+							</div>
+						</section>
+					</section>
+				</div>
+			</section>
+
+		</div>
+
+		<script src="../assets/js/jquery.min.js"></script>
+		<script src="../assets/js/jquery.scrolly.min.js"></script>
+		<script src="../assets/js/jquery.scrollex.min.js"></script>
+		<script src="../assets/js/browser.min.js"></script>
+		<script src="../assets/js/breakpoints.min.js"></script>
+		<script src="../assets/js/util.js"></script>
+		<script src="../assets/js/main.js"></script>
+		<script src="../assets/js/particles.js"></script>
+		<script src="../assets/js/warp.js"></script>
+
+	</body>
+</html>
