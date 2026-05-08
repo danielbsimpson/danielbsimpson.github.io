@@ -192,13 +192,24 @@
 				$window.trigger('scroll');
 			});
 
+			// Set header state immediately based on scroll position —
+			// prevents the first-load flash before scrollex initialises.
+			(function() {
+				var atTop = (window.pageYOffset || document.documentElement.scrollTop) < 10;
+				if (!atTop) {
+					$header.removeClass('alt');
+					$header.addClass('reveal');
+				}
+			})();
+
 			$window.on('load', function() {
 
+				var bannerLeft = (window.pageYOffset || document.documentElement.scrollTop) > 10;
 				$banner.scrollex({
-					bottom:		$header.height() + 10,
+					bottom:		$header.height() + 80,
 					terminate:	function() { $header.removeClass('alt'); },
-					enter:		function() { $header.addClass('alt'); },
-					leave:		function() { $header.removeClass('alt'); $header.addClass('reveal'); }
+					enter:		function() { if (!bannerLeft) $header.addClass('alt'); },
+					leave:		function() { bannerLeft = true; $header.removeClass('alt'); $header.addClass('reveal'); }
 				});
 
 				window.setTimeout(function() {
