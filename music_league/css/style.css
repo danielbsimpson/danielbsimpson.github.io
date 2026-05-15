@@ -63,6 +63,25 @@ body {
   align-items: center;
   gap: 8px;
   margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.sidebar-author {
+  width: 100%;
+  font-size: 0.72rem;
+  color: var(--text-muted, #aaa);
+  margin: -6px 0 0 0;
+  text-align: left;
+}
+
+.sidebar-author a {
+  color: var(--text-muted, #aaa);
+  text-decoration: none;
+}
+
+.sidebar-author a:hover {
+  color: var(--accent);
+  text-decoration: underline;
 }
 
 .sidebar-icon { font-size: 1.4rem; }
