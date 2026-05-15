@@ -55,18 +55,21 @@
 
 						<div class="tech-pill-row" style="margin-bottom: 2.5em;">
 							<span class="tech-pill">Python</span>
-							<span class="tech-pill">Ollama</span>
+							<span class="tech-pill">llama.cpp</span>
 							<span class="tech-pill">Whisper STT</span>
 							<span class="tech-pill">Kokoro TTS</span>
-							<span class="tech-pill">Canvas API</span>
+							<span class="tech-pill">Three.js</span>
 							<span class="tech-pill">FastAPI</span>
 							<span class="tech-pill">Streaming</span>
+							<span class="tech-pill">ChromaDB RAG</span>
+							<span class="tech-pill">Ollama</span>
 						</div>
 
 						<div class="project-section">
 							<h2>What It Is</h2>
-							<p>STARLING — <em>Speech-Triggered Autonomous Reasoning &amp; Local Intelligence Node Generator</em> — is a fully local voice interface for a large language model. You speak, Whisper transcribes your words in real time, the LLM responds via Ollama with streaming output, and Kokoro synthesises the reply into natural-sounding speech, all while an animated HUD visualises the system's live state.</p>
+							<p>STARLING — <em>Speech-Triggered Autonomous Reasoning &amp; Local Intelligence Node Generator</em> — is a fully local voice interface for a large language model. You speak, Whisper transcribes your words in real time, the LLM responds via a direct <strong>llama-server</strong> (llama.cpp) connection with streaming output, and Kokoro synthesises each sentence of the reply into natural-sounding speech as it arrives — all while a Three.js animated HUD visualises the system's live state.</p>
 							<p>Nothing leaves the machine. No API keys, no remote servers, no subscriptions. The entire pipeline — speech recognition, language model inference, text-to-speech — runs on local hardware, with the only running cost being electricity.</p>
+							<p>Beyond the core voice pipeline, STARLING has grown to include a <strong>RAG memory system</strong> (ChromaDB + BM25/vector fusion retrieval), a <strong>dynamic presentation mode</strong> triggered by voice ("pull up the dossier on…"), and a growing suite of voice-activated tools — with time &amp; date queries, timers, a 7-day weather panel, and a live news briefing panel already shipped as part of Phase 11.</p>
 						</div>
 
 						<div class="project-section">
@@ -78,7 +81,7 @@
 
 						<div class="project-section">
 							<h2>The Interface</h2>
-							<p>The animated HUD was always central to the design — I wanted something that felt genuinely alive rather than a static UI waiting for input. The sphere and orbiting elements went through many iterations of trial and error before landing on the current design, but the guiding principle was consistent throughout: the interface should <em>react</em>. It responds to mouse movement, shifts state visibly as the system moves between listening, processing, and speaking, and gives the whole interaction a presence that a text box simply doesn't.</p>
+							<p>The animated HUD was always central to the design — I wanted something that felt genuinely alive rather than a static UI waiting for input. The sphere went through many iterations before landing on its current form: a Three.js scene featuring a matte black sphere with per-vertex audio-driven displacement and seven independently orbiting PointLight orbs. A four-state machine drives the whole thing — the orbs shift colour and speed as the system transitions between idle, listening, thinking, and speaking, and the sphere surface deforms in real time from microphone frequency data while the user speaks.</p>
 							<p>The sci-fi thread running through this is deliberate. HAL 9000, JARVIS, and countless novels have shaped what I think a human-AI voice interface should <em>feel</em> like — not a command prompt with a microphone attached, but something that seems to come alive when you speak to it. STARLING is my attempt to build that feeling with real, local, open-source technology.</p>
 						</div>
 
@@ -87,33 +90,50 @@
 							<ul class="phase-list">
 								<li>
 									<span class="phase-badge">Input</span>
-									<p><strong>Whisper STT</strong> — OpenAI's Whisper model runs entirely locally, transcribing spoken input in real time. The model is small enough to run on CPU while remaining impressively accurate across accents and conversational speech.</p>
+									<p><strong>Whisper STT</strong> — OpenAI's faster-whisper model runs entirely locally on the GPU, transcribing spoken input in real time. A warm-up sequence on page load pre-heats the CUDA session so the first mic press is as fast as every subsequent one.</p>
 								</li>
 								<li>
 									<span class="phase-badge">Inference</span>
-									<p><strong>Ollama LLM</strong> — The transcribed text is sent to a locally-running LLM via Ollama. Streaming mode means the first tokens arrive almost immediately, which is critical for keeping the overall pipeline latency tolerable.</p>
+									<p><strong>llama-server (llama.cpp)</strong> — The transcribed text is sent directly to a locally-running LLM via llama-server's OpenAI-compatible endpoint. This direct path replaced an earlier Ollama relay, cutting first-token latency noticeably. Ollama is retained as a one-line fallback. Streaming mode means tokens arrive almost immediately, and a live metrics bar shows generation speed, prompt tokens, and context window fill after every response.</p>
 								</li>
 								<li>
 									<span class="phase-badge">Output</span>
-									<p><strong>Kokoro TTS</strong> — The streamed response is synthesised into speech by Kokoro. Chunked synthesis means audio begins playing before the full response is generated, further reducing the gap between question and answer.</p>
+									<p><strong>Kokoro TTS</strong> — The streamed response is synthesised by Kokoro using a sentence-chunked pipeline: each sentence is synthesised and played as it completes rather than waiting for the full response, reducing the perceived gap between question and answer to well under a second in most exchanges.</p>
 								</li>
 								<li>
 									<span class="phase-badge">HUD</span>
-									<p><strong>Reactive Interface</strong> — A canvas-based animated interface visualises system state in real time — listening, processing, speaking — with a sphere and orb design that responds to mouse input and transitions between states, making the interaction feel like a live presence rather than a request-response loop.</p>
+									<p><strong>Three.js Sphere</strong> — A matte black sphere with seven independently orbiting PointLight orbs drives the visual identity. A four-state machine (idle / listening / thinking / speaking) controls orb colour and orbit speed, while the sphere surface deforms in real time from AudioAnalyser frequency data during microphone input.</p>
+								</li>
+								<li>
+									<span class="phase-badge">Memory</span>
+									<p><strong>RAG System</strong> — A ChromaDB + BM25/vector fusion retrieval layer lets STARLING draw on a local document store. Drop <code>.md</code> or <code>.txt</code> files into the <code>memory/input/</code> folder, run <code>make rag-ingest</code>, and the system grounds its responses in that material without any additional configuration.</p>
+								</li>
+								<li>
+									<span class="phase-badge">Presentation</span>
+									<p><strong>Dossier Mode</strong> — Saying "pull up the dossier on [name]" triggers a full UI reconfiguration: a neon-bordered image panel appears alongside a structured subject profile, and STARLING delivers an automatic spoken briefing via the sentence-chunked TTS pipeline. Subjects are defined in a JSON manifest mapping names to images and structured description files.</p>
 								</li>
 							</ul>
 						</div>
 
 						<div class="project-section">
 							<h2>Current State</h2>
-							<p>The latency surprised me. With a few engineering optimisations — streaming LLM output, chunked TTS, careful pipeline sequencing — the end-to-end response time after audio delivery sits around 2–3 seconds, which is close enough to a natural conversational pause that it rarely feels like waiting.</p>
-							<p>The conversational quality is the area that still needs the most work. Without persistent memory, the system can go off the rails in extended conversations — confabulating details about itself, losing thread context, behaving inconsistently. Once a memory layer is integrated, I expect this to improve significantly. For now, it works best in shorter, focused exchanges.</p>
+							<p>The latency is in a good place. All three pipelines — Whisper, Kokoro, and llama-server — run on GPU. With sentence-chunked TTS, the first audio plays while the LLM is still generating the rest of the response, and typical end-to-end voice → first audio sits comfortably under 3 seconds. A warm-up sequence on page load pre-heats both the Whisper and Kokoro CUDA sessions, so the cold-start delay that plagued earlier versions is gone.</p>
+							<p>A handful of rougher edges remain. The most noticeable is early STT cutoff — the silence detector occasionally clips the end of longer utterances before the user has finished speaking. There's also an audio overlap bug where clicking the mic while speech is playing can cause two TTS clips to race. Dossier exit phrases are reliable enough in practice but still occasionally missed by Whisper transcription variations. None of these block real use, but they're the next things in line to fix.</p>
 						</div>
 
 						<div class="project-section">
 							<h2>What's Next</h2>
-							<p>The next major feature is a <strong>dossier mode</strong>: activation words that trigger a structured presentation mode, where the LLM's output is delivered in a consistent, formatted manner while a relevant image is displayed alongside it. Think of it as a visual briefing system — you ask about something, and the interface switches into a clean, readable presentation rather than a conversational reply.</p>
-							<p>The use case I have in mind is a RAG-backed system built around information on friends — a fun, slightly absurd personal intelligence terminal. But the more general version is a Wikipedia-style dossier interface: ask about anything, get a structured visual summary. That version has a life of its own beyond the robot project, and is where I plan to take STARLING next.</p>
+							<p>Phase 11 is the main focus — a suite of voice-activated tool intercepts, each self-contained and added before the LLM call so they can't break the existing pipeline. The first four are already shipped: time &amp; date queries, voice-activated timers, a weather panel (Open-Meteo, no API key), and a news briefing panel with RSS aggregation. The remaining eight are planned and fully spec'd out:</p>
+							<ul>
+								<li><strong>Stocks &amp; Crypto</strong> — live quote panel via yfinance with a 6-tile Chart.js dashboard and a JSON watchlist file</li>
+								<li><strong>Wake Word &amp; Interrupt</strong> — hands-free "Hey Starling" activation and mid-speech interrupt via the Web Speech API</li>
+								<li><strong>In-UI Browser Panel</strong> — a sandboxed iframe panel opened by voice ("open YouTube", "search Google for…")</li>
+								<li><strong>Ideas Tracker</strong> — single-press voice capture with LLM-generated titles, stored to a local JSON file</li>
+								<li><strong>Voice Journal</strong> — multi-press dictation mode with LLM summarisation and a confirm-before-save flow</li>
+								<li><strong>Wikipedia RAG</strong> — FAISS-indexed Simple English Wikipedia for guardrailed, grounded Q&amp;A</li>
+								<li><strong>Google Calendar &amp; Gmail</strong> — OAuth2-connected schedule and inbox access, with LLM spoken briefings</li>
+							</ul>
+							<p>Beyond Phase 11, the two stretch goals on the horizon are packaging the whole stack as an <strong>Electron desktop app</strong> (no browser, no terminal — just double-click and everything starts) and replacing the flat vector RAG with a <strong>GraphRAG knowledge graph</strong> built on Microsoft's GraphRAG library for richer, entity-aware memory.</p>
 						</div>
 
 					</div>
