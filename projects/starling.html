@@ -63,13 +63,14 @@
 							<span class="tech-pill">Streaming</span>
 							<span class="tech-pill">ChromaDB RAG</span>
 							<span class="tech-pill">Ollama</span>
+							<span class="tech-pill">CalDAV / IMAP</span>
 						</div>
 
 						<div class="project-section">
 							<h2>What It Is</h2>
 							<p>STARLING — <em>Speech-Triggered Autonomous Reasoning &amp; Local Intelligence Node Generator</em> — is a fully local voice interface for a large language model. You speak, Whisper transcribes your words in real time, the LLM responds via a direct <strong>llama-server</strong> (llama.cpp) connection with streaming output, and Kokoro synthesises each sentence of the reply into natural-sounding speech as it arrives — all while a Three.js animated HUD visualises the system's live state.</p>
 							<p>Nothing leaves the machine. No API keys, no remote servers, no subscriptions. The entire pipeline — speech recognition, language model inference, text-to-speech — runs on local hardware, with the only running cost being electricity.</p>
-							<p>Beyond the core voice pipeline, STARLING has grown to include a <strong>RAG memory system</strong> (ChromaDB + BM25/vector fusion retrieval), a <strong>dynamic presentation mode</strong> triggered by voice ("pull up the dossier on…"), and a growing suite of voice-activated tools — with time &amp; date queries, timers, a 7-day weather panel, and a live news briefing panel already shipped as part of Phase 11.</p>
+							<p>Beyond the core voice pipeline, STARLING has grown into a full assistant platform. It now carries a <strong>persistent "soul"</strong> — an evolving personality file that updates session to session via a shutdown "dream state" reflection pipeline — a <strong>RAG memory system</strong> (ChromaDB + BM25/vector fusion retrieval), a <strong>dynamic presentation mode</strong> triggered by voice ("pull up the dossier on…"), and a suite of <strong>15 self-contained voice tools</strong> spanning weather, news, markets, Reddit and YouTube feeds, an ideas vault, a voice journal, Wikipedia RAG, iCloud calendar, Apple Mail, and live system self-awareness.</p>
 						</div>
 
 						<div class="project-section">
@@ -102,7 +103,11 @@
 								</li>
 								<li>
 									<span class="phase-badge">HUD</span>
-									<p><strong>Three.js Sphere</strong> — A matte black sphere with seven independently orbiting PointLight orbs drives the visual identity. A four-state machine (idle / listening / thinking / speaking) controls orb colour and orbit speed, while the sphere surface deforms in real time from AudioAnalyser frequency data during microphone input.</p>
+									<p><strong>Three.js Sphere</strong> — A matte black sphere with seven independently orbiting PointLight orbs drives the visual identity. A four-state machine (idle / listening / thinking / speaking) controls orb colour and orbit speed, while the sphere surface deforms in real time from AudioAnalyser frequency data during microphone input. Cinematic boot, shutdown, sleep, and wake sequences send the sphere drifting and parallaxing through space while the orbs keep orbiting throughout.</p>
+								</li>
+								<li>
+									<span class="phase-badge">Soul</span>
+									<p><strong>Persistent Personality</strong> — A Markdown soul file is injected into the system prompt on every request, giving STARLING continuity across sessions. On shutdown, a four-pass "dream state" pipeline silently reflects over the session transcript and decides whether to rewrite the soul, archiving the prior version. Routine sessions leave it unchanged.</p>
 								</li>
 								<li>
 									<span class="phase-badge">Memory</span>
@@ -118,22 +123,20 @@
 						<div class="project-section">
 							<h2>Current State</h2>
 							<p>The latency is in a good place. All three pipelines — Whisper, Kokoro, and llama-server — run on GPU. With sentence-chunked TTS, the first audio plays while the LLM is still generating the rest of the response, and typical end-to-end voice → first audio sits comfortably under 3 seconds. A warm-up sequence on page load pre-heats both the Whisper and Kokoro CUDA sessions, so the cold-start delay that plagued earlier versions is gone.</p>
-							<p>A handful of rougher edges remain. The most noticeable is early STT cutoff — the silence detector occasionally clips the end of longer utterances before the user has finished speaking. There's also an audio overlap bug where clicking the mic while speech is playing can cause two TTS clips to race. Dossier exit phrases are reliable enough in practice but still occasionally missed by Whisper transcription variations. None of these block real use, but they're the next things in line to fix.</p>
+							<p>The full voice toolkit is shipped: all 15 tools — time &amp; date, timers, weather, news, stocks &amp; crypto, an in-UI browser panel, ideas vault, voice journal, Wikipedia RAG, Reddit and YouTube feeds, the toolkit menu, iCloud calendar, Apple Mail, and system self-awareness — are live. Each is a self-contained dispatch intercept that runs before the LLM call, so none of them can break the core chat pipeline. STARLING can also describe her own capabilities and live GPU/process telemetry on request, and recovers from near-miss transcripts with a fuzzy-intent confirmation layer.</p>
 						</div>
 
 						<div class="project-section">
 							<h2>What's Next</h2>
-							<p>Phase 11 is the main focus — a suite of voice-activated tool intercepts, each self-contained and added before the LLM call so they can't break the existing pipeline. The first four are already shipped: time &amp; date queries, voice-activated timers, a weather panel (Open-Meteo, no API key), and a news briefing panel with RSS aggregation. The remaining eight are planned and fully spec'd out:</p>
+							<p>With the core toolkit complete, the roadmap has shifted toward hands-free interaction, richer memory management, and packaging. The features still on the board:</p>
 							<ul>
-								<li><strong>Stocks &amp; Crypto</strong> — live quote panel via yfinance with a 6-tile Chart.js dashboard and a JSON watchlist file</li>
-								<li><strong>Wake Word &amp; Interrupt</strong> — hands-free "Hey Starling" activation and mid-speech interrupt via the Web Speech API</li>
-								<li><strong>In-UI Browser Panel</strong> — a sandboxed iframe panel opened by voice ("open YouTube", "search Google for…")</li>
-								<li><strong>Ideas Tracker</strong> — single-press voice capture with LLM-generated titles, stored to a local JSON file</li>
-								<li><strong>Voice Journal</strong> — multi-press dictation mode with LLM summarisation and a confirm-before-save flow</li>
-								<li><strong>Wikipedia RAG</strong> — FAISS-indexed Simple English Wikipedia for guardrailed, grounded Q&amp;A</li>
-								<li><strong>Google Calendar &amp; Gmail</strong> — OAuth2-connected schedule and inbox access, with LLM spoken briefings</li>
+								<li><strong>Wake Word &amp; Interrupt</strong> — an always-on "Hey Starling" listener that triggers the mic without a button press, plus mid-speech barge-in that stops playback the moment you start talking</li>
+								<li><strong>RAG Memory Manager</strong> — an in-UI panel to upload <code>.txt</code>/<code>.md</code> files into ChromaDB, preview chunks per document, and delete sources by name without touching the filesystem</li>
+								<li><strong>Personalised Reddit &amp; YouTube</strong> — OAuth2 login so STARLING can read your actual frontpage, saved posts, and channel subscriptions instead of fixed public feeds</li>
+								<li><strong>Electron Desktop App</strong> — a standalone installer for Windows, macOS, and Linux that bundles the Python runtime, llama-server, and all dependencies — no prerequisites, just double-click</li>
+								<li><strong>Cross-Platform Auto-Detect</strong> — hardware detection at launch that selects CUDA, DirectML, Metal, or CPU inference, installs the right onnxruntime variant, and recommends a model size for the available VRAM</li>
+								<li><strong>Apple Silicon (M4) Support</strong> — full compatibility on Apple Silicon Macs with Metal acceleration for Whisper, Kokoro, and llama-server, and unified-memory VRAM detection</li>
 							</ul>
-							<p>Beyond Phase 11, the two stretch goals on the horizon are packaging the whole stack as an <strong>Electron desktop app</strong> (no browser, no terminal — just double-click and everything starts) and replacing the flat vector RAG with a <strong>GraphRAG knowledge graph</strong> built on Microsoft's GraphRAG library for richer, entity-aware memory.</p>
 						</div>
 
 					</div>
