@@ -3,8 +3,9 @@
  * Plays a "zoom through hyperspace" canvas animation when navigating between
  * pages, and a matching arrival animation on page load.
  *
- * Exit  : streaking star-lines rush toward the viewer, then snap to white.
- * Arrive: white fades from a bright flash, star-lines rush inward and settle.
+ * Sequence:
+ *  Exit  : page content fades out → planet visible → warp streaks → navigate.
+ *  Arrive: warp streaks decelerate → overlay fades revealing planet → content fades in.
  *
  * Degrades gracefully:
  *  - Respects prefers-reduced-motion (instant navigation, no canvas shown).
@@ -18,8 +19,13 @@
 		window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 	if (prefersReduced) return;
 
+	// Signal that warp is active (so main.js defers preload removal & navigation)
+	window.__warpActive = true;
+
 	// ── Constants ───────────────────────────────────────────────────────────
-	var EXIT_DURATION   = 820;   // ms — outbound warp
+	var CONTENT_FADE_MS = 350;   // ms — content fades out before warp exit
+	var PLANET_PAUSE_MS = 300;   // ms — pause to show planet before/after warp
+	var EXIT_DURATION   = 750;   // ms — outbound warp streaks
 	var ARRIVE_DURATION = 700;   // ms — arrival deceleration
 	var NUM_STREAKS     = 180;
 	var MAX_STREAK_LEN  = 0.52;  // fraction of half-diagonal at full speed
@@ -34,21 +40,27 @@
 		'height:100%',
 		'z-index:99999',
 		'pointer-events:none',
-		'opacity:0',
+		'opacity:1',
 		'display:block'
 	].join(';');
 	document.body.appendChild(overlay);
 	var ctx = overlay.getContext('2d');
+
+	// Draw an initial opaque frame immediately so nothing shows through
+	function fillBlack() {
+		ctx.fillStyle = 'rgba(0, 2, 8, 1)';
+		ctx.fillRect(0, 0, overlay.width || window.innerWidth, overlay.height || window.innerHeight);
+	}
 
 	function sizeOverlay() {
 		overlay.width  = window.innerWidth;
 		overlay.height = window.innerHeight;
 	}
 	sizeOverlay();
+	fillBlack();
 	window.addEventListener('resize', sizeOverlay);
 
 	// ── Streak data ─────────────────────────────────────────────────────────
-	// Each streak: { angle, dist (0–1 normalised), speed, brightness }
 	var streaks = [];
 
 	function initStreaks() {
@@ -56,59 +68,50 @@
 		for (var i = 0; i < NUM_STREAKS; i++) {
 			streaks.push({
 				angle      : Math.random() * Math.PI * 2,
-				dist       : Math.random() * 0.85 + 0.05,   // start spread across frame
-				speed      : Math.random() * 0.55 + 0.30,   // relative speed multiplier
-				brightness : Math.floor(Math.random() * 80 + 175)  // 175–255
+				dist       : Math.random() * 0.85 + 0.05,
+				speed      : Math.random() * 0.55 + 0.30,
+				brightness : Math.floor(Math.random() * 80 + 175)
 			});
 		}
 	}
 	initStreaks();
 
 	// ── Core draw ────────────────────────────────────────────────────────────
-	/**
-	 * Draw one warp frame.
-	 * @param {number} t      0 → 1  progress through the animation phase.
-	 * @param {string}  phase  'exit' | 'arrive'
-	 */
 	function drawWarp(t, phase) {
 		var W = overlay.width;
 		var H = overlay.height;
 		var cx = W * 0.5;
 		var cy = H * 0.5;
-		var maxR = Math.sqrt(cx * cx + cy * cy); // half-diagonal
+		var maxR = Math.sqrt(cx * cx + cy * cy);
 
 		ctx.clearRect(0, 0, W, H);
 
 		// ── Background ──────────────────────────────────────────────────────
-		// Gradually deepens to near-black during exit, stays dark on arrive.
 		var bgAlpha = phase === 'exit'
-			? Math.min(1, t * 1.6)           // ramps up quickly
-			: Math.max(0, 1 - t * 0.7);      // fades away on arrival
+			? Math.min(1, t * 1.6)
+			: Math.max(0, 1 - t * 1.1);      // fully fades to 0 during arrival
 		ctx.fillStyle = 'rgba(0, 2, 8, ' + bgAlpha + ')';
 		ctx.fillRect(0, 0, W, H);
 
 		// ── Speed factor ────────────────────────────────────────────────────
-		// exit : slow → fast (ease-in)
-		// arrive: fast → slow (ease-out)
 		var ease = phase === 'exit'
-			? t * t                           // ease-in quad
-			: 1 - (1 - t) * (1 - t);         // ease-in quad (but for reversed perception)
+			? t * t
+			: 1 - (1 - t) * (1 - t);
 		var speed = phase === 'exit'
 			? ease
-			: 1 - ease;                       // arrive decelerates
+			: 1 - ease;
 
 		// ── Streaks ─────────────────────────────────────────────────────────
 		for (var i = 0; i < streaks.length; i++) {
 			var s   = streaks[i];
 			var ang = s.angle;
-			var r   = s.dist * maxR;           // current radial distance from centre
+			var r   = s.dist * maxR;
 
-			// Velocity: streaks accelerate outward
 			var vel     = speed * s.speed * maxR * MAX_STREAK_LEN;
 			var tailR   = r;
 			var headR   = r + vel;
 
-			if (headR < 2) continue;          // not visible yet
+			if (headR < 2) continue;
 
 			var tailX = cx + Math.cos(ang) * tailR;
 			var tailY = cy + Math.sin(ang) * tailR;
@@ -133,13 +136,11 @@
 		}
 
 		// ── Flash ────────────────────────────────────────────────────────────
-		// Exit: white flash at the very end (t → 1).
-		// Arrive: white flash at the very start (t → 0) that fades out.
 		var flashAlpha = 0;
 		if (phase === 'exit') {
-			flashAlpha = Math.max(0, (t - 0.80) / 0.20);   // last 20% of exit
+			flashAlpha = Math.max(0, (t - 0.80) / 0.20);
 		} else {
-			flashAlpha = Math.max(0, 1 - t / 0.25);         // first 25% of arrive
+			flashAlpha = Math.max(0, 1 - t / 0.25);
 		}
 		if (flashAlpha > 0) {
 			ctx.fillStyle = 'rgba(255, 255, 255, ' + flashAlpha + ')';
@@ -148,7 +149,7 @@
 	}
 
 	// ── Animation runner ─────────────────────────────────────────────────────
-	var activeRaf  = null;
+	var activeRaf   = null;
 	var activeStart = null;
 
 	function runAnimation(phase, duration, onComplete) {
@@ -181,27 +182,59 @@
 		ctx.clearRect(0, 0, overlay.width, overlay.height);
 	}
 
-	// ── Exit warp ─────────────────────────────────────────────────────────────
-	function warpTo(href) {
-		initStreaks();
-		runAnimation('exit', EXIT_DURATION, function () {
-			window.location.href = href;
+	// ── Reveal page content ──────────────────────────────────────────────────
+	// Two-step removal: first enable transitions, then trigger opacity change.
+	function revealContent() {
+		var body = document.body;
+		// Step 1: remove is-preload (enables transitions) but keep wrapper hidden
+		body.classList.remove('is-preload');
+		body.classList.add('warp-arriving');
+
+		// Step 2: next frame — remove warp-arriving so wrapper transitions to opacity: 1
+		requestAnimationFrame(function () {
+			requestAnimationFrame(function () {
+				body.classList.remove('warp-arriving');
+			});
 		});
 	}
 
+	// ── Exit warp ─────────────────────────────────────────────────────────────
+	// Sequence: content fades → brief planet pause → warp animation → navigate
+	var isWarping = false;
+
+	function warpTo(href) {
+		if (isWarping) return;
+		isWarping = true;
+
+		var body = document.body;
+
+		// Close menu if open (menu lives outside #wrapper)
+		body.classList.remove('is-menu-visible');
+
+		// Phase 1: Fade out page content
+		body.classList.add('warp-exiting');
+
+		// Phase 2: After content fades, pause briefly to show planet, then warp
+		setTimeout(function () {
+			// Phase 3: Start warp animation
+			setTimeout(function () {
+				initStreaks();
+				runAnimation('exit', EXIT_DURATION, function () {
+					window.location.href = href;
+				});
+			}, PLANET_PAUSE_MS);
+		}, CONTENT_FADE_MS);
+	}
+
 	// ── Link interception ────────────────────────────────────────────────────
-	// Intercept clicks on internal anchor tags (same origin, not #anchors, not
-	// download links, not target=_blank, not modifier keys).
 	function isInternalPage(href) {
 		if (!href) return false;
 		if (href.charAt(0) === '#') return false;
 		if (href.indexOf('mailto:') === 0) return false;
 		if (href.indexOf('tel:') === 0) return false;
-		// Absolute URL pointing to a different origin
 		try {
 			var url = new URL(href, window.location.href);
 			if (url.origin !== window.location.origin) return false;
-			// Same page (just an anchor change)
 			if (url.pathname === window.location.pathname && url.hash) return false;
 		} catch (e) {
 			return false;
@@ -210,7 +243,6 @@
 	}
 
 	document.addEventListener('click', function (e) {
-		// Walk up from the target to find an <a>
 		var el = e.target;
 		while (el && el.tagName !== 'A') el = el.parentElement;
 		if (!el) return;
@@ -221,27 +253,32 @@
 		if (el.hasAttribute('download')) return;
 		if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
 
-		// Prevent the browser navigating immediately
+		// Prevent default and stop propagation so tile handler doesn't also navigate
 		e.preventDefault();
+		e.stopImmediatePropagation();
 		warpTo(href);
 	}, true);
 
 	// ── Arrival animation ─────────────────────────────────────────────────────
-	// Fires on every page load. Uses a very brief (ARRIVE_DURATION ms) deceleration
-	// to suggest the ship is dropping out of warp at the destination.
+	// Sequence: warp deceleration → overlay fades → planet visible → content fades in
 	window.addEventListener('load', function () {
-		// Only run if the page was likely arrived at via warp (or on first load for effect)
 		initStreaks();
 		runAnimation('arrive', ARRIVE_DURATION, function () {
+			// Overlay gone — star canvas + planet now visible
 			hideOverlay();
+
+			// Brief pause to appreciate the planet before content appears
+			setTimeout(function () {
+				revealContent();
+			}, PLANET_PAUSE_MS);
 		});
 	});
 
 	// ── Back/Forward cache support ────────────────────────────────────────────
 	window.addEventListener('pageshow', function (e) {
 		if (e.persisted) {
-			// Page restored from bfcache — hide any leftover overlay immediately
 			hideOverlay();
+			revealContent();
 		}
 	});
 

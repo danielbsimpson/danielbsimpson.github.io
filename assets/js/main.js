@@ -94,7 +94,10 @@
 	// Play initial animations on page load.
 		$window.on('load', function() {
 			window.setTimeout(function() {
-				$body.removeClass('is-preload');
+				// Only remove is-preload if warp.js is not active (it handles reveal)
+				if (!window.__warpActive) {
+					$body.removeClass('is-preload');
+				}
 			}, 100);
 		});
 
@@ -166,6 +169,12 @@
 
 						// Otherwise ...
 							else {
+
+								// If warp.js is active it handles navigation; just do visual fade.
+								if (window.__warpActive) {
+									$this.addClass('is-transitioning');
+									return;
+								}
 
 								// Start transitioning.
 									$this.addClass('is-transitioning');

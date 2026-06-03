@@ -4031,6 +4031,20 @@ body.page-index #two .major-work-header h1 {
 	z-index: 1;
 }
 
+/* Hide page content until warp arrival completes */
+body.is-preload #wrapper {
+	opacity: 0 !important;
+}
+
+body.warp-arriving #wrapper {
+	opacity: 0 !important;
+}
+
+body.warp-exiting #wrapper {
+	opacity: 0 !important;
+	transition: opacity 0.3s ease !important;
+}
+
 /* --- Global Background --- */
 body {
 	background: var(--space-bg) !important;
