@@ -26,7 +26,6 @@
 	var CONTENT_FADE_MS = 350;   // ms — content fades out before warp exit
 	var PLANET_PAUSE_MS = 300;   // ms — pause to show planet before/after warp
 	var EXIT_DURATION   = 750;   // ms — outbound warp streaks
-	var ARRIVE_DURATION = 700;   // ms — arrival deceleration
 	var NUM_STREAKS     = 180;
 	var MAX_STREAK_LEN  = 0.52;  // fraction of half-diagonal at full speed
 
@@ -259,19 +258,26 @@
 		warpTo(href);
 	}, true);
 
-	// ── Arrival animation ─────────────────────────────────────────────────────
-	// Sequence: warp deceleration → overlay fades → planet visible → content fades in
+	// ── Arrival — smooth fade from black ─────────────────────────────────────
+	// No warp streaks on arrival; just a fade revealing the planet, then content.
+	var ARRIVE_FADE_MS = 600;    // ms — overlay fades from black to transparent
+
 	window.addEventListener('load', function () {
-		initStreaks();
-		runAnimation('arrive', ARRIVE_DURATION, function () {
-			// Overlay gone — star canvas + planet now visible
-			hideOverlay();
+		// Fade the overlay from opaque to transparent (reveals star canvas + planet)
+		overlay.style.transition = 'opacity ' + ARRIVE_FADE_MS + 'ms ease-out';
+		overlay.style.opacity = '0';
+
+		// After the overlay fade completes, clean up and reveal page content
+		setTimeout(function () {
+			overlay.style.transition = '';
+			overlay.style.pointerEvents = 'none';
+			ctx.clearRect(0, 0, overlay.width, overlay.height);
 
 			// Brief pause to appreciate the planet before content appears
 			setTimeout(function () {
 				revealContent();
 			}, PLANET_PAUSE_MS);
-		});
+		}, ARRIVE_FADE_MS);
 	});
 
 	// ── Back/Forward cache support ────────────────────────────────────────────
