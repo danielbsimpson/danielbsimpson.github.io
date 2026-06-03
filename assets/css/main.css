@@ -4619,17 +4619,14 @@ a:hover {
 	list-style: none;
 	padding: 0;
 	margin: 0;
-	display: flex;
-	flex-direction: column;
-	gap: 0.8em;
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 0.8em 1em;
 }
 .phase-list li {
-	display: flex;
-	gap: 1em;
-	align-items: flex-start;
+	display: contents;
 }
 .phase-badge {
-	flex-shrink: 0;
 	background: rgba(0,120,220,0.20);
 	border: 1px solid rgba(0,150,255,0.35);
 	border-radius: 4px;
@@ -4638,9 +4635,9 @@ a:hover {
 	letter-spacing: 0.06em;
 	text-transform: uppercase;
 	color: var(--space-accent);
-	min-width: 6em;
 	text-align: center;
-	margin-top: 0.1em;
+	align-self: start;
+	white-space: nowrap;
 }
 .phase-list li p {
         margin: 0;
