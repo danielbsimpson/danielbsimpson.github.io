@@ -9,7 +9,7 @@ import {
 
 import {
   el, sectionHeader, sectionCaption, divider,
-  makeBarChart, makeSankey, makeHeatmap, htmlTable,
+  makeBarChart, makeSankey, makeHeatmap, htmlTable, expander,
   ACCENT, PALETTE,
 } from '../charts.js';
 
