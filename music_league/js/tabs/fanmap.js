@@ -89,10 +89,10 @@ function renderFansCompat(container, data, targetName) {
       fans.map(f => f.points_given),
       { color: ACCENT, xLabel: 'Points Given', title: `Top 5 — points given to ${targetName}` }
     );
-    leftWrap.appendChild(htmlTable(
+    leftWrap.appendChild(expander('📋 Open Table View', htmlTable(
       ['Voter', 'Points Given'],
       fans.map(f => ({ Voter: f.voter, 'Points Given': f.points_given }))
-    ));
+    )));
   } else {
     leftWrap.appendChild(el('p', 'caption', 'No voting data found.'));
   }
@@ -108,10 +108,10 @@ function renderFansCompat(container, data, targetName) {
       compat.map(f => f.points_given),
       { color: '#e05252', xLabel: 'Points Given', title: `Bottom 5 — points given to ${targetName}` }
     );
-    rightWrap.appendChild(htmlTable(
+    rightWrap.appendChild(expander('📋 Open Table View', htmlTable(
       ['Voter', 'Points Given'],
       compat.map(f => ({ Voter: f.voter, 'Points Given': f.points_given }))
-    ));
+    )));
   } else {
     rightWrap.appendChild(el('p', 'caption', 'No voting data found.'));
   }

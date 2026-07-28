@@ -24,13 +24,13 @@ export function renderComments(container, data) {
     const talk = mostTalkatativeCommenter(data);
     makeBarChart(talkWrap, talk.map(e => e.name), talk.map(e => e.total),
       { color: '#b47bff', xLabel: 'Comments Made', title: 'Total comments made' });
-    talkWrap.appendChild(htmlTable(
+    talkWrap.appendChild(expander('📋 Open Table View', htmlTable(
       ['Player', 'Vote Comments', 'Sub Comments', 'Total'],
       talk.map(e => ({
         Player: e.name, 'Vote Comments': e.vote_comments,
         'Sub Comments': e.sub_comments, Total: e.total,
       }))
-    ));
+    )));
     grid.appendChild(talkWrap);
 
     const recvWrap = el('div');
@@ -38,10 +38,10 @@ export function renderComments(container, data) {
     const recv = top3CommentWinners(data);
     makeBarChart(recvWrap, recv.map(e => e.name), recv.map(e => e.comments_received),
       { color: ACCENT, xLabel: 'Comments Received', title: 'Comments received on submitted songs' });
-    recvWrap.appendChild(htmlTable(
+    recvWrap.appendChild(expander('📋 Open Table View', htmlTable(
       ['Rank', 'Player', 'Comments Received'],
       recv.map(e => ({ Rank: e.rank, Player: e.name, 'Comments Received': e.comments_received }))
-    ));
+    )));
     grid.appendChild(recvWrap);
 
     container.appendChild(grid);

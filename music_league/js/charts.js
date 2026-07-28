@@ -667,30 +667,88 @@ export function htmlTable(cols, rows) {
   /**
    * cols: ['Col1', 'Col2', ...]
    * rows: [{Col1: val, Col2: val, ...}]
+   * Click any column header to sort ascending/descending.
    */
   const wrap = el('div', 'data-table-wrap');
   const tbl  = el('table', 'data-table');
   const thead = document.createElement('thead');
-  const tr = document.createElement('tr');
+  const headerRow = document.createElement('tr');
+
+  let sortCol = null;
+  let sortAsc = true;
+  let currentRows = [...rows];
+
+  function isNumeric(val) {
+    if (val == null || val === '') return false;
+    return !isNaN(Number(val));
+  }
+
+  function renderBody() {
+    const tbody = tbl.querySelector('tbody') || document.createElement('tbody');
+    tbody.innerHTML = '';
+    currentRows.forEach(row => {
+      const tr = document.createElement('tr');
+      cols.forEach(c => {
+        const td = document.createElement('td');
+        td.textContent = row[c] != null ? String(row[c]) : '';
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    });
+    if (!tbl.querySelector('tbody')) tbl.appendChild(tbody);
+  }
+
+  function sortBy(col) {
+    if (sortCol === col) {
+      sortAsc = !sortAsc;
+    } else {
+      sortCol = col;
+      sortAsc = true;
+    }
+
+    // Detect if the column is numeric by checking first non-empty value
+    const sample = rows.find(r => r[col] != null && r[col] !== '');
+    const numeric = sample != null && isNumeric(sample[col]);
+
+    currentRows.sort((a, b) => {
+      let va = a[col] != null ? a[col] : '';
+      let vb = b[col] != null ? b[col] : '';
+      let cmp;
+      if (numeric) {
+        cmp = Number(va) - Number(vb);
+      } else {
+        cmp = String(va).localeCompare(String(vb), undefined, { sensitivity: 'base' });
+      }
+      return sortAsc ? cmp : -cmp;
+    });
+
+    // Update header indicators
+    headerRow.querySelectorAll('th').forEach(th => {
+      const arrow = th.querySelector('.sort-arrow');
+      if (th.dataset.col === col) {
+        arrow.textContent = sortAsc ? ' ▲' : ' ▼';
+      } else {
+        arrow.textContent = '';
+      }
+    });
+
+    renderBody();
+  }
+
   cols.forEach(c => {
     const th = document.createElement('th');
-    th.textContent = c;
-    tr.appendChild(th);
+    th.dataset.col = c;
+    th.style.cursor = 'pointer';
+    th.style.userSelect = 'none';
+    th.innerHTML = esc(c) + '<span class="sort-arrow"></span>';
+    th.addEventListener('click', () => sortBy(c));
+    headerRow.appendChild(th);
   });
-  thead.appendChild(tr);
+  thead.appendChild(headerRow);
   tbl.appendChild(thead);
 
-  const tbody = document.createElement('tbody');
-  rows.forEach(row => {
-    const tr = document.createElement('tr');
-    cols.forEach(c => {
-      const td = document.createElement('td');
-      td.textContent = row[c] != null ? String(row[c]) : '';
-      tr.appendChild(td);
-    });
-    tbody.appendChild(tr);
-  });
-  tbl.appendChild(tbody);
+  renderBody();
+
   wrap.appendChild(tbl);
   return wrap;
 }

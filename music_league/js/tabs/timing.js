@@ -9,7 +9,7 @@ import {
 
 import {
   el, sectionHeader, sectionCaption, divider,
-  recordTile, tileGroup, makeBarChart, makeLineChart, htmlTable,
+  recordTile, tileGroup, makeBarChart, makeLineChart, htmlTable, expander,
   ACCENT, PALETTE,
 } from '../charts.js';
 
@@ -122,7 +122,7 @@ export function renderTiming(container, data) {
     subSorted.map(e => e.avg_hours_before_deadline),
     { color: '#ffd166', xLabel: 'Avg Hours Before Deadline', title: 'Average submission lead time per player (higher = earlier)' }
   );
-  container.appendChild(htmlTable(
+  container.appendChild(expander('📋 Open Table View', htmlTable(
     ['Player', 'Avg Hrs Before Deadline', 'Min Hrs', 'Max Hrs', 'Submissions'],
     subSorted.map(e => ({
       Player: e.player_name,
@@ -131,7 +131,7 @@ export function renderTiming(container, data) {
       'Max Hrs': e.max_hours_before_deadline,
       Submissions: e.rounds_submitted,
     }))
-  ));
+  )));
   container.appendChild(divider());
 
   // ── Vote timing: fastest listeners & last-minute voters ────────────────
@@ -161,7 +161,7 @@ export function renderTiming(container, data) {
 
     container.appendChild(grid);
   }
-  container.appendChild(htmlTable(
+  container.appendChild(expander('📋 Open Table View', htmlTable(
     ['Player', 'Avg Hrs After Playlist', 'Avg Hrs Before Vote Deadline', 'Votes Cast'],
     voteStats.map(e => ({
       Player: e.player_name,
@@ -169,7 +169,7 @@ export function renderTiming(container, data) {
       'Avg Hrs Before Vote Deadline': e.avg_hours_before_vote_deadline,
       'Votes Cast': e.rounds_voted,
     }))
-  ));
+  )));
   container.appendChild(divider());
 
   // ── Per-round line charts ───────────────────────────────────────────────

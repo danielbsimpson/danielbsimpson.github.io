@@ -16,7 +16,7 @@ import {
 
 import {
   el, sectionHeader, sectionCaption, divider,
-  metricTile, recordTile, makeLineChart, htmlTable, ACCENT,
+  metricTile, recordTile, makeLineChart, htmlTable, expander, ACCENT,
 } from '../charts.js';
 
 // ── Public entry point ────────────────────────────────────────────────────
@@ -294,6 +294,6 @@ function buildProfile(container, data, playerName, names) {
     .sort((a, b) => b.Points - a.Points);
 
   container.appendChild(
-    htmlTable(['Title', 'Artist(s)', 'Round', 'Points'], subRows)
+    expander('📋 Open Table View', htmlTable(['Title', 'Artist(s)', 'Round', 'Points'], subRows))
   );
 }

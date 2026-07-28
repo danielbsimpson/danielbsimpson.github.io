@@ -132,7 +132,7 @@ function renderImprovedChart(container, improved) {
     ],
     { title: 'First half vs second half average', yLabel: 'Avg pts / round', height: 340 }
   );
-  container.appendChild(htmlTable(
+  container.appendChild(expander('📋 Open Table View', htmlTable(
     ['Player', 'First Half Avg', 'Second Half Avg', 'Improvement'],
     improved.map(e => ({
       Player: e.player,
@@ -140,7 +140,7 @@ function renderImprovedChart(container, improved) {
       'Second Half Avg': e.secondAvg,
       Improvement:       e.improvement,
     }))
-  ));
+  )));
 }
 
 // ── Round medal helpers ───────────────────────────────────────────────────

@@ -405,6 +405,12 @@ table.data-table td {
 }
 table.data-table tr:last-child td { border-bottom: none; }
 table.data-table tr:hover td { background: var(--bg-hover); }
+table.data-table th .sort-arrow {
+  font-size: 0.65rem;
+  color: var(--accent, #64dfdf);
+  margin-left: 2px;
+}
+table.data-table th:hover { color: var(--text); }
 
 /* ── Controls (sliders, selects, inputs within panels) ─────────────────── */
 .panel-control-row {

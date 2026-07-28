@@ -10,7 +10,7 @@ import {
 
 import {
   el, sectionHeader, sectionCaption, divider,
-  statTile, tileGroup, makeBarChart, makeHeatmap, htmlTable, ACCENT,
+  statTile, tileGroup, makeBarChart, makeHeatmap, htmlTable, expander, ACCENT,
 } from '../charts.js';
 
 const WINNER_STYLES  = [
@@ -109,10 +109,10 @@ export function renderLeaderboard(container, data) {
     avgAll.map(e => e.avg_points),
     { color: '#7ec8e3', xLabel: 'Avg Points / Round', title: 'Average Points Per Round — All Competitors' }
   );
-  container.appendChild(htmlTable(
+  container.appendChild(expander('📋 Open Table View', htmlTable(
     ['Rank', 'Player', 'Avg Pts / Round', 'Rounds'],
     avgAll.map((e, i) => ({ Rank: i + 1, Player: e.name, 'Avg Pts / Round': e.avg_points, Rounds: e.rounds }))
-  ));
+  )));
   container.appendChild(divider());
 
   // ── Unique Voters ───────────────────────────────────────────────────────

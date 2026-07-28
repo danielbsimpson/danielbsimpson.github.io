@@ -53,6 +53,10 @@ export function renderSongs(container, data) {
 
   refresh();
 
+  // ── Restricted list ────────────────────────────────────────────────────
+  container.appendChild(divider());
+  container.appendChild(renderRestrictedList(data));
+
   // ── All songs collapsible ──────────────────────────────────────────────
   container.appendChild(divider());
   container.appendChild(renderAllSongs(data));
@@ -73,13 +77,13 @@ function renderLiked(container, data, topN) {
     byPoints.map(s => s.total_points),
     { color: ACCENT, xLabel: 'Points', title: 'Most points received', horizontal: true }
   );
-  leftWrap.appendChild(htmlTable(
+  leftWrap.appendChild(expander('📋 Open Table View', htmlTable(
     ['Title', 'Artist', 'Submitted By', 'Points', 'Voters'],
     byPoints.map(s => ({
       Title: s.title, Artist: s.artist, 'Submitted By': s.submitted_by,
       Points: s.total_points, Voters: s.voter_count,
     }))
-  ));
+  )));
   grid.appendChild(leftWrap);
 
   // By Voters
@@ -90,13 +94,13 @@ function renderLiked(container, data, topN) {
     byVoters.map(s => s.voter_count),
     { color: '#b47bff', xLabel: 'Voters', title: 'Most distinct voters', horizontal: true }
   );
-  rightWrap.appendChild(htmlTable(
+  rightWrap.appendChild(expander('📋 Open Table View', htmlTable(
     ['Title', 'Artist', 'Submitted By', 'Points', 'Voters'],
     byVoters.map(s => ({
       Title: s.title, Artist: s.artist, 'Submitted By': s.submitted_by,
       Points: s.total_points, Voters: s.voter_count,
     }))
-  ));
+  )));
   grid.appendChild(rightWrap);
 
   container.appendChild(grid);
@@ -113,14 +117,14 @@ function renderBlowouts(container, data) {
     blowouts.map(b => b.margin),
     { color: '#ffd166', horizontal: false, xLabel: 'Round', title: 'Winning margin per round (1st − 2nd place pts)', height: 320 }
   );
-  container.appendChild(htmlTable(
+  container.appendChild(expander('📋 Open Table View', htmlTable(
     ['Round', 'Winner', 'Winning Song', 'Winner Pts', '2nd Place', '2nd Pts', 'Margin'],
     blowouts.map(b => ({
       Round: b.round, Winner: b.winner, 'Winning Song': b.winner_song,
       'Winner Pts': b.winner_points, '2nd Place': b.second_place,
       '2nd Pts': b.second_points, Margin: b.margin,
     }))
-  ));
+  )));
 }
 
 function renderRepeated(container, data) {
@@ -138,10 +142,10 @@ function renderRepeated(container, data) {
     repeated.map(s => s.count),
     { color: '#c77dff', xLabel: 'Times Submitted', title: 'Most Submitted Songs', horizontal: true }
   );
-  container.appendChild(htmlTable(
+  container.appendChild(expander('📋 Open Table View', htmlTable(
     ['Rank', 'Title', 'Artist(s)', 'Times Submitted'],
     repeated.map(s => ({ Rank: s.rank, Title: s.title, 'Artist(s)': s.artist, 'Times Submitted': s.count }))
-  ));
+  )));
 }
 
 function renderArtists(container, data) {
@@ -155,10 +159,57 @@ function renderArtists(container, data) {
     artists.map(a => a.count),
     { color: '#ef476f', xLabel: 'Appearances', title: 'Most Artist Appearances', horizontal: true }
   );
-  container.appendChild(htmlTable(
+  container.appendChild(expander('📋 Open Table View', htmlTable(
     ['Rank', 'Artist', 'Appearances'],
     artists.map(a => ({ Rank: a.rank, Artist: a.artist, Appearances: a.count }))
+  )));
+}
+
+function renderRestrictedList(data) {
+  const names    = nameMap(data.competitors);
+  const roundMap = new Map(data.rounds.map(r => [r.ID, r.Name]));
+  const withPts  = pointsPerSubmission(data.submissions, data.votes);
+
+  // Group by round and pick top 3 per round
+  const byRound = new Map();
+  withPts.forEach(s => {
+    const rid = s['Round ID'];
+    if (!byRound.has(rid)) byRound.set(rid, []);
+    byRound.get(rid).push(s);
+  });
+
+  const podiumRows = [];
+  for (const [rid, entries] of byRound) {
+    const sorted = [...entries].sort((a, b) => b.TotalPoints - a.TotalPoints);
+    sorted.slice(0, 3).forEach((s, i) => {
+      podiumRows.push({
+        Position:       i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉',
+        Title:          s.Title  || s.title  || '',
+        Artist:         s['Artist(s)'] || s.Artist || s.artist || '',
+        Theme:          roundMap.get(rid) || rid,
+        'Submitted By': names.get(s['Submitter ID']) || s['Submitter ID'] || '',
+        Points:         s.TotalPoints,
+      });
+    });
+  }
+
+  // Sort by theme then position within theme
+  podiumRows.sort((a, b) => {
+    if (a.Theme !== b.Theme) return a.Theme.localeCompare(b.Theme);
+    const posOrder = { '🥇': 0, '🥈': 1, '🥉': 2 };
+    return (posOrder[a.Position] || 0) - (posOrder[b.Position] || 0);
+  });
+
+  const content = el('div');
+  content.appendChild(sectionCaption(
+    `Songs that finished on the podium (top 3) in previous rounds — ${podiumRows.length} songs total.`
   ));
+  content.appendChild(htmlTable(
+    ['Position', 'Title', 'Artist', 'Theme', 'Submitted By', 'Points'],
+    podiumRows
+  ));
+
+  return expander(`🚫 Restricted List (${podiumRows.length} songs)`, content);
 }
 
 function renderAllSongs(data) {
