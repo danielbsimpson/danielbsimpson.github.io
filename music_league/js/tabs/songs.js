@@ -204,10 +204,33 @@ function renderRestrictedList(data) {
   content.appendChild(sectionCaption(
     `Songs that finished on the podium (top 3) in previous rounds — ${podiumRows.length} songs total.`
   ));
-  content.appendChild(htmlTable(
-    ['Position', 'Title', 'Artist', 'Theme', 'Submitted By', 'Points'],
-    podiumRows
-  ));
+
+  const searchInput = document.createElement('input');
+  searchInput.type        = 'text';
+  searchInput.className   = 'panel-search';
+  searchInput.placeholder = '🔍 Search songs, artists, players…';
+
+  const tableWrap = el('div');
+  const cols = ['Position', 'Title', 'Artist', 'Theme', 'Submitted By', 'Points'];
+
+  function renderTable(filter) {
+    tableWrap.innerHTML = '';
+    const filtered = filter
+      ? podiumRows.filter(r =>
+          ['Title', 'Artist', 'Submitted By', 'Theme']
+            .some(k => String(r[k]).toLowerCase().includes(filter.toLowerCase()))
+        )
+      : podiumRows;
+    tableWrap.appendChild(htmlTable(cols, filtered));
+  }
+
+  searchInput.addEventListener('input', () => renderTable(searchInput.value));
+  renderTable('');
+
+  const searchRow = el('div', 'panel-control-row');
+  searchRow.appendChild(searchInput);
+  content.appendChild(searchRow);
+  content.appendChild(tableWrap);
 
   return expander(`🚫 Restricted List (${podiumRows.length} songs)`, content);
 }
