@@ -10,7 +10,7 @@ import {
 
 import {
   el, sectionHeader, sectionCaption, divider,
-  makeBarChart, htmlTable, expander, ACCENT,
+  makeBarChart, htmlTable, expander, statTile, esc, ACCENT,
 } from '../charts.js';
 
 export function renderSongs(container, data) {
@@ -27,7 +27,6 @@ export function renderSongs(container, data) {
   ctrlRow.appendChild(rangeInput);
   ctrlRow.appendChild(rangeLabel);
   ctrlRow.appendChild(el('span', 'panel-label', 'songs'));
-  container.appendChild(ctrlRow);
 
   // Containers for lazy re-render
   const likedSection     = el('div');
@@ -35,36 +34,40 @@ export function renderSongs(container, data) {
   const repeatedSection  = el('div');
   const artistsSection   = el('div');
 
-  container.appendChild(likedSection);
+  // ── Ordered layout ───────────────────────────────────────────────────────
+  // 1. All Submitted Songs
+  container.appendChild(renderAllSongs(data));
   container.appendChild(divider());
-  container.appendChild(blowoutSection);
+  // 2. Restricted Songs
+  container.appendChild(renderRestrictedList(data));
   container.appendChild(divider());
+  // 3. Most Submitted Songs
   container.appendChild(repeatedSection);
   container.appendChild(divider());
+  // 4. Most Artist Appearances
   container.appendChild(artistsSection);
+  container.appendChild(divider());
+  // 5. Most Universally Liked Songs
+  container.appendChild(likedSection);
+  container.appendChild(divider());
+  // Everything else
+  container.appendChild(blowoutSection);
 
   function refresh() {
     const topN = Number(rangeInput.value);
-    renderLiked(likedSection, data, topN);
+    renderLiked(likedSection, data, topN, ctrlRow);
     renderBlowouts(blowoutSection, data);
     renderRepeated(repeatedSection, data);
     renderArtists(artistsSection, data);
   }
 
   refresh();
-
-  // ── Restricted list ────────────────────────────────────────────────────
-  container.appendChild(divider());
-  container.appendChild(renderRestrictedList(data));
-
-  // ── All songs collapsible ──────────────────────────────────────────────
-  container.appendChild(divider());
-  container.appendChild(renderAllSongs(data));
 }
 
-function renderLiked(container, data, topN) {
+function renderLiked(container, data, topN, ctrlRow) {
   container.innerHTML = '';
   container.appendChild(sectionHeader('❤️ Most Universally Liked Songs'));
+  if (ctrlRow) container.appendChild(ctrlRow);
   const { byPoints, byVoters } = mostUniversallyLiked(data, topN);
 
   const grid = el('div', 'grid-2');
@@ -132,20 +135,22 @@ function renderRepeated(container, data) {
   container.appendChild(sectionHeader('🔁 Most Submitted Songs'));
   container.appendChild(sectionCaption('Songs submitted more than once across all rounds.'));
 
-  const repeated = mostSubmittedSongs(data);
+  const repeated = mostSubmittedSongs(data, 10);
   if (repeated.length === 0) {
     container.appendChild(el('p', 'banner banner-success', 'No song was submitted more than once. 🎉'));
     return;
   }
-  makeBarChart(container,
-    repeated.map(s => `${s.title} — ${s.artist}`),
-    repeated.map(s => s.count),
-    { color: '#c77dff', xLabel: 'Times Submitted', title: 'Most Submitted Songs', horizontal: true }
-  );
-  container.appendChild(expander('📋 Open Table View', htmlTable(
-    ['Rank', 'Title', 'Artist(s)', 'Times Submitted'],
-    repeated.map(s => ({ Rank: s.rank, Title: s.title, 'Artist(s)': s.artist, 'Times Submitted': s.count }))
-  )));
+  const repeatedGrid = el('div', 'grid-5');
+  repeated.forEach(s => {
+    const tile = el('div', 'square-tile');
+    tile.style.background = '#2a1a3a';
+    tile.innerHTML =
+      `<span class="square-tile-title">${esc(s.title)}</span>` +
+      `<span class="square-tile-sub">${esc(s.artist)}</span>` +
+      `<span class="square-tile-value">${esc(s.count)}× submitted</span>`;
+    repeatedGrid.appendChild(tile);
+  });
+  container.appendChild(repeatedGrid);
 }
 
 function renderArtists(container, data) {
@@ -153,16 +158,17 @@ function renderArtists(container, data) {
   container.appendChild(sectionHeader('🎤 Most Artist Appearances'));
   container.appendChild(sectionCaption("Artists appearing most frequently across all submissions."));
 
-  const artists = mostArtistAppearances(data);
-  makeBarChart(container,
-    artists.map(a => a.artist),
-    artists.map(a => a.count),
-    { color: '#ef476f', xLabel: 'Appearances', title: 'Most Artist Appearances', horizontal: true }
-  );
-  container.appendChild(expander('📋 Open Table View', htmlTable(
-    ['Rank', 'Artist', 'Appearances'],
-    artists.map(a => ({ Rank: a.rank, Artist: a.artist, Appearances: a.count }))
-  )));
+  const artists = mostArtistAppearances(data, 10);
+  const artistsGrid = el('div', 'grid-5');
+  artists.forEach(a => {
+    const tile = el('div', 'square-tile');
+    tile.style.background = '#3a1420';
+    tile.innerHTML =
+      `<span class="square-tile-title">${esc(a.artist)}</span>` +
+      `<span class="square-tile-value">${esc(a.count)}× appearances</span>`;
+    artistsGrid.appendChild(tile);
+  });
+  container.appendChild(artistsGrid);
 }
 
 function renderRestrictedList(data) {

@@ -287,6 +287,24 @@ body {
 .tile-name   { font-size: 0.82rem; font-weight: 600; color: var(--text); flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .tile-value  { font-size: 0.78rem; color: var(--text-muted); white-space: nowrap; }
 
+/* ── Square tiles (song / artist stats) ────────────────────────────────── */
+.square-tile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  aspect-ratio: 1 / 1;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.square-tile-title { font-size: 0.9rem; font-weight: 700; color: var(--text); line-height: 1.2; }
+.square-tile-sub   { font-size: 0.8rem; color: var(--text-muted); line-height: 1.2; }
+.square-tile-value { font-size: 0.82rem; font-weight: 600; color: var(--accent); margin-top: 4px; }
+
 /* ── Metric tiles (Economy) ────────────────────────────────────────────── */
 .metric-tile {
   background: var(--bg-card);
