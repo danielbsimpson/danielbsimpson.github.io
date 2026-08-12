@@ -288,22 +288,27 @@ body {
 .tile-value  { font-size: 0.78rem; color: var(--text-muted); white-space: nowrap; }
 
 /* ── Square tiles (song / artist stats) ────────────────────────────────── */
+.mini-tile-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
 .square-tile {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
-  gap: 6px;
-  aspect-ratio: 1 / 1;
-  padding: 12px;
-  border-radius: 8px;
+  gap: 2px;
+  height: 64px;
+  padding: 8px 10px;
+  border-radius: 6px;
   border: 1px solid var(--border);
   overflow: hidden;
 }
-.square-tile-title { font-size: 0.9rem; font-weight: 700; color: var(--text); line-height: 1.2; }
-.square-tile-sub   { font-size: 0.8rem; color: var(--text-muted); line-height: 1.2; }
-.square-tile-value { font-size: 0.82rem; font-weight: 600; color: var(--accent); margin-top: 4px; }
+.square-tile-title { font-size: 0.78rem; font-weight: 700; color: var(--text); line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.square-tile-sub   { font-size: 0.7rem; color: var(--text-muted); line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.square-tile-value { font-size: 0.72rem; font-weight: 600; color: var(--accent); margin-top: 2px; }
 
 /* ── Metric tiles (Economy) ────────────────────────────────────────────── */
 .metric-tile {

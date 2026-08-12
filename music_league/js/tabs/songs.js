@@ -41,11 +41,11 @@ export function renderSongs(container, data) {
   // 2. Restricted Songs
   container.appendChild(renderRestrictedList(data));
   container.appendChild(divider());
-  // 3. Most Submitted Songs
-  container.appendChild(repeatedSection);
-  container.appendChild(divider());
-  // 4. Most Artist Appearances
-  container.appendChild(artistsSection);
+  // 3. Most Submitted Songs + Most Artist Appearances (side by side)
+  const songArtistRow = el('div', 'grid-2');
+  songArtistRow.appendChild(repeatedSection);
+  songArtistRow.appendChild(artistsSection);
+  container.appendChild(songArtistRow);
   container.appendChild(divider());
   // 5. Most Universally Liked Songs
   container.appendChild(likedSection);
@@ -140,7 +140,7 @@ function renderRepeated(container, data) {
     container.appendChild(el('p', 'banner banner-success', 'No song was submitted more than once. 🎉'));
     return;
   }
-  const repeatedGrid = el('div', 'grid-5');
+  const repeatedGrid = el('div', 'mini-tile-grid');
   repeated.forEach(s => {
     const tile = el('div', 'square-tile');
     tile.style.background = '#2a1a3a';
@@ -159,7 +159,7 @@ function renderArtists(container, data) {
   container.appendChild(sectionCaption("Artists appearing most frequently across all submissions."));
 
   const artists = mostArtistAppearances(data, 10);
-  const artistsGrid = el('div', 'grid-5');
+  const artistsGrid = el('div', 'mini-tile-grid');
   artists.forEach(a => {
     const tile = el('div', 'square-tile');
     tile.style.background = '#3a1420';
