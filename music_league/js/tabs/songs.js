@@ -37,7 +37,6 @@ export function renderSongs(container, data) {
   // ── Ordered layout ───────────────────────────────────────────────────────
   // 1. All Submitted Songs
   container.appendChild(renderAllSongs(data));
-  container.appendChild(divider());
   // 2. Restricted Songs
   container.appendChild(renderRestrictedList(data));
   container.appendChild(divider());
