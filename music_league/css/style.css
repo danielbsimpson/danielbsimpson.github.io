@@ -333,6 +333,52 @@ body {
 .record-tile-metric { font-size: 1rem; font-weight: 700; margin: 2px 0; }
 .record-tile-round  { font-size: 0.75rem; color: var(--text-muted); }
 
+/* ── Zero-point incident tiles ─────────────────────────────────────────── */
+.zero-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+}
+.zero-row {
+  display: grid;
+  grid-template-columns: 120px repeat(var(--zero-cols, 1), minmax(110px, 1fr));
+  gap: 10px;
+  align-items: stretch;
+}
+.zero-row-label {
+  align-self: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text);
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.zero-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: #2a1010;
+  text-align: center;
+  min-width: 0;
+  cursor: help;
+  transition: border-color .15s ease, background .15s ease, transform .15s ease;
+}
+.zero-tile:hover {
+  background: #3a1616;
+  border-color: #e05252;
+  transform: translateY(-2px);
+}
+.zero-tile-round  { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: #e05252; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.zero-tile-song   { font-size: 0.85rem; font-weight: 700; color: var(--text); line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.zero-tile-artist { font-size: 0.75rem; color: var(--text-muted); line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
 /* ── Headline cards ────────────────────────────────────────────────────── */
 .headline-card {
   background: var(--bg-card);

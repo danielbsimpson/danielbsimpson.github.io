@@ -10,7 +10,7 @@ import {
 
 import {
   el, sectionHeader, sectionCaption, divider,
-  statTile, tileGroup, makeBarChart, makeHeatmap, htmlTable, expander, ACCENT,
+  statTile, tileGroup, makeBarChart, makeHeatmap, htmlTable, expander, esc, ACCENT,
 } from '../charts.js';
 
 const WINNER_STYLES  = [
@@ -75,11 +75,38 @@ export function renderLeaderboard(container, data) {
   const zMetric = el('p', 'caption', `Total zero-point rounds across all players: ${zpi.total}`);
   container.appendChild(zMetric);
   if (zpi.byPerson.length > 0) {
-    makeBarChart(container,
-      zpi.byPerson.map(e => e.name),
-      zpi.byPerson.map(e => e.zero_rounds),
-      { color: '#e05252', xLabel: 'Zero-Point Rounds', title: 'Zero-point rounds per player' }
-    );
+    // Group incidents by player name
+    const byName = new Map();
+    zpi.incidents.forEach(inc => {
+      if (!byName.has(inc.name)) byName.set(inc.name, []);
+      byName.get(inc.name).push(inc);
+    });
+
+    const zChart = el('div', 'zero-chart');
+    const maxCount = Math.max(...zpi.byPerson.map(p => p.zero_rounds));
+    zChart.style.setProperty('--zero-cols', maxCount);
+    zpi.byPerson.forEach(person => {
+      const row = el('div', 'zero-row');
+      row.appendChild(el('div', 'zero-row-label', person.name));
+
+      (byName.get(person.name) || []).forEach(inc => {
+        const tile = el('div', 'zero-tile');
+        const parts = [
+          inc.league ? `League: ${inc.league}` : null,
+          `Round: ${inc.round}`,
+          `Song: ${inc.title}`,
+          `Artist: ${inc.artist}`,
+        ].filter(Boolean);
+        tile.title = parts.join('\n');
+        tile.innerHTML =
+          `<span class="zero-tile-round">${esc(inc.round)}</span>` +
+          `<span class="zero-tile-song">${esc(inc.title)}</span>` +
+          `<span class="zero-tile-artist">${esc(inc.artist)}</span>`;
+        row.appendChild(tile);
+      });
+      zChart.appendChild(row);
+    });
+    container.appendChild(zChart);
   }
   container.appendChild(divider());
 

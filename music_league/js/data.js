@@ -328,16 +328,40 @@ export function uniqueVotersPerPlayer(data) {
 }
 
 export function zeroPointsIncidents(data) {
-  const names = nameMap(data.competitors);
+  const names     = nameMap(data.competitors);
+  const roundName = new Map(data.rounds.map(r => [r.ID, r.Name]));
+  const roundDate = new Map(data.rounds.map(r => [r.ID, new Date(r.Created).getTime()]));
+
+  // Map each round ID to its league name
+  const roundLeague = new Map();
+  (data.leagueRounds || []).forEach((rounds, i) => {
+    const league = (data.leagueNames && data.leagueNames[i]) || '';
+    rounds.forEach(r => { if (!roundLeague.has(r.ID)) roundLeague.set(r.ID, league); });
+  });
+
   const pps   = pointsPerSubmission(data.submissions, data.votes);
   const zeros = pps.filter(p => p.TotalPoints === 0);
   const byPerson = new Map();
   zeros.forEach(p => byPerson.set(p['Submitter ID'], (byPerson.get(p['Submitter ID']) || 0) + 1));
+
+  const incidents = zeros
+    .map(p => ({
+      name:   names.get(p['Submitter ID']) || p['Submitter ID'],
+      league: roundLeague.get(p['Round ID']) || '',
+      round:  roundName.get(p['Round ID']) || p['Round ID'],
+      title:  p.Title || '',
+      artist: p['Artist(s)'] || '',
+      _date:  roundDate.get(p['Round ID']) || 0,
+    }))
+    .sort((a, b) => a._date - b._date)
+    .map(({ _date, ...rest }) => rest);
+
   return {
     total: zeros.length,
     byPerson: [...byPerson.entries()]
       .sort((a, b) => b[1] - a[1])
       .map(([id, n]) => ({ name: names.get(id) || id, zero_rounds: n })),
+    incidents,
   };
 }
 
