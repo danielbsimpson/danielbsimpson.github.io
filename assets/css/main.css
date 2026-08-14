@@ -4105,9 +4105,9 @@ a:hover {
 
 #banner.major {
 	height: auto !important;
-	min-height: 32em !important;
+	min-height: 0 !important;
 	max-height: none !important;
-	padding: 8em 0 3em 0 !important;
+	padding: 8em 0 1.5em 0 !important;
 }
 
 #banner:after {
@@ -4658,7 +4658,7 @@ a:hover {
         display: flex;
         flex-direction: column;
         gap: 1.8em;
-        padding: 3em 0;
+        padding: 1em 0 3em 0;
         max-width: 65em;
         width: calc(100% - 6em);
         margin: 0 auto;
