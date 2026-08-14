@@ -369,6 +369,7 @@ body {
   flex-direction: column;
   gap: 12px;
   overflow-x: auto;
+  padding-top: 6px;
   padding-bottom: 6px;
 }
 .zero-row {
