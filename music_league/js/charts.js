@@ -222,6 +222,115 @@ export function makeGroupedBarChart(container, players, datasets, opts = {}) {
   return chart;
 }
 
+// ── Combo chart (bars + line, dual axis) ───────────────────────────────────
+
+export function makeComboChart(container, labels, bars, line, opts = {}) {
+  // bars: {label, data, color}  — primary value axis
+  // line: {label, data, color}  — secondary value axis
+  const isHoriz = opts.horizontal !== false;
+  const height  = opts.height || Math.max(340, labels.length * 26 + 100);
+  const wrap    = chartWrap(opts.title || '');
+  const canvas  = canvasInWrap(wrap, height);
+  container.appendChild(wrap);
+
+  const barAxis  = isHoriz ? 'xBar'  : 'yBar';
+  const lineAxis = isHoriz ? 'xLine' : 'yLine';
+  const lollipop = !!opts.lollipop;
+  const lineColor = line.color || '#7ec8e3';
+
+  // Which value axis to display: 'bar', 'line', or undefined (both)
+  const showAxis    = opts.showAxis;
+  const barVisible  = !showAxis || showAxis === 'bar';
+  const lineVisible = !showAxis || showAxis === 'line';
+  const soleLine    = lineVisible && !barVisible;
+
+  const valueScale = (id, position, color, drawGrid, display) => ({
+    ...(isHoriz ? CHART_DEFAULTS.scales.x : CHART_DEFAULTS.scales.y),
+    position,
+    display,
+    beginAtZero: true,
+    grid: drawGrid ? undefined : { drawOnChartArea: false },
+    title: { display: true, text: id, color },
+  });
+
+  // Draws the lollipop "stems" from the plot baseline to each point.
+  const stemPlugin = {
+    id: 'lollipopStems',
+    afterDatasetsDraw(chart) {
+      const meta = chart.getDatasetMeta(1);
+      if (!meta || meta.hidden) return;
+      const area = chart.chartArea;
+      const base = isHoriz ? area.left : area.bottom;
+      const ctx  = chart.ctx;
+      ctx.save();
+      ctx.strokeStyle = lineColor;
+      ctx.lineWidth   = 2;
+      meta.data.forEach(pt => {
+        ctx.beginPath();
+        if (isHoriz) { ctx.moveTo(base, pt.y); ctx.lineTo(pt.x, pt.y); }
+        else         { ctx.moveTo(pt.x, base); ctx.lineTo(pt.x, pt.y); }
+        ctx.stroke();
+      });
+      ctx.restore();
+    },
+  };
+
+  const chart = new Chart(canvas, {
+    plugins: lollipop ? [stemPlugin] : [],
+    data: {
+      labels,
+      datasets: [
+        {
+          type: 'bar',
+          label: bars.label,
+          data: bars.data,
+          backgroundColor: bars.color || ACCENT,
+          borderWidth: 0,
+          borderRadius: 3,
+          [isHoriz ? 'xAxisID' : 'yAxisID']: barAxis,
+          order: 2,
+        },
+        {
+          type: 'line',
+          label: line.label,
+          data: line.data,
+          borderColor: lineColor,
+          backgroundColor: lineColor,
+          showLine: !lollipop,
+          borderWidth: 2,
+          pointRadius: lollipop ? 5 : 3,
+          pointHoverRadius: lollipop ? 7 : 5,
+          tension: 0.3,
+          [isHoriz ? 'xAxisID' : 'yAxisID']: lineAxis,
+          order: 1,
+        },
+      ],
+    },
+    options: {
+      ...CHART_DEFAULTS,
+      indexAxis: isHoriz ? 'y' : 'x',
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        ...CHART_DEFAULTS.plugins,
+        legend: { display: true, labels: { color: '#ccc', boxWidth: 12 } },
+      },
+      scales: isHoriz
+        ? {
+            y: { ...CHART_DEFAULTS.scales.y, ticks: { color: '#8b92a5', autoSkip: false } },
+            [barAxis]:  valueScale(bars.label, 'bottom', bars.color || ACCENT, barVisible, barVisible),
+            [lineAxis]: valueScale(line.label, soleLine ? 'bottom' : 'top', lineColor, soleLine, lineVisible),
+          }
+        : {
+            x: { ...CHART_DEFAULTS.scales.x, ticks: { color: '#8b92a5', maxRotation: 45, minRotation: 45, autoSkip: false } },
+            [barAxis]:  valueScale(bars.label, 'left', bars.color || ACCENT, barVisible, barVisible),
+            [lineAxis]: valueScale(line.label, soleLine ? 'left' : 'right', lineColor, soleLine, lineVisible),
+          },
+    },
+  });
+  return chart;
+}
+
 // ── Stacked bar chart ─────────────────────────────────────────────────────
 
 export function makeStackedBarChart(container, labels, datasets, opts = {}) {

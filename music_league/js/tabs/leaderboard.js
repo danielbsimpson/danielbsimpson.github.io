@@ -10,7 +10,7 @@ import {
 
 import {
   el, sectionHeader, sectionCaption, divider,
-  statTile, tileGroup, makeBarChart, makeHeatmap, htmlTable, expander, esc, ACCENT,
+  statTile, tileGroup, makeBarChart, makeComboChart, makeHeatmap, esc, destroyChart, ACCENT,
 } from '../charts.js';
 
 const WINNER_STYLES  = [
@@ -41,33 +41,73 @@ export function renderLeaderboard(container, data) {
   container.appendChild(tileRow);
   container.appendChild(divider());
 
-  // ── Total Points bar ────────────────────────────────────────────────────
-  container.appendChild(sectionHeader('Total Points — All Competitors'));
+  // ── [TEST] Combined Total + Average Points ──────────────────────────────
+  container.appendChild(sectionHeader('🏅 Points Overview — Total & Average per Round'));
+  container.appendChild(sectionCaption(
+    'Bars show total points earned; the lollipops show average points per round.'
+  ));
+  {
+    const names  = nameMap(data.competitors);
+    const pps    = pointsPerSubmission(data.submissions, data.votes);
+    const totals = new Map();
+    pps.forEach(p => totals.set(p['Submitter ID'], (totals.get(p['Submitter ID']) || 0) + p.TotalPoints));
+
+    const avgByName = new Map(playerRoundAverages(data).map(e => [e.name, e.avg_points]));
+
+    // Build one row per player: { name, total, avg }
+    const rows = [...totals.entries()].map(([id, total]) => {
+      const name = names.get(id) || id;
+      return { name, total, avg: avgByName.get(name) ?? 0 };
+    });
+
+    // Sort toggle
+    const controls = el('div', 'sort-toggle');
+    const sortLabel = el('span', 'sort-toggle-label', 'Sort by:');
+    const btnTotal  = el('button', 'sort-btn active', 'Total Points');
+    const btnAvg    = el('button', 'sort-btn', 'Avg / Round');
+    controls.appendChild(sortLabel);
+    controls.appendChild(btnTotal);
+    controls.appendChild(btnAvg);
+    container.appendChild(controls);
+
+    const chartHost = el('div', '');
+    container.appendChild(chartHost);
+
+    let comboChart = null;
+    const render = key => {
+      const sorted = [...rows].sort((a, b) => b[key] - a[key]);
+      const labels = sorted.map(r => r.name);
+      destroyChart(comboChart);
+      chartHost.innerHTML = '';
+      comboChart = makeComboChart(chartHost, labels,
+        { label: 'Total Points',       data: sorted.map(r => r.total), color: ACCENT },
+        { label: 'Avg Points / Round', data: sorted.map(r => r.avg),   color: '#7ec8e3' },
+        { title: 'Total & Average Points', horizontal: true, lollipop: true,
+          showAxis: key === 'avg' ? 'line' : 'bar' }
+      );
+    };
+
+    btnTotal.addEventListener('click', () => {
+      btnTotal.classList.add('active');
+      btnAvg.classList.remove('active');
+      render('total');
+    });
+    btnAvg.addEventListener('click', () => {
+      btnAvg.classList.add('active');
+      btnTotal.classList.remove('active');
+      render('avg');
+    });
+
+    render('total');
+  }
+  container.appendChild(divider());
+
+  // Shared computations used by the per-round heatmap below
   const names  = nameMap(data.competitors);
   const pps    = pointsPerSubmission(data.submissions, data.votes);
   const totals = new Map();
   pps.forEach(p => totals.set(p['Submitter ID'], (totals.get(p['Submitter ID']) || 0) + p.TotalPoints));
   const sortedTotals = [...totals.entries()].sort((a, b) => b[1] - a[1]);
-  makeBarChart(container,
-    sortedTotals.map(([id]) => names.get(id) || id),
-    sortedTotals.map(([, v]) => v),
-    { color: ACCENT, xLabel: 'Points', title: 'Total Points — All Competitors' }
-  );
-  container.appendChild(divider());
-
-  // ── Average Points Per Round ────────────────────────────────────────────
-  container.appendChild(sectionHeader('📈 Average Points Per Round'));
-  const avgAll = playerRoundAverages(data);
-  makeBarChart(container,
-    avgAll.map(e => e.name),
-    avgAll.map(e => e.avg_points),
-    { color: '#7ec8e3', xLabel: 'Avg Points / Round', title: 'Average Points Per Round — All Competitors' }
-  );
-  container.appendChild(expander('📋 Open Table View', htmlTable(
-    ['Rank', 'Player', 'Avg Pts / Round', 'Rounds'],
-    avgAll.map((e, i) => ({ Rank: i + 1, Player: e.name, 'Avg Pts / Round': e.avg_points, Rounds: e.rounds }))
-  )));
-  container.appendChild(divider());
 
   // ── Zero points incidents ───────────────────────────────────────────────
   container.appendChild(sectionHeader('0️⃣ Zero Points Incidents'));
