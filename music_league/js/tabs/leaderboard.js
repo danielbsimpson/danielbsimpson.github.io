@@ -55,6 +55,61 @@ export function renderLeaderboard(container, data) {
   );
   container.appendChild(divider());
 
+  // ── Average Points Per Round ────────────────────────────────────────────
+  container.appendChild(sectionHeader('📈 Average Points Per Round'));
+  const avgAll = playerRoundAverages(data);
+  makeBarChart(container,
+    avgAll.map(e => e.name),
+    avgAll.map(e => e.avg_points),
+    { color: '#7ec8e3', xLabel: 'Avg Points / Round', title: 'Average Points Per Round — All Competitors' }
+  );
+  container.appendChild(expander('📋 Open Table View', htmlTable(
+    ['Rank', 'Player', 'Avg Pts / Round', 'Rounds'],
+    avgAll.map((e, i) => ({ Rank: i + 1, Player: e.name, 'Avg Pts / Round': e.avg_points, Rounds: e.rounds }))
+  )));
+  container.appendChild(divider());
+
+  // ── Zero points incidents ───────────────────────────────────────────────
+  container.appendChild(sectionHeader('0️⃣ Zero Points Incidents'));
+  const zpi = zeroPointsIncidents(data);
+  const zMetric = el('p', 'caption', `Total zero-point rounds across all players: ${zpi.total}`);
+  container.appendChild(zMetric);
+  if (zpi.byPerson.length > 0) {
+    makeBarChart(container,
+      zpi.byPerson.map(e => e.name),
+      zpi.byPerson.map(e => e.zero_rounds),
+      { color: '#e05252', xLabel: 'Zero-Point Rounds', title: 'Zero-point rounds per player' }
+    );
+  }
+  container.appendChild(divider());
+
+  // ── Unique Voters ───────────────────────────────────────────────────────
+  container.appendChild(sectionHeader('👥 Unique Voters'));
+  container.appendChild(sectionCaption(
+    'Distinct voters who gave each player ≥1 point, counted per round.'
+  ));
+  const { pivot, totals: uvTotals, orderedRounds } = uniqueVotersPerPlayer(data);
+  makeBarChart(container,
+    uvTotals.map(e => e.Player),
+    uvTotals.map(e => e.TotalUniqueVoters),
+    { color: '#c77dff', xLabel: 'Total Unique Voters', title: 'Total Unique Voters Per Player (summed across rounds)' }
+  );
+
+  // Unique voters heatmap
+  container.appendChild(sectionHeader('🗓️ Unique Voters Per Round Heatmap'));
+  const uvPlayers = uvTotals.map(e => e.Player);
+  const uvMatrix  = uvPlayers.map(player => {
+    const rowMap = pivot.get(player) || new Map();
+    return orderedRounds.map(col => rowMap.get(col) || 0);
+  });
+  makeHeatmap(container, uvPlayers, orderedRounds, uvMatrix, {
+    title: 'Unique voters per player per round',
+    cellW: Math.max(30, Math.min(50, Math.floor(700 / Math.max(orderedRounds.length, 1)))),
+    cellH: 26,
+    colorRange: ['#0e0a1e', '#c77dff'],
+  });
+  container.appendChild(divider());
+
   // ── Per-round heatmap ───────────────────────────────────────────────────
   container.appendChild(sectionHeader('📊 Points Per Round Heatmap'));
   {
@@ -85,59 +140,4 @@ export function renderLeaderboard(container, data) {
       colorRange: ['#0a1a10', ACCENT],
     });
   }
-  container.appendChild(divider());
-
-  // ── Zero points incidents ───────────────────────────────────────────────
-  container.appendChild(sectionHeader('0️⃣ Zero Points Incidents'));
-  const zpi = zeroPointsIncidents(data);
-  const zMetric = el('p', 'caption', `Total zero-point rounds across all players: ${zpi.total}`);
-  container.appendChild(zMetric);
-  if (zpi.byPerson.length > 0) {
-    makeBarChart(container,
-      zpi.byPerson.map(e => e.name),
-      zpi.byPerson.map(e => e.zero_rounds),
-      { color: '#e05252', xLabel: 'Zero-Point Rounds', title: 'Zero-point rounds per player' }
-    );
-  }
-  container.appendChild(divider());
-
-  // ── Average Points Per Round ────────────────────────────────────────────
-  container.appendChild(sectionHeader('📈 Average Points Per Round'));
-  const avgAll = playerRoundAverages(data);
-  makeBarChart(container,
-    avgAll.map(e => e.name),
-    avgAll.map(e => e.avg_points),
-    { color: '#7ec8e3', xLabel: 'Avg Points / Round', title: 'Average Points Per Round — All Competitors' }
-  );
-  container.appendChild(expander('📋 Open Table View', htmlTable(
-    ['Rank', 'Player', 'Avg Pts / Round', 'Rounds'],
-    avgAll.map((e, i) => ({ Rank: i + 1, Player: e.name, 'Avg Pts / Round': e.avg_points, Rounds: e.rounds }))
-  )));
-  container.appendChild(divider());
-
-  // ── Unique Voters ───────────────────────────────────────────────────────
-  container.appendChild(sectionHeader('👥 Unique Voters'));
-  container.appendChild(sectionCaption(
-    'Distinct voters who gave each player ≥1 point, counted per round.'
-  ));
-  const { pivot, totals: uvTotals, orderedRounds } = uniqueVotersPerPlayer(data);
-  makeBarChart(container,
-    uvTotals.map(e => e.Player),
-    uvTotals.map(e => e.TotalUniqueVoters),
-    { color: '#c77dff', xLabel: 'Total Unique Voters', title: 'Total Unique Voters Per Player (summed across rounds)' }
-  );
-
-  // Unique voters heatmap
-  container.appendChild(sectionHeader('🗓️ Unique Voters Per Round Heatmap'));
-  const uvPlayers = uvTotals.map(e => e.Player);
-  const uvMatrix  = uvPlayers.map(player => {
-    const rowMap = pivot.get(player) || new Map();
-    return orderedRounds.map(col => rowMap.get(col) || 0);
-  });
-  makeHeatmap(container, uvPlayers, orderedRounds, uvMatrix, {
-    title: 'Unique voters per player per round',
-    cellW: Math.max(30, Math.min(50, Math.floor(700 / Math.max(orderedRounds.length, 1)))),
-    cellH: 26,
-    colorRange: ['#0e0a1e', '#c77dff'],
-  });
 }
