@@ -1,0 +1,177 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>WV Perinatal Partnership — Daniel Simpson</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="icon" type="image/png" href="../images/basic_ds.png" />
+		<link rel="stylesheet" href="../assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<canvas id="star-canvas" data-planet="../images/earth_image.png"></canvas>
+
+		<div id="wrapper">
+
+			<header id="header">
+				<a href="../index.html" class="logo"><strong>GitHub Projects</strong> <span>by Daniel Simpson</span></a>
+				<nav><a href="#menu">Menu</a></nav>
+			</header>
+
+			<nav id="menu">
+				<ul class="links">
+					<li><a href="../index.html">Home</a></li>
+					<li><a href="../about.html">About Me</a></li>
+					<li><a href="../msc_project.html">MSc Project</a></li>
+					<li><a href="../resume.html">My Resume</a></li>
+				</ul>
+				<ul class="actions stacked">
+					<li><a href="index.html" class="button primary fit">Featured Projects</a></li>
+				</ul>
+			</nav>
+
+			<div id="main" class="alt">
+				<section id="one">
+					<div class="inner">
+
+						<header class="major">
+							<h1>WV Perinatal Partnership</h1>
+						</header>
+
+						<ul class="actions" style="margin-bottom: 0.5em;">
+							<li><a href="https://danielbsimpson.github.io/wvpp-poc/" class="button icon solid fa-mobile-alt">View Live Demo</a></li>
+							<li><a href="https://github.com/danielbsimpson/wvpp-poc" class="button icon brands fa-github">View on GitHub</a></li>
+							<li><a href="index.html" class="button">← Back to Projects</a></li>
+						</ul>
+
+						<div class="project-page-hero" style="margin-top: 1.5em;">
+							<img src="../images/hospital.jpg" alt="WV Perinatal Partnership" />
+							<div class="project-page-hero-overlay">
+								<p>A mobile-first proof-of-concept web app that guides expectant families through a decision-tree questionnaire and connects them with the right perinatal specialists and nearest resources.</p>
+							</div>
+						</div>
+
+						<div class="tech-pill-row" style="margin-bottom: 2.5em;">
+							<span class="tech-pill">React 18</span>
+							<span class="tech-pill">Vite</span>
+							<span class="tech-pill">TypeScript</span>
+							<span class="tech-pill">React Router</span>
+							<span class="tech-pill">Tailwind CSS</span>
+							<span class="tech-pill">PWA</span>
+							<span class="tech-pill">Geolocation API</span>
+							<span class="tech-pill">GitHub Pages</span>
+						</div>
+
+						<div class="project-section">
+							<h2>The Story Behind It</h2>
+							<p>The <a href="https://wvperinatal.org/">West Virginia Perinatal Partnership</a> connects families across the state with perinatal care — breastfeeding support, substance-use programs, tobacco cessation, maternal mental health, and NICU/NAS resources. The challenge is that a parent in crisis often doesn't know which of those programs they need, or who to call. This proof of concept is an attempt to make that first step effortless.</p>
+							<p>It's a volunteer, unfunded POC built to demonstrate feasibility for grant purposes: a mobile-first web app that walks a user through a few plain-language questions and, at the end, tells them exactly who to contact, where the nearest resource is, and what else is available. The goal was to put something real and clickable in front of WVPP staff so the routing logic and question set can later be defined together, once funded.</p>
+						</div>
+
+						<div class="project-section">
+							<h2>How It Works</h2>
+							<p>The user opens the app on their phone and is guided through a short decision tree: they share their location (device GPS or a zip code), describe their concern, indicate whether they've already spoken with a provider, and pick a topic area. Each answer narrows the path. The final results page surfaces a matched WVPP coordinator to contact, the nearest service location with directions, and additional hotlines and educational resources.</p>
+							<p>Crucially, the entire question set and routing logic live in a JSON decision tree — so non-developers at WVPP can update questions and pathways without touching any code.</p>
+						</div>
+
+						<div class="project-section">
+							<h2>Technical Details</h2>
+							<ul class="phase-list">
+								<li>
+									<span class="phase-badge">Frontend</span>
+									<p><strong>React 18 + Vite + TypeScript</strong> — A fast, mobile-first single-page app scaffolded with Vite. React Router handles navigation between the welcome, location, question, and results screens.</p>
+								</li>
+								<li>
+									<span class="phase-badge">Styling</span>
+									<p><strong>Tailwind CSS</strong> — Responsive, phone-optimised styling using a palette derived from the WVPP brand (dark teal <code>#1b4965</code> with a lighter blue accent). Built to WCAG 2.1 AA accessibility standards.</p>
+								</li>
+								<li>
+									<span class="phase-badge">Logic</span>
+									<p><strong>JSON decision tree</strong> — Questions, answers, branches, and provider matches are defined entirely in data files, so the flow can be reconfigured by non-developers with no code changes.</p>
+								</li>
+								<li>
+									<span class="phase-badge">Location</span>
+									<p><strong>Geolocation API + zip lookup</strong> — "Find nearest" functionality resolves the user's position via GPS or manual zip/address entry, then links out to Google Maps for directions.</p>
+								</li>
+								<li>
+									<span class="phase-badge">Deployment</span>
+									<p><strong>PWA on GitHub Pages</strong> — Installable to the home screen with offline support via a service worker, deployed as a static SPA through a GitHub Actions workflow. Fully public — no authentication required.</p>
+								</li>
+							</ul>
+						</div>
+
+						<div class="project-section">
+							<h2>What It Represents</h2>
+							<p>This one matters to me because it's technology aimed squarely at people who need help at a vulnerable moment — and because West Virginia is where my own path into data and research began. It's a small, honest demonstration that a well-designed decision tree can turn confusion into a phone number and a set of directions. The next phase, if funded, is to define the real question set and routing logic hand-in-hand with WVPP staff and expand it to native Android and iOS from the shared core.</p>
+						</div>
+
+					</div>
+				</section>
+			</div>
+
+			<section id="contact">
+				<div class="inner">
+					<section class="split">
+						<section>
+							<div class="contact-method">
+								<span class="icon solid alt fa-envelope"></span>
+								<h3>Email</h3>
+								<a href="mailto:simpson.danielb@gmail.com">simpson.danielb@gmail.com</a>
+							</div>
+						</section>
+						<section>
+							<div class="contact-method">
+								<span class="icon solid alt fa-phone"></span>
+								<h3>Phone</h3>
+								<span>+1 (617) 564-6001</span>
+							</div>
+						</section>
+						<section>
+							<div class="contact-method">
+								<span class="icon solid alt fa-home"></span>
+								<h3>Address</h3>
+								<span>Framingham<br />Massachusetts, USA</span>
+							</div>
+						</section>
+					</section>
+					<section class="split">
+						<section>
+							<div class="contact-method">
+								<span class="icon brands alt fa-github"></span>
+								<h3>GitHub</h3>
+								<a href="https://github.com/danielbsimpson">danielbsimpson</a>
+							</div>
+						</section>
+						<section>
+							<div class="contact-method">
+								<span class="icon brands alt fa-linkedin-in"></span>
+								<h3>LinkedIn</h3>
+								<a href="https://www.linkedin.com/in/daniel-b-simpson/">daniel-b-simpson</a>
+							</div>
+						</section>
+						<section>
+							<div class="contact-method">
+								<span class="icon brands alt fa-instagram"></span>
+								<h3>Instagram</h3>
+								<a href="https://www.instagram.com/danielbsimpson/">danielbsimpson</a>
+							</div>
+						</section>
+					</section>
+				</div>
+			</section>
+
+		</div>
+
+		<script src="../assets/js/jquery.min.js"></script>
+		<script src="../assets/js/jquery.scrolly.min.js"></script>
+		<script src="../assets/js/jquery.scrollex.min.js"></script>
+		<script src="../assets/js/browser.min.js"></script>
+		<script src="../assets/js/breakpoints.min.js"></script>
+		<script src="../assets/js/util.js"></script>
+		<script src="../assets/js/main.js"></script>
+		<script src="../assets/js/particles.js"></script>
+		<script src="../assets/js/warp.js"></script>
+
+	</body>
+</html>

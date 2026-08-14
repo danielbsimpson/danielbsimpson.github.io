@@ -1,0 +1,172 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Used Car Dashboard — Daniel Simpson</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="icon" type="image/png" href="../images/basic_ds.png" />
+		<link rel="stylesheet" href="../assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<canvas id="star-canvas" data-planet="../images/earth_image.png"></canvas>
+
+		<div id="wrapper">
+
+			<header id="header">
+				<a href="../index.html" class="logo"><strong>GitHub Projects</strong> <span>by Daniel Simpson</span></a>
+				<nav><a href="#menu">Menu</a></nav>
+			</header>
+
+			<nav id="menu">
+				<ul class="links">
+					<li><a href="../index.html">Home</a></li>
+					<li><a href="../about.html">About Me</a></li>
+					<li><a href="../msc_project.html">MSc Project</a></li>
+					<li><a href="../resume.html">My Resume</a></li>
+				</ul>
+				<ul class="actions stacked">
+					<li><a href="index.html" class="button primary fit">Featured Projects</a></li>
+				</ul>
+			</nav>
+
+			<div id="main" class="alt">
+				<section id="one">
+					<div class="inner">
+
+						<header class="major">
+							<h1>Used Car Dashboard</h1>
+						</header>
+
+						<ul class="actions" style="margin-bottom: 0.5em;">
+							<li><a href="https://danielbsimpson.github.io/used_cars_england/" class="button icon solid fa-chart-line">View Live Dashboard</a></li>
+							<li><a href="https://github.com/danielbsimpson/used_cars_england" class="button icon brands fa-github">View on GitHub</a></li>
+							<li><a href="index.html" class="button">← Back to Projects</a></li>
+						</ul>
+
+						<div class="project-page-hero" style="margin-top: 1.5em;">
+							<img src="../images/Car_image.jpg" alt="Used Car Dashboard" />
+							<div class="project-page-hero-overlay">
+								<p>A full-stack data science project: ~60,000 used car listings scraped from AutoTrader.co.uk, cleaned, modelled with a price-prediction regressor, and explored through an interactive dashboard.</p>
+							</div>
+						</div>
+
+						<div class="tech-pill-row" style="margin-bottom: 2.5em;">
+							<span class="tech-pill">Python</span>
+							<span class="tech-pill">BeautifulSoup</span>
+							<span class="tech-pill">Pandas</span>
+							<span class="tech-pill">scikit-learn</span>
+							<span class="tech-pill">statsmodels</span>
+							<span class="tech-pill">Plotly</span>
+							<span class="tech-pill">NLP / VADER</span>
+							<span class="tech-pill">GitHub Pages</span>
+						</div>
+
+						<div class="project-section">
+							<h2>The Story Behind It</h2>
+							<p>This project began during my MSc in Data Science as an end-to-end exercise in doing everything a data scientist actually does — not just training a model in a clean notebook, but collecting the raw data, wrestling it into shape, understanding it, modelling it, and putting the result somewhere people can use. I picked the UK used car market because it is messy, real, and full of the kind of noise that makes a project honest.</p>
+							<p>Built together with Mark Stent, it covers the complete pipeline: scraping roughly 60,000 live listings from AutoTrader.co.uk across 39 manufacturers, cleaning the tangled HTML into structured features, exploring the market with statistics and NLP, and training a regression model that predicts a car's asking price from its attributes. The whole thing was originally served through a Plotly Dash app on Heroku.</p>
+							<p>Years later I reopened it. The Heroku dashboard had long since retired, so I rebuilt it as a lightweight static dashboard that runs entirely in the browser off generated CSV files — hosted on GitHub Pages, mirroring the approach I used for my Music League dashboards. This page documents that revived project.</p>
+						</div>
+
+						<div class="project-section">
+							<h2>Technical Details</h2>
+							<ul class="phase-list">
+								<li>
+									<span class="phase-badge">Scraping</span>
+									<p><strong>BeautifulSoup &amp; urllib</strong> — Around 6,000 AutoTrader.co.uk result pages were visited across 39 makes and both transmission types, yielding roughly 60,000 individual listings. Discovered URLs were cached to avoid re-running the slow discovery step.</p>
+								</li>
+								<li>
+									<span class="phase-badge">Cleaning</span>
+									<p><strong>Pandas</strong> — Raw listings arrive wrapped in HTML. Tags are stripped and the combined specification string is parsed positionally into registration year, body type, mileage, engine size, horsepower, transmission, and fuel type, with careful handling of missing fields.</p>
+								</li>
+								<li>
+									<span class="phase-badge">Analysis</span>
+									<p><strong>EDA &amp; NLP</strong> — Per make/model summary statistics (mean, min, max price and mileage) drive the dashboard's error bars, while listing text is run through a custom stop-word list and the VADER lexicon to produce word-frequency counts and word clouds.</p>
+								</li>
+								<li>
+									<span class="phase-badge">Modelling</span>
+									<p><strong>scikit-learn &amp; statsmodels</strong> — Ten regressors were compared with 5-fold cross-validation. A BaggingRegressor won with a cross-validation R² of 0.909 and a test-set R² of 0.880, serialised with joblib. An OLS model was also inspected for feature significance.</p>
+								</li>
+								<li>
+									<span class="phase-badge">Dashboard</span>
+									<p><strong>Static, client-side</strong> — The original Plotly Dash / Heroku app was rebuilt as an interactive dashboard that runs entirely in the browser off exported CSV files and is hosted on GitHub Pages — no server required.</p>
+								</li>
+							</ul>
+						</div>
+
+						<div class="project-section">
+							<h2>What It Represents</h2>
+							<p>This is the project where I first strung the entire data science pipeline together myself — from the awkward reality of scraping a live commercial website to a deployed, interactive result. Reviving it years later, and swapping a retired cloud app for a static browser-based dashboard, made it a nice bridge between where I started and how I build things now.</p>
+						</div>
+
+					</div>
+				</section>
+			</div>
+
+			<section id="contact">
+				<div class="inner">
+					<section class="split">
+						<section>
+							<div class="contact-method">
+								<span class="icon solid alt fa-envelope"></span>
+								<h3>Email</h3>
+								<a href="mailto:simpson.danielb@gmail.com">simpson.danielb@gmail.com</a>
+							</div>
+						</section>
+						<section>
+							<div class="contact-method">
+								<span class="icon solid alt fa-phone"></span>
+								<h3>Phone</h3>
+								<span>+1 (617) 564-6001</span>
+							</div>
+						</section>
+						<section>
+							<div class="contact-method">
+								<span class="icon solid alt fa-home"></span>
+								<h3>Address</h3>
+								<span>Framingham<br />Massachusetts, USA</span>
+							</div>
+						</section>
+					</section>
+					<section class="split">
+						<section>
+							<div class="contact-method">
+								<span class="icon brands alt fa-github"></span>
+								<h3>GitHub</h3>
+								<a href="https://github.com/danielbsimpson">danielbsimpson</a>
+							</div>
+						</section>
+						<section>
+							<div class="contact-method">
+								<span class="icon brands alt fa-linkedin-in"></span>
+								<h3>LinkedIn</h3>
+								<a href="https://www.linkedin.com/in/daniel-b-simpson/">daniel-b-simpson</a>
+							</div>
+						</section>
+						<section>
+							<div class="contact-method">
+								<span class="icon brands alt fa-instagram"></span>
+								<h3>Instagram</h3>
+								<a href="https://www.instagram.com/danielbsimpson/">danielbsimpson</a>
+							</div>
+						</section>
+					</section>
+				</div>
+			</section>
+
+		</div>
+
+		<script src="../assets/js/jquery.min.js"></script>
+		<script src="../assets/js/jquery.scrolly.min.js"></script>
+		<script src="../assets/js/jquery.scrollex.min.js"></script>
+		<script src="../assets/js/browser.min.js"></script>
+		<script src="../assets/js/breakpoints.min.js"></script>
+		<script src="../assets/js/util.js"></script>
+		<script src="../assets/js/main.js"></script>
+		<script src="../assets/js/particles.js"></script>
+		<script src="../assets/js/warp.js"></script>
+
+	</body>
+</html>
