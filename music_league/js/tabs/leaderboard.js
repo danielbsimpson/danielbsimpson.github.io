@@ -108,6 +108,7 @@ export function renderLeaderboard(container, data) {
   const totals = new Map();
   pps.forEach(p => totals.set(p['Submitter ID'], (totals.get(p['Submitter ID']) || 0) + p.TotalPoints));
   const sortedTotals = [...totals.entries()].sort((a, b) => b[1] - a[1]);
+  const uvResult = uniqueVotersPerPlayer(data);
 
   // ── Zero points incidents ───────────────────────────────────────────────
   container.appendChild(sectionHeader('0️⃣ Zero Points Incidents'));
@@ -150,61 +151,91 @@ export function renderLeaderboard(container, data) {
   }
   container.appendChild(divider());
 
-  // ── Unique Voters ───────────────────────────────────────────────────────
-  container.appendChild(sectionHeader('👥 Unique Voters'));
-  container.appendChild(sectionCaption(
-    'Distinct voters who gave each player ≥1 point, counted per round.'
-  ));
-  const { pivot, totals: uvTotals, orderedRounds } = uniqueVotersPerPlayer(data);
-  makeBarChart(container,
-    uvTotals.map(e => e.Player),
-    uvTotals.map(e => e.TotalUniqueVoters),
-    { color: '#c77dff', xLabel: 'Total Unique Voters', title: 'Total Unique Voters Per Player (summed across rounds)' }
-  );
-
-  // Unique voters heatmap
-  container.appendChild(sectionHeader('🗓️ Unique Voters Per Round Heatmap'));
-  const uvPlayers = uvTotals.map(e => e.Player);
-  const uvMatrix  = uvPlayers.map(player => {
-    const rowMap = pivot.get(player) || new Map();
-    return orderedRounds.map(col => rowMap.get(col) || 0);
-  });
-  makeHeatmap(container, uvPlayers, orderedRounds, uvMatrix, {
-    title: 'Unique voters per player per round',
-    cellW: Math.max(30, Math.min(50, Math.floor(700 / Math.max(orderedRounds.length, 1)))),
-    cellH: 26,
-    colorRange: ['#0e0a1e', '#c77dff'],
-  });
-  container.appendChild(divider());
-
-  // ── Per-round heatmap ───────────────────────────────────────────────────
-  container.appendChild(sectionHeader('📊 Points Per Round Heatmap'));
+  // ── Per-round heatmap (Points / Unique Voters toggle) ─────────────────────
+  container.appendChild(sectionHeader('📊 Per-Round Heatmap'));
   {
     const roundNameMap = new Map(data.rounds.map(r => [r.ID, r.Name]));
     const roundOrder   = [...data.rounds]
       .sort((a, b) => new Date(a.Created) - new Date(b.Created))
       .map(r => r.Name);
 
-    // Build player × round matrix
+    // Build points player × round matrix
     const playerNames = sortedTotals.map(([id]) => names.get(id) || id);
     const playerIndex = new Map(playerNames.map((n, i) => [n, i]));
 
-    const matrix = playerNames.map(() => roundOrder.map(() => 0));
+    const pointsMatrix = playerNames.map(() => roundOrder.map(() => 0));
     pps.forEach(p => {
       const playerName = names.get(p['Submitter ID']);
       const roundName  = roundNameMap.get(p['Round ID']);
       if (playerName && roundName) {
         const ri = playerIndex.get(playerName);
         const ci = roundOrder.indexOf(roundName);
-        if (ri !== undefined && ci !== -1) matrix[ri][ci] = p.TotalPoints;
+        if (ri !== undefined && ci !== -1) pointsMatrix[ri][ci] = p.TotalPoints;
       }
     });
 
-    makeHeatmap(container, playerNames, roundOrder, matrix, {
-      title: 'Points earned per player per round',
-      cellW: Math.max(30, Math.min(50, Math.floor(700 / Math.max(roundOrder.length, 1)))),
-      cellH: 26,
-      colorRange: ['#0a1a10', ACCENT],
+    // Build unique voters player × round matrix
+    const { pivot, totals: uvTotals, orderedRounds } = uvResult;
+    const uvPlayers = uvTotals.map(e => e.Player);
+    const uvMatrix  = uvPlayers.map(player => {
+      const rowMap = pivot.get(player) || new Map();
+      return orderedRounds.map(col => rowMap.get(col) || 0);
     });
+
+    // Metric toggle
+    const controls = el('div', 'sort-toggle');
+    controls.appendChild(el('span', 'sort-toggle-label', 'Show:'));
+    const btnPoints = el('button', 'sort-btn active', 'Points');
+    const btnVotes  = el('button', 'sort-btn', 'Unique Voters');
+    controls.appendChild(btnPoints);
+    controls.appendChild(btnVotes);
+    container.appendChild(controls);
+
+    const heatHost = el('div', '');
+    container.appendChild(heatHost);
+
+    const render = metric => {
+      heatHost.innerHTML = '';
+      if (metric === 'points') {
+        makeHeatmap(heatHost, playerNames, roundOrder, pointsMatrix, {
+          title: 'Points earned per player per round',
+          cellW: Math.max(30, Math.min(50, Math.floor(700 / Math.max(roundOrder.length, 1)))),
+          cellH: 26,
+          colorRange: ['#0a1a10', ACCENT],
+        });
+      } else {
+        makeHeatmap(heatHost, uvPlayers, orderedRounds, uvMatrix, {
+          title: 'Unique voters per player per round',
+          cellW: Math.max(30, Math.min(50, Math.floor(700 / Math.max(orderedRounds.length, 1)))),
+          cellH: 26,
+          colorRange: ['#0e0a1e', '#c77dff'],
+        });
+      }
+    };
+
+    btnPoints.addEventListener('click', () => {
+      btnPoints.classList.add('active');
+      btnVotes.classList.remove('active');
+      render('points');
+    });
+    btnVotes.addEventListener('click', () => {
+      btnVotes.classList.add('active');
+      btnPoints.classList.remove('active');
+      render('votes');
+    });
+
+    render('points');
   }
+  container.appendChild(divider());
+
+  // ── Unique Voters ───────────────────────────────────────────────────────
+  container.appendChild(sectionHeader('👥 Unique Voters'));
+  container.appendChild(sectionCaption(
+    'Distinct voters who gave each player ≥1 point, counted per round.'
+  ));
+  makeBarChart(container,
+    uvResult.totals.map(e => e.Player),
+    uvResult.totals.map(e => e.TotalUniqueVoters),
+    { color: '#c77dff', xLabel: 'Total Unique Voters', title: 'Total Unique Voters Per Player (summed across rounds)' }
+  );
 }
