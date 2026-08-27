@@ -112,13 +112,6 @@
 		if (browser.name == 'ie' || browser.name == 'edge')
 			$body.addClass('is-ie');
 
-	// Scrolly.
-		$('.scrolly').scrolly({
-			offset: function() {
-				return $header.height() - 2;
-			}
-		});
-
 	// Tiles.
 		var $tiles = $('.tiles > article');
 
@@ -129,17 +122,20 @@
 				$link = $this.find('.link'),
 				x;
 
-			// Image.
+			// Image (skip tiles without a .image > img wrapper).
+				if ($img.length > 0) {
 
-				// Set image.
-					$this.css('background-image', 'url(' + $img.attr('src') + ')');
+					// Set image.
+						$this.css('background-image', 'url(' + $img.attr('src') + ')');
 
-				// Set position.
-					if (x = $img.data('position'))
-						$image.css('background-position', x);
+					// Set position.
+						if (x = $img.data('position'))
+							$image.css('background-position', x);
 
-				// Hide original.
-					$image.hide();
+					// Hide original.
+						$image.hide();
+
+				}
 
 			// Link.
 				if ($link.length > 0) {
