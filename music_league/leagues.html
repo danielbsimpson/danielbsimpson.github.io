@@ -23,6 +23,21 @@
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    /* ── Scrollbars (dark theme) ── */
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) var(--bg-panel);
+    }
+    *::-webkit-scrollbar { width: 10px; height: 10px; }
+    *::-webkit-scrollbar-track { background: var(--bg-panel); border-radius: 8px; }
+    *::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 8px;
+      border: 2px solid var(--bg-panel);
+    }
+    *::-webkit-scrollbar-thumb:hover { background: var(--accent-dim); }
+    *::-webkit-scrollbar-corner { background: var(--bg-panel); }
+
     html, body {
       min-height: 100vh;
       background: var(--bg);
