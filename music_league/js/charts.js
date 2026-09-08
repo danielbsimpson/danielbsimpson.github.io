@@ -310,7 +310,9 @@ export function makeComboChart(container, labels, bars, line, opts = {}) {
       ...CHART_DEFAULTS,
       indexAxis: isHoriz ? 'y' : 'x',
       maintainAspectRatio: false,
-      interaction: { mode: 'index', intersect: false },
+      // Match the interaction axis to the index axis so hover hit-testing
+      // uses the correct coordinate (Chart.js defaults 'index' mode to axis 'x').
+      interaction: { mode: 'index', intersect: false, axis: isHoriz ? 'y' : 'x' },
       plugins: {
         ...CHART_DEFAULTS.plugins,
         legend: { display: true, labels: { color: '#ccc', boxWidth: 12 } },

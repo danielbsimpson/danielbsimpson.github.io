@@ -16,7 +16,8 @@
       "label": "🇺🇸 US Leagues",
       "basePath": "US_Leagues/",
       "leagues": [
-        "us_league1"
+        "us_league1",
+        "us_league2"
       ]
     }
   }

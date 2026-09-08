@@ -42,19 +42,19 @@
   <div class="sidebar-section">
     <h3>League Mode</h3>
     <label class="radio-label">
-      <input type="radio" name="mode" value="single" /> Single League
+      <input type="radio" name="mode" value="single" checked /> Single League
     </label>
     <label class="radio-label">
-      <input type="radio" name="mode" value="cumulative" checked /> Cumulative
+      <input type="radio" name="mode" value="cumulative" /> Cumulative
     </label>
   </div>
 
-  <div class="sidebar-section" id="single-select-wrap" style="display:none">
+  <div class="sidebar-section" id="single-select-wrap">
     <h3>Select League</h3>
     <select id="single-league-select" class="sidebar-select"></select>
   </div>
 
-  <div class="sidebar-section" id="multi-select-wrap">
+  <div class="sidebar-section" id="multi-select-wrap" style="display:none">
     <h3>Select Leagues</h3>
     <div id="multi-league-checkboxes"></div>
   </div>
@@ -203,6 +203,8 @@
       opt.textContent = formatLeagueName(name);
       sel.appendChild(opt);
     });
+    // Default to the newest (current) league
+    if (leagues.length) sel.value = leagues[leagues.length - 1];
 
     // Multi-league checkboxes
     const box = $('multi-league-checkboxes');
