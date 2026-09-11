@@ -77,9 +77,10 @@ export function tileGroup(title, tiles) {
   return g;
 }
 
-export function metricTile(label, value) {
+export function metricTile(label, value, tag = null) {
   const d = el('div', 'metric-tile');
-  d.innerHTML = `<div class="metric-label">${esc(label)}</div><div class="metric-value">${esc(String(value))}</div>`;
+  const tagHtml = tag ? `<span class="metric-tag">${esc(tag)}</span>` : '';
+  d.innerHTML = `<div class="metric-label">${esc(label)}</div><div class="metric-value">${esc(String(value))}${tagHtml}</div>`;
   return d;
 }
 

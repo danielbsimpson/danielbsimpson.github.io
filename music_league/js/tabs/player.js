@@ -166,6 +166,7 @@ function buildProfile(container, data, playerName, names) {
     const hrs  = Math.floor(Math.abs(h));
     const mins = Math.round((Math.abs(h) - hrs) * 60);
     const sign = h < 0 ? '-' : '';
+    if (hrs === 0) return `${sign}${mins}m`;
     return mins > 0 ? `${sign}${hrs}h ${mins}m` : `${sign}${hrs}h`;
   }
 
@@ -248,8 +249,13 @@ function buildProfile(container, data, playerName, names) {
 
   // ── Row 5 ────────────────────────────────────────────────────────────────
   const tileRow5 = el('div', 'grid-3');
+  const isLastToSubmit = mySub && mySub.min_hours_before_deadline === 0;
+  tileRow5.appendChild(metricTile(
+    'Latest Submission 🔥',
+    mySub ? fmtH(mySub.min_hours_before_deadline) : '—',
+    isLastToSubmit ? 'Last to Submit' : null
+  ));
   [
-    ['Latest Submission 🔥',  mySub  ? fmtH(mySub.min_hours_before_deadline) : '—'],
     ['Avg After Playlist 🗳️', myVote ? fmtH(myVote.avg_hours_after_playlist) : '—'],
     ['Fastest Vote ⚡',        myVote ? fmtH(myVote.min_hours_after_playlist) : '—'],
   ].forEach(([label, value]) => tileRow5.appendChild(metricTile(label, value)));
