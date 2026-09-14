@@ -51,13 +51,26 @@ async function fetchCsv(url) {
   return parseCsv(await res.text());
 }
 
+// Optional per-league deadline overrides (data/<league>/deadlines.json).
+// Missing file is fine — we fall back to inferred deadlines for that league.
+async function fetchDeadlines(url) {
+  try {
+    const res = await fetch(url);
+    if (!res.ok) return {};
+    return await res.json();
+  } catch {
+    return {};
+  }
+}
+
 async function loadSingleDir(dir, basePath) {
   const base = basePath.replace(/\/?$/, '/') + dir + '/';
-  const [competitors, rounds, submissions, votes] = await Promise.all([
+  const [competitors, rounds, submissions, votes, deadlines] = await Promise.all([
     fetchCsv(base + 'competitors.csv'),
     fetchCsv(base + 'rounds.csv'),
     fetchCsv(base + 'submissions.csv'),
     fetchCsv(base + 'votes.csv'),
+    fetchDeadlines(base + 'deadlines.json'),
   ]);
 
   // Normalise column names
@@ -71,7 +84,7 @@ async function loadSingleDir(dir, basePath) {
     v.Points = Number(v.Points || 0);
   });
 
-  return { competitors, rounds, submissions, votes };
+  return { competitors, rounds, submissions, votes, deadlines };
 }
 
 export async function loadLeagueData(dirs, basePath = '../data/', aliases = {}) {
@@ -129,11 +142,16 @@ export async function loadLeagueData(dirs, basePath = '../data/', aliases = {}) 
   }));
   const votes = [...voteMap.values()];
 
+  // Merge per-league deadline overrides (keyed by globally-unique round ID)
+  const deadlineOverrides = {};
+  allDfs.forEach(d => Object.assign(deadlineOverrides, d.deadlines || {}));
+
   return {
     competitors,
     rounds,
     submissions,
     votes,
+    deadlineOverrides,
     leagueRounds: allDfs.map(d => d.rounds),
     leagueNames:  dirs.map(d => d.split('/').pop()),
   };
@@ -990,10 +1008,14 @@ export function playerQuantileFlow(data) {
 // ── Timing stats ──────────────────────────────────────────────────────────
 
 function inferRoundDeadlines(data) {
-  // submission_deadline = last submission timestamp in that round
-  // vote_deadline       = last vote timestamp in that round
+  // Submission deadline (= playlist-open time) is bracketed by the last
+  // submission and the first vote; a hardcoded deadline (deadlines.json) is used
+  // when it falls inside that window, otherwise the midpoint is estimated.
+  // Vote deadline comes from deadlines.json, falling back to the last vote.
+  const overrides = data.deadlineOverrides || {};
   const subDeadlines  = new Map();
   const voteDeadlines = new Map();
+  const firstVotes    = new Map();
 
   data.submissions.forEach(s => {
     const t = new Date(s.Created).getTime();
@@ -1006,18 +1028,41 @@ function inferRoundDeadlines(data) {
     if (!voteDeadlines.has(v['Round ID']) || t > voteDeadlines.get(v['Round ID'])) {
       voteDeadlines.set(v['Round ID'], t);
     }
+    if (!firstVotes.has(v['Round ID']) || t < firstVotes.get(v['Round ID'])) {
+      firstVotes.set(v['Round ID'], t);
+    }
   });
+
+  const parse = iso => { const t = new Date(iso).getTime(); return Number.isNaN(t) ? null : t; };
 
   const deadlines = new Map();
   data.rounds.forEach(r => {
-    const sd = subDeadlines.get(r.ID);
-    const vd = voteDeadlines.get(r.ID);
+    const ov = overrides[r.ID] || {};
+    const hardSub = (ov.submission && parse(ov.submission)) || null;
+    const vd = (ov.vote && parse(ov.vote)) || voteDeadlines.get(r.ID) || null;
+
+    // The submission deadline (= when the playlist opens for voting) must fall
+    // between the last submission and the first vote of the round. Prefer the
+    // hardcoded deadline when it sits inside that window; otherwise estimate it
+    // as the midpoint, so neither the last submitter nor the first voter
+    // collapses to a 0-minute gap.
+    const lastSub   = subDeadlines.get(r.ID) ?? null;
+    const firstVote = firstVotes.get(r.ID)   ?? null;
+    let sd;
+    if (lastSub != null && firstVote != null && lastSub < firstVote) {
+      sd = (hardSub != null && hardSub >= lastSub && hardSub <= firstVote)
+        ? hardSub
+        : (lastSub + firstVote) / 2;
+    } else {
+      sd = hardSub ?? lastSub ?? firstVote ?? null;
+    }
+
     deadlines.set(r.ID, {
       roundId:             r.ID,
       roundName:           r.Name,
-      submissionDeadline:  sd || null,
-      voteDeadline:        vd || null,
-      playlistOpen:        sd || null,
+      submissionDeadline:  sd,
+      voteDeadline:        vd,
+      playlistOpen:        sd,
     });
   });
   return deadlines;

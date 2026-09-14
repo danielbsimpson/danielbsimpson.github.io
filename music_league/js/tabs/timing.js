@@ -16,7 +16,7 @@ import {
 export function renderTiming(container, data) {
   container.appendChild(sectionHeader('⏱️ Submission & Voting Timing'));
   container.appendChild(sectionCaption(
-    'Timings are relative to each round\'s inferred deadline (= latest submission/vote in that round).'
+    'Timings are relative to each round\'s deadline. The submission/voting-open time uses the real 4pm deadline where known, otherwise it is estimated as the midpoint between the last submission and the first vote.'
   ));
 
   // submissionTimingStats returns array sorted asc by avg_hours_before_deadline
