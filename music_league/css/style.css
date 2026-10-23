@@ -380,6 +380,7 @@ body {
 }
 .metric-label { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 4px; }
 .metric-value { font-size: 1.5rem; font-weight: 700; color: var(--accent); }
+.metric-detail { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
 .metric-tag {
   display: inline-block;
   margin-left: 6px;

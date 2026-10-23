@@ -2,7 +2,7 @@
  * tabs/player.js — 👤 Player Profile tab
  *
  * Renders a full profile for a selected player:
- *   - Summary stat tiles (points, rounds, avg, wins, podium, zeros, votes given)
+ *   - Summary stat tiles (points, rounds and participation ratios, avg, wins, podium, zeros, votes given)
  *   - Points-over-time line chart
  *   - Submissions table
  *   - Biggest fans (who voted for them most)
@@ -220,10 +220,18 @@ function buildProfile(container, data, playerName, names) {
   tileRow1.appendChild(metricTile('Total Points Received', totalPtsReceived.toLocaleString()));
   container.appendChild(tileRow1);
 
+  function participationTile(label, count) {
+    const tile = metricTile(label, count);
+    const totalRounds = data.rounds.length;
+    const percentage = totalRounds ? ` (${(count / totalRounds * 100).toFixed(1)}%)` : '';
+    tile.appendChild(el('div', 'metric-detail', `${count} / ${totalRounds} rounds${percentage}`));
+    return tile;
+  }
+
   // ── Row 2 ────────────────────────────────────────────────────────────────
   const tileRow2 = el('div', 'grid-3');
+  tileRow2.appendChild(participationTile('Rounds Submitted', mySubs.length));
   [
-    ['Rounds Submitted',     mySubs.length],
     ['Avg Points / Round',   avgPts],
     ['Round Wins 🏆',        roundWins],
   ].forEach(([label, value]) => tileRow2.appendChild(metricTile(label, value)));
@@ -240,8 +248,8 @@ function buildProfile(container, data, playerName, names) {
 
   // ── Row 4 ────────────────────────────────────────────────────────────────
   const tileRow4 = el('div', 'grid-3');
+  tileRow4.appendChild(participationTile('Rounds Voted In', roundsVotedIn));
   [
-    ['Rounds Voted In',        roundsVotedIn],
     ['Avg Before Deadline 📅', mySub  ? fmtH(mySub.avg_hours_before_deadline) : '—'],
     ['Earliest Submission ⚡',  mySub  ? fmtH(mySub.max_hours_before_deadline) : '—'],
   ].forEach(([label, value]) => tileRow4.appendChild(metricTile(label, value)));
